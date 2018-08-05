@@ -1118,7 +1118,8 @@
 			function displayHome() {
 				networkInfo().then(function(data) {
 					var db_height = data.result.daemon_height
-					var display_height = $("#blocks-table tbody tr:first-child").data("height")
+					var display_height = $("#blocks-table tbody tr:first-child").attr("data-height")
+					console.log(display_height)
 
 					if ($("#blocks-table tbody tr").length > 0) {
 						if(display_height != db_height) {
@@ -1135,7 +1136,7 @@
 					if (db_height != display_height) {
 						getBlocks(db_height).then(function(blocks) {
 							if (!blocks["error"]) {
-								displayBlocks(blocks["blocks"])
+								displayBlocks(blocks["blocks"], true)
 							} else {
 								showError(errorMessages["blocks-load-error"])
 							}
@@ -1309,6 +1310,7 @@
 				}
 
 				window.setInterval(function() {
+					console.log("Bang")
 					displayHome()
 				}, 30000);
 			})
