@@ -14,7 +14,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 
 		<style>
-			@import url(http://weloveiconfonts.com/api/?family=entypo);
+			@import url(https://volbil.github.io/entypo/entypo.css);
 			html {
 				height: 100%;
 			}
@@ -34,19 +34,20 @@
 				font-size: 87.5%;
 				border-radius: 3px;
 			}
-			.pages {
+			.router-page {
 				display: none;
 			}
 			#qrCode canvas{
 				max-width: 100%;
 			}
-			[class*="entypo-"]:before {
-				font-family: 'entypo', sans-serif;
+			[class*="entypo"]:before {
+				font-family: 'EntypoRegular', sans-serif;
+				font-size: 16px;
 			}
 			@media (max-width: 991.98px) {
 				.navbar-expand-lg>.container, .navbar-expand-lg>.container-fluid {
-				    padding-right: 15px;
-				    padding-left: 15px;
+					padding-right: 15px;
+					padding-left: 15px;
 				}
 			}
 		</style>
@@ -72,10 +73,10 @@
 						</li>
 						<li class="nav-item dropdown" id="network-list">
 							<a class="nav-item nav-link dropdown-toggle ml-md-2" href="#" id="network-versions" data-toggle="dropdown">NETWORK</a>
-					      	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" >
-					        	
-					      	</div>
-					    </li>
+						  	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" >
+								
+						  	</div>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -101,7 +102,7 @@
 		</div>
 	
 		<!-- Home page -->
-		<div id="homepage" class="pages">
+		<div id="homepage" class="router-page">
 			<div class="container">
 				<div class="card mb-3">
 					<div class="table-responsive">
@@ -124,7 +125,7 @@
 		</div>
 	
 		<!-- Block page -->
-		<div id="block" class="pages">
+		<div id="block" class="router-page">
 			<div class="container">
 				<div id="block-info-table">
 					
@@ -145,7 +146,7 @@
 		</div>
 	
 		<!-- Transaction page -->
-		<div id="tx" class="pages">
+		<div id="tx" class="router-page">
 			<div class="container">
 				<div id="tx-info-table">
 					
@@ -178,7 +179,7 @@
 		</div>
 	
 		<!-- Address page -->
-		<div id="address" class="pages">
+		<div id="address" class="router-page">
 			<div class="container">
 				<div id="address-info-table">
 					
@@ -197,8 +198,9 @@
 				</div>
 			</div>
 		</div>
-
-		<div id="api" class="pages">
+	
+		<!-- Api documentation -->
+		<div id="api" class="router-page">
 			<div class="container">
 				<div class="card mb-3">
 					<div class="card-body">
@@ -434,7 +436,7 @@
 		<!-- Footer :3 -->
 		<footer class="mb-3">
 			<div class="container text-center">
-				Made with <span class="entypo-heart text-danger"></span> by <a target="_blank" href="https://github.com/volbil">Volbil</a>
+				Made with <span class="entypo heart text-danger"></span> by <a target="_blank" href="https://github.com/volbil/blockchain-explorer">Volbil</a>
 			</div>
 		</footer>
 
@@ -538,8 +540,8 @@
 					var pageName = urlParams[1] != "" ? urlParams[1] : "homepage"
 					var templateName = "#" + pageName
 					
-					if ($(".pages:visible").attr("id") != urlParams[1]) {
-						$('div.pages').hide()
+					if ($(".router-page:visible").attr("id") != urlParams[1]) {
+						$('div.router-page').hide()
 						if ($(templateName).length) {
 							$(templateName).show()
 						}
@@ -821,7 +823,7 @@
 									</a>
 								</td>
 								<td>
-									${block.tx_count}
+									${block.tx_count != undefined ? block.tx_count : "1"}
 								</td>
 							</tr>`
 
@@ -833,7 +835,9 @@
 					}					
 				});
 
-				showLoadBtn($("#blocks-table tbody tr:last-child").data("height"))
+				if ($("#homepage").is(":visible")) {
+					showLoadBtn($("#blocks-table tbody tr:last-child").data("height"))
+				}
 			}
 
 			function displayBlockInfo(data) {
@@ -841,12 +845,12 @@
 					<div class="card mb-3">
 						<div class="table-responsive">
 							<table class="table table-borderless table-md table-striped mb-0">
-				                <tbody>
-							        <tr>
+								<tbody>
+									<tr>
 										<td>Height</td>
 										<td id="block-info-height" data-block-info-height="${data.height}">${data.height} (<b>Confirmations ${data.confirmations}</b>)</td>
 									</tr>
-					            	<tr>
+									<tr>
 										<td>Timestamp</td>
 										<td>${timeFormat(data.time)} (<b>${data.time}</b>)</td>
 									</tr>
@@ -914,19 +918,25 @@
 					<div class="card mb-3">
 						<div class="table-responsive">
 							<table class="table table-borderless table-md table-striped mb-0">
-				                <tbody>
-							        <tr>
+								<tbody>
+									<tr>
 										<td>Transaction Hash</td>
 										<td id="tx-info-hash" data-tx-info-hash="${data.txid}">${data.txid}</td>
 									</tr>
-									<tr>
-										<td>Timestamp</td>
-										<td>${timeFormat(data.time)} (<b>${data.time}</b>)</td>
-									</tr>
+									${data.time != undefined ? `
+										<tr>
+											<td>Timestamp</td>
+											<td>${timeFormat(data.time)} (<b>${data.time}</b>)</td>
+										</tr>
+									` : ""}
 									<tr>
 										<td>Height</td>
 										<td>
-											<a href="#/block/${data.blockhash}">${data.height}</a> (<b>Confirmations ${data.confirmations}</b>)
+											${data.blockhash != undefined ? `
+												<a href="#/block/${data.blockhash}">${data.height}</a> (<b>Confirmations ${data.confirmations}</b>)
+											` : `
+												<span class="text-danger">This transaction located in memory pool and not included to blockchain yet!</span>
+											`}
 										</td>
 									</tr>
 									<tr>
@@ -974,8 +984,8 @@
 					<div class="card mb-3">
 						<div class="table-responsive">
 							<table class="table table-borderless table-md table-striped mb-0">
-				                <tbody>
-							        <tr>
+								<tbody>
+									<tr>
 										<td>Address</td>
 										<td id="data-address" data-address="${data.address}">
 											${data.address}
@@ -1039,7 +1049,7 @@
 								<div class="row">
 									<div class="col-md-9 col-sm-12 col-xs-12">
 										<span class="text-muted mr-1">
-											<span class="entypo-down text-success"></span>
+											<span class="entypo down text-success"></span>
 										</span>
 										<span class="text-primary">${vout.scriptPubKey.addresses[0]}</span>
 									</div>
@@ -1068,7 +1078,7 @@
 									<div class="row">
 										<div class="col-md-9 col-sm-12 col-xs-12">
 											<span class="text-muted mr-1">
-												<span class="entypo-up text-danger"></span>
+												<span class="entypo up text-danger"></span>
 											</span>
 											<a href="#/address/${tx_info.data.vout[vin["vout"]].scriptPubKey.addresses[0]}">
 												${tx_info.data.vout[vin["vout"]].scriptPubKey.addresses[0]}
@@ -1102,7 +1112,7 @@
 									</div>
 									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
 										<small class="text-muted">
-											#${tx_info.data.height}
+											${tx_info.data.height > 0 ? "#" + tx_info.data.height : "Mempool"}
 										</small>
 									</div>
 								</div>
@@ -1119,7 +1129,6 @@
 				networkInfo().then(function(data) {
 					var db_height = data.result.daemon_height
 					var display_height = $("#blocks-table tbody tr:first-child").attr("data-height")
-					console.log(display_height)
 
 					if ($("#blocks-table tbody tr").length > 0) {
 						if(display_height != db_height) {
@@ -1207,7 +1216,7 @@
 			}
 
 			// Convert timestamp to readable date
-			function timeFormat(timestamp) {     
+			function timeFormat(timestamp) {	 
 				var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 				var date = new Date(timestamp * 1000)
 				var year = date.getFullYear()
@@ -1242,48 +1251,48 @@
 			// Decode base58 encoded string to byte array
 			function bs58Decode(string) {
 				bs58Alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-	  			var bs58AlphabetMap = {}
+				var bs58AlphabetMap = {}
 				var base = bs58Alphabet.length
 				var leader = bs58Alphabet.charAt(0)
 
 				for (var i = 0; i < bs58Alphabet.length; i++) {
-				    bs58AlphabetMap[bs58Alphabet.charAt(i)] = i
+					bs58AlphabetMap[bs58Alphabet.charAt(i)] = i
 				}
 
-			    if (string.length === 0) return []
+				if (string.length === 0) return []
 
-			    var bytes = [0]
-			    for (var i = 0; i < string.length; i++) {
-			        var value = bs58AlphabetMap[string[i]]
-			        if (value === undefined) throw new Error('Non-base' + base + ' character')
+				var bytes = [0]
+				for (var i = 0; i < string.length; i++) {
+					var value = bs58AlphabetMap[string[i]]
+					if (value === undefined) throw new Error('Non-base' + base + ' character')
 
-			        var carry = bytes[0] * base + value
-			        bytes[0] = carry & 0xff
-			        carry >>= 8
+					var carry = bytes[0] * base + value
+					bytes[0] = carry & 0xff
+					carry >>= 8
 
-			        for (var j = 1; j < bytes.length; ++j) {
-			            carry += bytes[j] * base
-			            bytes[j] = carry & 0xff
-			            carry >>= 8
-			        }
+					for (var j = 1; j < bytes.length; ++j) {
+						carry += bytes[j] * base
+						bytes[j] = carry & 0xff
+						carry >>= 8
+					}
 
-			        while (carry > 0) {
-			            bytes.push(carry & 0xff)
-			            carry >>= 8
-			        }
-			    }
+					while (carry > 0) {
+						bytes.push(carry & 0xff)
+						carry >>= 8
+					}
+				}
 
-			    for (var k = 0; string[k] === leader && k < string.length - 1; ++k) {
-			        bytes.push(0)
-			    }
+				for (var k = 0; string[k] === leader && k < string.length - 1; ++k) {
+					bytes.push(0)
+				}
 
-			    return bytes.reverse()
+				return bytes.reverse()
 			};
 
 			// Convert byte array to hex sting
 			function hexString(byteArray) {
 				return Array.from(byteArray, function(byte) {
-			    	return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+					return ('0' + (byte & 0xFF).toString(16)).slice(-2);
 				}).join('')
 			}
 
@@ -1306,11 +1315,10 @@
 
 				$(window).on('hashchange', routePage)
 				if (window.location.hash) {
-				    $(window).trigger('hashchange')
+					$(window).trigger('hashchange')
 				}
 
 				window.setInterval(function() {
-					console.log("Bang")
 					displayHome()
 				}, 30000);
 			})
