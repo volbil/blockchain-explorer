@@ -216,7 +216,7 @@
 								Exapmle responce: 
 							</div>
 							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"confirmed": 200000000000, "unconfirmed": 0}}
+								{"jsonrpc": "2.0", "id": "explorer", "result": {"confirmed": 200000, "unconfirmed": 0}}
 							</div>
 						</div>
 
@@ -282,7 +282,7 @@
 								Exapmle responce: 
 							</div>
 							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"balance": {"confirmed": 200000000000, "unconfirmed": 0}, "history_count": 1, "address": "Bc6jxH23NQk6PddanxycU9f9pkTDAGsuT3", "history": []}}
+								{"jsonrpc": "2.0", "id": "explorer", "result": {"balance": {"confirmed": 200000000000, "unconfirmed": 0}, "history_count": 1, "address": "BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG", "history": []}}
 							</div>
 						</div>
 
@@ -460,11 +460,11 @@
 
 			// API doc links
 			var docs = {
-				"address_get_balance": "?method=blockchain.address.get_balance&params[]=Bc6jxH23NQk6PddanxycU9f9pkTDAGsuT3",
-				"address_get_history": "?method=blockchain.address.get_history&params[]=Bc6jxH23NQk6PddanxycU9f9pkTDAGsuT3",
-				"address_get_mempool": "?method=blockchain.address.get_mempool&params[]=Bc6jxH23NQk6PddanxycU9f9pkTDAGsuT3",
-				"address_get_utxo": "?method=blockchain.address.get_utxo&params[]=Bc6jxH23NQk6PddanxycU9f9pkTDAGsuT3",
-				"address_info": "?method=blockchain.address.info&params[]=Bc6jxH23NQk6PddanxycU9f9pkTDAGsuT3",
+				"address_get_balance": "?method=blockchain.address.get_balance&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
+				"address_get_history": "?method=blockchain.address.get_history&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
+				"address_get_mempool": "?method=blockchain.address.get_mempool&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
+				"address_get_utxo": "?method=blockchain.address.get_utxo&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
+				"address_info": "?method=blockchain.address.info&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
 				"get_header": "?method=blockchain.block.get_header&params[]=0",
 				"get_header_range": "?method=blockchain.block.get_header_range&params[]=1&params[]=20",
 				"get_header_info": "?method=blockchain.block.get_header_info&params[]=00000000f1b3a6b39671e475b858bc6831db3ca57e8ecafa49a13c4d5b04fb53",
@@ -1043,7 +1043,7 @@
 
 			function displayTxVout(vout_list) {
 				vout_list.forEach(function(vout, index) {
-					if ($("#tx-vout-list").find(`[data-tx-vout-index="${vout.vout_index}"]`).length == 0) {
+					if ($("#tx-vout-list").find(`[data-tx-vout-index="${vout.vout_index}"]`).length == 0 && vout.valueSat != 0) {
 						var content = `
 							<a href="#/address/${vout.scriptPubKey.addresses[0]}" data-tx-vout-index="${vout.vout_index}" class="list-group-item list-group-item-action flex-column align-items-start">
 								<div class="row">
