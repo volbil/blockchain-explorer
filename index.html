@@ -51,7 +51,7 @@
 				}
 			}
 		</style>
-		<title>Explorer</title>
+		<title>Blockchain Explorer</title>
 	</head>
 	<body>
 		<!-- Navbar -->
@@ -444,14 +444,14 @@
 		<script>
 			// Config
 			var networksConfigs = {
-				"mbc-main-net": {
+				"MBC": {
 					"name": "Main Network (MBC)",
 					"api": "https://volbil.com/mbc/api/",
 					"ticker": "MBC",
 					"decimals": 4
 				},
-				"mbc-test-net": {
-					"name": "Test Network (MBC)",
+				"TMBC": {
+					"name": "Test Network (TMBC)",
 					"api": "https://volbil.com/mbc/api/test/",
 					"ticker": "TMBC",
 					"decimals": 4
@@ -507,14 +507,18 @@
 			}
 
 			// Switch network
-			function swithcApi(network) {
+			function swithcApi(network, page = "") {
+				network = network.toUpperCase()
 				if (networksConfigs[network] != undefined & networksConfigs[network] != getApi()) {
 					setCookie("network", network, 60)
 					$("#blocks-table tbody").empty()
+					$("#block-info-hash").empty()
+					$("#data-address").empty()
+					$("#tx-info-hash").empty()
 					displayNetworks()
 					displayHome()
 				}
-				swithchPage()
+				swithchPage(page)
 			}
 
 			// Display networks list
@@ -551,22 +555,28 @@
 						// Block info page
 						case 'block':
 							var block_hash = urlParams[2]
+							var api = urlParams[3]
 							var data_block_hash = $("#block-info-hash").attr("data-block-info-hash")
 							if (block_hash != undefined && block_hash.length == 64) {
-								if (data_block_hash != urlParams[2]) {
-									$("#block-info-tx-total").addClass("d-none")
-									$("#block-info-table").empty()
-									blockInfo(block_hash).then(function(block) {
-										if (!block["error"]) {
-											setTitle("Block #" + block.data.height)
-											displayBlockInfo(block.data)
-										} else {
-											showError(errorMessages["blocks-not-found"])
-											swithchPage()
-										}
-									})
+								if (api != undefined) {
+									page = urlParams[1] + "/" + urlParams[2]
+									swithcApi(api, page)
 								} else {
-									setTitle("Block #" + block_hash)
+									if (data_block_hash != urlParams[2]) {
+										$("#block-info-tx-total").addClass("d-none")
+										$("#block-info-table").empty()
+										blockInfo(block_hash).then(function(block) {
+											if (!block["error"]) {
+												setTitle("Block #" + block.data.height)
+												displayBlockInfo(block.data)
+											} else {
+												showError(errorMessages["blocks-not-found"])
+												swithchPage()
+											}
+										})
+									} else {
+										setTitle("Block #" + block_hash)
+									}
 								}
 
 								$("#load-more").click(function() {
@@ -586,23 +596,29 @@
 						// Transaction info page
 						case 'tx':
 							var tx_hash = urlParams[2]
+							var api = urlParams[3]
 							var data_tx_hash = $("#tx-info-hash").attr("data-tx-info-hash")
 							if (tx_hash != undefined) {
-								if (data_tx_hash != urlParams[2]) {
-									$("#tx-info-vout-total").addClass("d-none")
-									$("#tx-info-vin-total").addClass("d-none")
-									$("#tx-info-table").empty()
-									txInfo(tx_hash).then(function(tx) {
-										if (!tx["error"]) {
-											setTitle("Transaction " + tx_hash)
-											displayTxInfo(tx.data)
-										} else {
-											showError(errorMessages["tx-not-found"])
-											swithchPage()
-										}
-									})
+								if (api != undefined) {
+									page = urlParams[1] + "/" + urlParams[2]
+									swithcApi(api, page)
 								} else {
-									setTitle("Transaction " + data_tx_hash)
+									if (data_tx_hash != urlParams[2]) {
+										$("#tx-info-vout-total").addClass("d-none")
+										$("#tx-info-vin-total").addClass("d-none")
+										$("#tx-info-table").empty()
+										txInfo(tx_hash).then(function(tx) {
+											if (!tx["error"]) {
+												setTitle("Transaction " + tx_hash)
+												displayTxInfo(tx.data)
+											} else {
+												showError(errorMessages["tx-not-found"])
+												swithchPage()
+											}
+										})
+									} else {
+										setTitle("Transaction " + data_tx_hash)
+									}
 								}
 							} else {
 								showError(errorMessages["no-tx-specified"])
@@ -613,22 +629,28 @@
 
 						case 'address':
 							var address = urlParams[2]
+							var api = urlParams[3]
 							var data_address = $("#data-address").attr("data-address")
 							if (address != undefined) {
-								if (data_address != urlParams[2]) {
-									$("#address-history").addClass("d-none")
-									$("#address-info-table").empty()
-									addressInfo(address).then(function(info) {
-										if (!info["error"]) {
-											setTitle("Address " + address)
-											displayAddressInfo(info.data)
-										} else {
-											showError(errorMessages["not-valid-address"])
-											swithchPage()
-										}
-									})
+								if (api != undefined) {
+									page = urlParams[1] + "/" + urlParams[2]
+									swithcApi(api, page)
 								} else {
-									setTitle("Address " + data_address)
+									if (data_address != urlParams[2]) {
+										$("#address-history").addClass("d-none")
+										$("#address-info-table").empty()
+										addressInfo(address).then(function(info) {
+											if (!info["error"]) {
+												setTitle("Address " + address)
+												displayAddressInfo(info.data)
+											} else {
+												showError(errorMessages["not-valid-address"])
+												swithchPage()
+											}
+										})
+									} else {
+										setTitle("Address " + data_address)
+									}
 								}
 							} else {
 								showError(errorMessages["not-valid-address"])
