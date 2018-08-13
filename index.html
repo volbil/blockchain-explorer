@@ -482,7 +482,7 @@
 				"nan-error": "The height of the block should be a non-negative integer!",
 				"no-block-specified": "You must specify blocks!",
 				"no-tx-specified": "You must specify transaction!",
-				"not-valid-address": "You must valid address!",
+				"not-valid-address": "You must specify valid address!",
 				"search-error": "We can't process your request :("
 			}
 
@@ -593,7 +593,7 @@
 									$("#tx-info-vin-total").addClass("d-none")
 									$("#tx-info-table").empty()
 									txInfo(tx_hash).then(function(tx) {
-										if (!block["error"]) {
+										if (!tx["error"]) {
 											setTitle("Transaction " + tx_hash)
 											displayTxInfo(tx.data)
 										} else {
