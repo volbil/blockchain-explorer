@@ -3,4 +3,7 @@ Nice and simple blockchain explorer based on slightly modified [ElectrumX](https
 
 Feel free to modify/use it in your projects :D
 
+## TO DO
+- Network stats
+
 P.s. Working example [http://explorer.volbil.com](http://explorer.volbil.com/)
