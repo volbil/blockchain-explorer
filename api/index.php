@@ -3,7 +3,7 @@
 	header('Content-Type: application/json');
 
 	$rpc_url = "";
-	$error = '{"jsonrpc": "2.0", "error": {"code": -32000, "message": "Server not responding :("}, "id": null}';
+	$error = '{"jsonrpc": "2.0", "error": {"code": -32001, "message": "Server not responding :("}, "id": null}';
 
 	if ($_SERVER['REQUEST_METHOD'] == "GET") {
 		$params = json_encode([
@@ -19,7 +19,7 @@
 				'header' => 'Content-Type: application/json' . "\r\n"
 				. 'Content-Length: ' . strlen($params) . "\r\n",
 				'content' => $params,
-				'timeout' => 5, // 5 seconds
+				'timeout' => 10, // 10 seconds
 			),
 		)));
 
