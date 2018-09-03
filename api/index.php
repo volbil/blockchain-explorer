@@ -4,13 +4,14 @@
 
 	$timeout = 10; // seconds
 	$rpc_url = "";
+	$method = isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : "GET";
 	$error = [
 		"not-responding" => '{"jsonrpc": "2.0", "error": {"code": -32001, "message": "Server Not Responding"}, "id": null}',
 		"invalid-request" => '{"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}'
 	];
 
-	if (in_array($_SERVER["REQUEST_METHOD"], ["GET", "POST"])) {
-		$request = isset($_GET) ? $_GET : $_POST;
+	if (in_array($method, ["GET", "POST"])) {
+		$request = ($method == "GET") ? $_GET : $_POST;
 
 		$params = json_encode([
 			"jsonrpc" 	=> "2.0",
