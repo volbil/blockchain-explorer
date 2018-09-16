@@ -106,8 +106,8 @@
 		<!-- Home page -->
 		<div id="homepage" class="router-page">
 			<div class="container">
-				<div class="card mb-3">
-					<div class="card-body">
+				<div id="charts" class="card mb-3 d-none">
+					<div class="card-body pb-0">
 						<div>
 							<div class="panel-body chart-wrapper" id="hpChart">
 								<!--<canvas id="difficultyChart" height="210"></canvas>-->
@@ -455,12 +455,12 @@
 		<script>
 
 			function showCharts(data) {
-
+				$("#charts").removeClass("d-none")
 				Highcharts.chart('hpChart', {
 
 					chart: {
 				        type: 'spline',
-				        height: 300
+				        height: 240
 				    },
 
 				    title: {
@@ -472,13 +472,9 @@
 				    xAxis: [{
 			        	categories: [].concat(data["blocks"]).reverse(),
 				        crosshair: true,
-				        type: 'datetime',
 				        labels: {
 				        	enabled: true,
-				        	step: 2,
-				        	formatter: function() {
-				        		return this.value;
-				        		}	        	
+				        	step: 1        	
 				        	}
 					    }],
 
@@ -528,7 +524,7 @@
 					        yAxis: 2,
 					        color: '#90ed7d'
 					    	}, {
-					        name: 'Sizes',
+					        name: 'Size',
 					        data: [].concat(data["sizes"]).reverse(),
 					        yAxis: 3,
 					        color: '#f7a35c'
@@ -538,7 +534,6 @@
 				        rules: [{
 				            condition: {
 				                maxWidth: 500,
-				                maxHeight: 300
 				            },
 				            chartOptions: {
 				                legend: {
@@ -628,6 +623,7 @@
 					$("#block-info-hash").empty()
 					$("#data-address").empty()
 					$("#tx-info-hash").empty()
+					$("#charts").addClass("d-none")
 					displayNetworks()
 					displayHome()
 				}
