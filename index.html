@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 		<link href="https://microbitcoinorg.github.io/misc/favicon.ico" rel="icon" type="image/x-icon">
-		
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -27,7 +27,7 @@
 				padding-bottom: 56px;
 				position: relative;
 			}
-			.responce-json {
+			.response-json {
 				overflow: auto;
 				padding: 16px;
 				background-color: #f6f8fa;
@@ -76,14 +76,14 @@
 						<li class="nav-item dropdown" id="network-list">
 							<a class="nav-item nav-link dropdown-toggle ml-md-2" href="#" id="network-versions" data-toggle="dropdown">NETWORK</a>
 						  	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" >
-								
+
 						  	</div>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</nav>
-		
+
 		<!-- Error message and search -->
 		<div class="container">
 			<div id="error-message" class="alert alert-warning d-none" role="alert">
@@ -102,7 +102,7 @@
 				</div>
 			</div>
 		</div>
-	
+
 		<!-- Home page -->
 		<div id="homepage" class="router-page">
 			<div class="container">
@@ -113,6 +113,14 @@
 								<!--<canvas id="difficultyChart" height="210"></canvas>-->
 							</div>
 						</div>
+					</div>
+				</div>
+				<!-- Circulating Supply -->
+				<div class="card mb-3 py-3">
+					<div class="card-body text-center">
+						<code class="lead">Circulating Supply: <span id="c-supply" class="text-black-50">Calculating...</span> MBC</code>
+						<br />
+						<code class="text-muted">Max Supply: 210,000,000,000 MBC</code>
 					</div>
 				</div>
 				<div class="card mb-3">
@@ -127,19 +135,19 @@
 								</tr>
 							</thead>
 							<tbody>
-								
+
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+
 		<!-- Block page -->
 		<div id="block" class="router-page">
 			<div class="container">
 				<div id="block-info-table">
-					
+
 				</div>
 				<div class="card mb-3 d-none" id="block-info-tx-total">
 					<div class="card-header">
@@ -148,19 +156,19 @@
 					<div class="card-body">
 						<div class="list-group">
 						  	<div id="block-tx-list">
-						  		
+
 						  	</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+
 		<!-- Transaction page -->
 		<div id="tx" class="router-page">
 			<div class="container">
 				<div id="tx-info-table">
-					
+
 				</div>
 				<div class="card mb-3" id="tx-info-vout-total">
 					<div class="card-header">
@@ -181,19 +189,19 @@
 					<div class="card-body">
 						<div class="list-group">
 						  	<div id="tx-vin-list">
-						  		
+
 						  	</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+
 		<!-- Address page -->
 		<div id="address" class="router-page">
 			<div class="container">
 				<div id="address-info-table">
-					
+
 				</div>
 				<div class="card mb-3" id="address-history">
 					<div class="card-header">
@@ -202,14 +210,14 @@
 					<div class="card-body">
 						<div class="list-group">
 						  	<div id="address-history-list">
-						  		
+
 						  	</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+
 		<!-- Api documentation -->
 		<div id="api" class="router-page">
 			<div class="container">
@@ -221,12 +229,12 @@
 								Return the confirmed and unconfirmed balances of an address.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_balance" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="address_get_balance" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": {"confirmed": 200000, "unconfirmed": 0}}
 							</div>
 						</div>
@@ -237,12 +245,12 @@
 								Return the confirmed and unconfirmed history of an address.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_history" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="address_get_history" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": [{"tx_hash": "3ef0132a38ac92966fb427d9cafcd7d08fa0ffa62b82cb13ab44869d71d92056", "height": 525741}]}
 							</div>
 						</div>
@@ -253,12 +261,12 @@
 								Return the unconfirmed transactions of an address.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_mempool" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="address_get_mempool" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": [{"tx_hash": "45381031132c57b2ff1cbe8d8d3920cf9ed25efd9a0beb764bdb2f24c7d1c7e3", "height": 0, "fee": 24310}]}
 							</div>
 						</div>
@@ -269,12 +277,12 @@
 								Return an ordered list of UTXOs sent to an address.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_utxo" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="address_get_utxo" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								<div class="scrolable">
 									{"jsonrpc": "2.0", "id": "explorer", "result": [{"tx_hash": "3ef0132a38ac92966fb427d9cafcd7d08fa0ffa62b82cb13ab44869d71d92056", "tx_pos": 1, "height": 525741, "value": 200000000000, "script": "76a9145b2b4acf127dca2291e9fc1411e17dabf7a90b9988ac"}]}
 								</div>
@@ -287,12 +295,12 @@
 								Return info about address.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_info" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="address_info" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": {"balance": {"confirmed": 200000000000, "unconfirmed": 0}, "history_count": 1, "address": "BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG", "history": []}}
 							</div>
 						</div>
@@ -303,12 +311,12 @@
 								Return info about block at the given height.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="get_header" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="get_header" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": {"block_height": 0, "version": 1, "block_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f", "prev_block_hash": "0000000000000000000000000000000000000000000000000000000000000000", "merkle_root": "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b", "timestamp": 1231006505, "bits": 486604799, "nonce": 2083236893}}
 							</div>
 						</div>
@@ -319,12 +327,12 @@
 								Return info about blocks at the given height and range.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="get_header_range" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="get_header_range" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": [{"block_height": 1, "version": 1, "block_hash": "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048", "prev_block_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f", "merkle_root": "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", "timestamp": 1231469665, "bits": 486604799, "nonce": 2573394689, "tx_count": 1}]}
 							</div>
 						</div>
@@ -335,12 +343,12 @@
 								Return info about block by given hash.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="get_header_info" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="get_header_info" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": {"hash": "00000000f1b3a6b39671e475b858bc6831db3ca57e8ecafa49a13c4d5b04fb53", "confirmations": 525743, "strippedsize": 215, "size": 215, "weight": 860, "height": 86, "version": 1, "versionHex": "00000001", "merkleroot": "12272d79ff1fbc1238d78d7d6e0e75c5f0e7aae7925e4f59b96b02fc2cd82bfc", "time": 1231650986, "mediantime": 1231646456, "nonce": 3625999133, "bits": "1d00ffff", "difficulty": 1, "chainwork": "0000000000000000000000000000000000000000000000000000005700570057", "previousblockhash": "00000000219949b3de1eae5447c00501812757885e65554fe5c51039ebe643d1", "nextblockhash": "00000000a31b3785f0adc10975a4e3e356d133365c0aeab6e42240e17ac2e63c", "tx_count": 1, "tx": []}}
 							</div>
 						</div>
@@ -351,12 +359,12 @@
 								Broadcast raw transaction to the network.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="broadcast" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="broadcast" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": "a76242fce5753b4212f903ff33ac6fe66f2780f34bdb4b33b175a7815a11a98e"}
 							</div>
 						</div>
@@ -367,12 +375,12 @@
 								Return a raw transaction.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="tx_get" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="tx_get" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d011affffffff0100f2052a01000000434104d5897fd3690b923198285547881b89ea914fda24d5ea71db9742244a4b047b2d9a57d24c49067438491eef34585f2c6178bfb45c677afe7034e7b4ae5b603132ac00000000"}
 							</div>
 						</div>
@@ -383,12 +391,12 @@
 								Return a deserialized transaction.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="tx_get_verbose" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="tx_get_verbose" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": {"txid": "12272d79ff1fbc1238d78d7d6e0e75c5f0e7aae7925e4f59b96b02fc2cd82bfc", "size": 134, "version": 1, "locktime": 0, "vin": [], "vout": [], "blockhash": "00000000f1b3a6b39671e475b858bc6831db3ca57e8ecafa49a13c4d5b04fb53", "height": 86, "confirmations": 525749, "time": 1231650986, "blocktime": 1231650986, "amount": 5000000000, "vin_count": 1, "vout_count": 1}}
 							</div>
 						</div>
@@ -399,12 +407,12 @@
 								Get info about ElectrumX daemon.
 							</div>
 							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="getinfo" href="#"></a>
+								Example usage: <a class="api-link" target="_blank" data-docs-link="getinfo" href="#"></a>
 							</div>
 							<div class="mb-1">
-								Exapmle responce: 
+								Example response:
 							</div>
-							<div class="responce-json">
+							<div class="response-json">
 								{"jsonrpc": "2.0", "id": "explorer", "result": {"version": "ElectrumX 1.4.4p2", "daemon": "127.0.0.1:6402/", "daemon_height": 525834, "db_height": 525834, "closing": 0, "errors": 0, "groups": 2, "logged": 0, "paused": 0, "pid": 23922, "peers": {"bad": 0, "good": 0, "never": 0, "stale": 0, "total": 0}, "requests": 1, "sessions": 11, "subs": 409, "txs_sent": 1, "uptime": "30m 56s"}}
 							</div>
 						</div>
@@ -413,7 +421,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Load more button -->
 		<div class="container">
 			<div class="text-center">
@@ -422,7 +430,7 @@
 				</button>
 			</div>
 		</div>
-		
+
 		<!-- QR code modal window -->
 		<div id="qrModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -518,7 +526,7 @@
 				        crosshair: true,
 				        labels: {
 				        	enabled: true,
-				        	step: 1        	
+				        	step: 1
 				        	}
 					    }],
 
@@ -527,8 +535,8 @@
 							{ labels: { enabled: false}, title: { text: null }, opposite: true },
 							{ labels: { enabled: false}, title: { text: null }},
 							{ labels: { enabled: false}, title: { text: null }}
-				        	],	    
-				    
+				        	],
+
 				    tooltip: {
 						shared: true,
 						formatter: function() {
@@ -651,7 +659,7 @@
 				if (urlParams[0] == "#") {
 					var pageName = urlParams[1] != "" ? urlParams[1] : "homepage"
 					var templateName = "#" + pageName
-					
+
 					if ($(".router-page:visible").attr("id") != urlParams[1]) {
 						$('div.router-page').hide()
 						if ($(templateName).length) {
@@ -866,7 +874,7 @@
 					var end = start_from
 					request = {method: "blockchain.block.get_header_range", params: [start, end]}
 				}
-				
+
 				return Promise.resolve($.ajax({
 					url: getApi()["api"],
 					data: request
@@ -875,7 +883,7 @@
 						"error": "error" in blocks,
 						"blocks": []
 					}
-					
+
 					if (!result["error"]) {
 						if (blocks.result.length != undefined) {
 							blocks = blocks.result.reverse()
@@ -921,7 +929,7 @@
 							"error": "error" in data,
 							"data": []
 						}
-						
+
 						if (!result["error"]) {
 							result["data"] = data.result
 						}
@@ -935,7 +943,7 @@
 
 			// Display stuffs here~
 			function displayBlocks(blocks, prepend = false) {
-				blocks = prepend ? blocks.reverse() : blocks 
+				blocks = prepend ? blocks.reverse() : blocks
 				blocks.forEach(function(block, index) {
 					if ($('tr[data-height="' + block.block_height + '"]').length == 0) {
 						var content = `
@@ -963,7 +971,7 @@
 						} else {
 							$("#blocks-table tbody").append(content)
 						}
-					}					
+					}
 				});
 
 				if ($("#homepage").is(":visible")) {
@@ -1261,6 +1269,9 @@
 					var db_height = data.result.daemon_height
 					var display_height = $("#blocks-table tbody tr:first-child").attr("data-height")
 
+					// display getCirculatingSupply
+					getCirculatingSupply(db_height)
+
 					if (db_height != display_height || $("#blocks-table tbody tr").length > 0) {
 						getBlocks(db_height).then(function(blocks) {
 							if (!blocks["error"]) {
@@ -1353,7 +1364,7 @@
 			}
 
 			// Convert timestamp to readable date
-			function timeFormat(timestamp) {	 
+			function timeFormat(timestamp) {
 				var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 				var date = new Date(timestamp * 1000)
 				var year = date.getFullYear()
@@ -1367,7 +1378,7 @@
 				return convdataTime
 			}
 
-			// Show big error message at the top of the page :D 
+			// Show big error message at the top of the page :D
 			function showError(message) {
 				$("#error-message").text(message)
 				$("#error-message").removeClass("d-none")
@@ -1435,8 +1446,54 @@
 
 			// Convert base58 to hash160
 			function base58ToHash160(string) {
-				var result = hexString(bs58Decode(string)) 
+				var result = hexString(bs58Decode(string))
 				return result.substring(2, result.length - 8)
+			}
+
+			function getCirculatingSupply(height) {
+				var btcReward = 50
+		    var mbcReward = btcReward * 1000
+		    var btcInterval = 210000
+		    var mbcInterval = btcInterval * 10
+		    var premine = 1050000
+		    var ratio = 10000
+
+		    var supply = 0
+		    var cSupply = 0
+
+		    switch (true) {
+		      case (height < 630000):
+		        while (height > btcInterval) {
+		        	supply = supply + btcInterval * btcReward
+		        	btcReward = btcReward / 2
+		        	height = height - btcInterval
+		        }
+		        var btcIncrement = height * btcReward
+		        supply = supply + btcIncrement + premine
+		        cSupply = supply * ratio
+		        break
+
+		      case (height >= 630000):
+		        var intervalHeight = height - 629999
+		        var forkedReward = mbcReward / 8 // forked reward from period 4
+		        var forkedSupply = 194249875000 // total until height 629,999 // 194,249,875,000 MBC WITH premine
+
+		        while (intervalHeight > mbcInterval) {
+		          var increment = intervalHeight * forkedReward
+		          supply = forkedSupply + increment
+		          forkedReward = forkedReward / 2
+		          intervalHeight = intervalHeight - mbcInterval
+		        }
+		        var mbcIncrement = intervalHeight * forkedReward
+		        cSupply = supply + forkedSupply + mbcIncrement
+		        break
+
+		      default:
+		        break
+		    }
+				var cSupplyString = cSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+				$("#c-supply").removeClass("text-black-50")
+				$("#c-supply").html(cSupplyString)
 			}
 
 			// All starts here
