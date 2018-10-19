@@ -27,7 +27,7 @@
 				padding-bottom: 56px;
 				position: relative;
 			}
-			.responce-json {
+			.response-json {
 				overflow: auto;
 				padding: 16px;
 				background-color: #f6f8fa;
@@ -71,10 +71,13 @@
 							<a href="#" class="nav-link">Home</a>
 						</li>
 						<li class="nav-item">
-							<a href="#/api" class="nav-link">API</a>
+							<a href="https://mbc.wiki/d/5-api-guide" target="_blank" class="nav-link">API</a>
+						</li>
+						<li class="nav-item">
+							<a href="https://microbitcoinorg.github.io/wallet/#/" target="_blank" class="nav-link mr-md-1">Wallet</a>
 						</li>
 						<li class="nav-item dropdown" id="network-list">
-							<a class="nav-item nav-link dropdown-toggle ml-md-2" href="#" id="network-versions" data-toggle="dropdown">NETWORK</a>
+							<a class="nav-item nav-link dropdown-toggle" href="#" id="network-versions" data-toggle="dropdown">NETWORK</a>
 						  	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" >
 								
 						  	</div>
@@ -107,10 +110,11 @@
 		<div id="homepage" class="router-page">
 			<div class="container">
 				<div id="charts" class="card mb-3 d-none">
-					<div class="card-body pb-0">
+					<div class="card-body pb-2">
 						<div>
-							<div class="panel-body chart-wrapper" id="hpChart">
-								<!--<canvas id="difficultyChart" height="210"></canvas>-->
+							<div class="panel-body chart-wrapper" id="network-chart"></div>
+							<div class="text-center small text-success" id="supply">
+								<b>Circulating supply: <span></span></b>
 							</div>
 						</div>
 					</div>
@@ -209,210 +213,6 @@
 				</div>
 			</div>
 		</div>
-	
-		<!-- Api documentation -->
-		<div id="api" class="router-page">
-			<div class="container">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="mb-3">
-							<h4>blockchain.address.get_balance</h4>
-							<div class="mb-1">
-								Return the confirmed and unconfirmed balances of an address.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_balance" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"confirmed": 200000, "unconfirmed": 0}}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.address.get_history</h4>
-							<div class="mb-1">
-								Return the confirmed and unconfirmed history of an address.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_history" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": [{"tx_hash": "3ef0132a38ac92966fb427d9cafcd7d08fa0ffa62b82cb13ab44869d71d92056", "height": 525741}]}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.address.get_mempool</h4>
-							<div class="mb-1">
-								Return the unconfirmed transactions of an address.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_mempool" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": [{"tx_hash": "45381031132c57b2ff1cbe8d8d3920cf9ed25efd9a0beb764bdb2f24c7d1c7e3", "height": 0, "fee": 24310}]}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.address.get_utxo</h4>
-							<div class="mb-1">
-								Return an ordered list of UTXOs sent to an address.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_get_utxo" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								<div class="scrolable">
-									{"jsonrpc": "2.0", "id": "explorer", "result": [{"tx_hash": "3ef0132a38ac92966fb427d9cafcd7d08fa0ffa62b82cb13ab44869d71d92056", "tx_pos": 1, "height": 525741, "value": 200000000000, "script": "76a9145b2b4acf127dca2291e9fc1411e17dabf7a90b9988ac"}]}
-								</div>
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.address.info</h4>
-							<div class="mb-1">
-								Return info about address.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="address_info" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"balance": {"confirmed": 200000000000, "unconfirmed": 0}, "history_count": 1, "address": "BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG", "history": []}}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.block.get_header</h4>
-							<div class="mb-1">
-								Return info about block at the given height.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="get_header" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"block_height": 0, "version": 1, "block_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f", "prev_block_hash": "0000000000000000000000000000000000000000000000000000000000000000", "merkle_root": "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b", "timestamp": 1231006505, "bits": 486604799, "nonce": 2083236893}}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.block.get_header_range</h4>
-							<div class="mb-1">
-								Return info about blocks at the given height and range.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="get_header_range" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": [{"block_height": 1, "version": 1, "block_hash": "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048", "prev_block_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f", "merkle_root": "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", "timestamp": 1231469665, "bits": 486604799, "nonce": 2573394689, "tx_count": 1}]}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.block.get_header_info</h4>
-							<div class="mb-1">
-								Return info about block by given hash.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="get_header_info" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"hash": "00000000f1b3a6b39671e475b858bc6831db3ca57e8ecafa49a13c4d5b04fb53", "confirmations": 525743, "strippedsize": 215, "size": 215, "weight": 860, "height": 86, "version": 1, "versionHex": "00000001", "merkleroot": "12272d79ff1fbc1238d78d7d6e0e75c5f0e7aae7925e4f59b96b02fc2cd82bfc", "time": 1231650986, "mediantime": 1231646456, "nonce": 3625999133, "bits": "1d00ffff", "difficulty": 1, "chainwork": "0000000000000000000000000000000000000000000000000000005700570057", "previousblockhash": "00000000219949b3de1eae5447c00501812757885e65554fe5c51039ebe643d1", "nextblockhash": "00000000a31b3785f0adc10975a4e3e356d133365c0aeab6e42240e17ac2e63c", "tx_count": 1, "tx": []}}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.transaction.broadcast</h4>
-							<div class="mb-1">
-								Broadcast raw transaction to the network.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="broadcast" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": "a76242fce5753b4212f903ff33ac6fe66f2780f34bdb4b33b175a7815a11a98e"}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.transaction.get</h4>
-							<div class="mb-1">
-								Return a raw transaction.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="tx_get" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d011affffffff0100f2052a01000000434104d5897fd3690b923198285547881b89ea914fda24d5ea71db9742244a4b047b2d9a57d24c49067438491eef34585f2c6178bfb45c677afe7034e7b4ae5b603132ac00000000"}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>blockchain.transaction.get_verbose</h4>
-							<div class="mb-1">
-								Return a deserialized transaction.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="tx_get_verbose" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"txid": "12272d79ff1fbc1238d78d7d6e0e75c5f0e7aae7925e4f59b96b02fc2cd82bfc", "size": 134, "version": 1, "locktime": 0, "vin": [], "vout": [], "blockhash": "00000000f1b3a6b39671e475b858bc6831db3ca57e8ecafa49a13c4d5b04fb53", "height": 86, "confirmations": 525749, "time": 1231650986, "blocktime": 1231650986, "amount": 5000000000, "vin_count": 1, "vout_count": 1}}
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<h4>getinfo</h4>
-							<div class="mb-1">
-								Get info about ElectrumX daemon.
-							</div>
-							<div class="mb-1">
-								Exapmle usage: <a class="api-link" target="_blank" data-docs-link="getinfo" href="#"></a>
-							</div>
-							<div class="mb-1">
-								Exapmle responce: 
-							</div>
-							<div class="responce-json">
-								{"jsonrpc": "2.0", "id": "explorer", "result": {"version": "ElectrumX 1.4.4p2", "daemon": "127.0.0.1:6402/", "daemon_height": 525834, "db_height": 525834, "closing": 0, "errors": 0, "groups": 2, "logged": 0, "paused": 0, "pid": 23922, "peers": {"bad": 0, "good": 0, "never": 0, "stale": 0, "total": 0}, "requests": 1, "sessions": 11, "subs": 409, "txs_sent": 1, "uptime": "30m 56s"}}
-							</div>
-						</div>
-						More info about api <a href="https://github.com/MicroBitcoinOrg/ElectrumX/blob/master/docs/protocol-methods.rst" target="_blank">here</a>.
-					</div>
-				</div>
-			</div>
-		</div>
 		
 		<!-- Load more button -->
 		<div class="container">
@@ -458,32 +258,16 @@
 			var networksConfigs = {
 				"MBC": {
 					"name": "Main Network (MBC)",
-					"api": "https://volbil.com/mbc/api/",
+					"api": "https://api.mbc.wiki/",
 					"ticker": "MBC",
 					"decimals": 4
 				},
 				"TMBC": {
 					"name": "Test Network (TMBC)",
-					"api": "https://volbil.com/mbc/api/test/",
+					"api": "https://api.mbc.wiki/test/",
 					"ticker": "TMBC",
 					"decimals": 4
 				}
-			}
-
-			// API doc links
-			var docs = {
-				"address_get_balance": "?method=blockchain.address.get_balance&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
-				"address_get_history": "?method=blockchain.address.get_history&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
-				"address_get_mempool": "?method=blockchain.address.get_mempool&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
-				"address_get_utxo": "?method=blockchain.address.get_utxo&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
-				"address_info": "?method=blockchain.address.info&params[]=BbHkxr56NVp7iZDVWkcHsKEooohCLYRujG",
-				"get_header": "?method=blockchain.block.get_header&params[]=0",
-				"get_header_range": "?method=blockchain.block.get_header_range&params[]=1&params[]=20",
-				"get_header_info": "?method=blockchain.block.get_header_info&params[]=00000000f1b3a6b39671e475b858bc6831db3ca57e8ecafa49a13c4d5b04fb53",
-				"broadcast": "?method=blockchain.transaction.broadcast&params[]=020000000......1c01bbe4179ecb88ac1b211300",
-				"tx_get": "?method=blockchain.transaction.get&params[]=12272d79ff1fbc1238d78d7d6e0e75c5f0e7aae7925e4f59b96b02fc2cd82bfc",
-				"tx_get_verbose": "?method=blockchain.transaction.get_verbose&params[]=12272d79ff1fbc1238d78d7d6e0e75c5f0e7aae7925e4f59b96b02fc2cd82bfc",
-				"getinfo": "?method=getinfo"
 			}
 
 			// Error messages
@@ -495,12 +279,13 @@
 				"no-block-specified": "You must specify blocks!",
 				"no-tx-specified": "You must specify transaction!",
 				"not-valid-address": "You must specify valid address!",
-				"search-error": "We can't process your request :("
+				"search-error": "We can't process your request :(",
+				"circulating-supply-load-error": "There was an error while trying to load the circulating supply :("
 			}
 
 			function showCharts(data) {
 				$("#charts").removeClass("d-none")
-				Highcharts.chart('hpChart', {
+				Highcharts.chart('network-chart', {
 
 					chart: {
 				        type: 'spline',
@@ -860,11 +645,11 @@
 				var request = {}
 
 				if (offset == 0) {
-					request = {method: "blockchain.block.get_header", params: [start_from]}
+					request = {method: "blockchain.block.header", params: [start_from]}
 				} else {
 					var start = (start_from - offset >= 0) ? start_from - offset : 0
 					var end = start_from
-					request = {method: "blockchain.block.get_header_range", params: [start, end]}
+					request = {method: "blockchain.block.range", params: [start, end]}
 				}
 				
 				return Promise.resolve($.ajax({
@@ -892,12 +677,12 @@
 
 			// Block info
 			function blockInfo(hash, tx_start = 0) {
-				return makeRequest({method: "blockchain.block.get_header_info", params: [hash, tx_start]})
+				return makeRequest({method: "blockchain.block.info", params: [hash, tx_start]})
 			}
 
 			// Transaction info
 			function txInfo(hash) {
-				return makeRequest({method: "blockchain.transaction.get_verbose", params: [hash]})
+				return makeRequest({method: "blockchain.transaction.verbose", params: [hash]})
 			}
 
 			// Address info
@@ -907,7 +692,12 @@
 
 			// Get current network info
 			function networkInfo() {
-				return makeRequest({method: "getinfo"}, false)
+				return makeRequest({method: "blockchain.info"}, false)
+			}
+
+			// Get circulating supply
+			function getCirculatingSupply() {
+				return makeRequest({ method: "blockchain.supply" }, false);
 			}
 
 			// Make request :D
@@ -1258,8 +1048,18 @@
 
 			function displayHome() {
 				networkInfo().then(function(data) {
-					var db_height = data.result.daemon_height
+					var db_height = data.result.height
 					var display_height = $("#blocks-table tbody tr:first-child").attr("data-height")
+
+					// Display circulating supply
+					getCirculatingSupply().then(function(supply) {
+						if(!supply["error"]) {
+							circulatingSupply = parseInt(amountFormat(supply.result.supply))
+							$("#supply span").text(circulatingSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + getApi()["ticker"]);
+						} else {
+							showError(errorMessages["circulating-supply-load-error"])
+						}
+					});
 
 					if (db_height != display_height || $("#blocks-table tbody tr").length > 0) {
 						getBlocks(db_height).then(function(blocks) {
