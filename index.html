@@ -27,19 +27,14 @@
 				padding-bottom: 56px;
 				position: relative;
 			}
-			.response-json {
-				overflow: auto;
-				padding: 16px;
-				background-color: #f6f8fa;
-				font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-				font-size: 87.5%;
-				border-radius: 3px;
-			}
-			.router-page {
-				display: none;
+			#supply {
+				cursor: pointer;
 			}
 			#qrCode canvas{
 				max-width: 100%;
+			}
+			.router-page {
+				display: none;
 			}
 			[class*="entypo"]:before {
 				font-family: 'EntypoRegular', sans-serif;
@@ -114,7 +109,7 @@
 						<div>
 							<div class="panel-body chart-wrapper" id="network-chart"></div>
 							<div class="text-center small text-success" id="supply">
-								<b>Circulating supply: <span></span></b>
+								<b>Circulating supply: <span>Loading...</span></b>
 							</div>
 						</div>
 					</div>
@@ -288,91 +283,91 @@
 				Highcharts.chart('network-chart', {
 
 					chart: {
-				        type: 'spline',
-				        height: 240
-				    },
+						type: 'spline',
+						height: 240
+					},
 
-				    title: {
-				        text: ''
-				    },
+					title: {
+						text: ''
+					},
 
-				    colors: ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"],
+					colors: ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"],
 
-				    xAxis: [{
-			        	categories: [].concat(data["blocks"]).reverse(),
-				        crosshair: true,
-				        labels: {
-				        	enabled: true,
-				        	step: 1        	
-				        	}
-					    }],
+					xAxis: [{
+						categories: [].concat(data["blocks"]).reverse(),
+						crosshair: true,
+						labels: {
+							enabled: true,
+							step: 1			
+							}
+						}],
 
 					yAxis: [{ labels: { enabled: false}, title: { text: null }},
 							{ labels: { enabled: false}, title: { text: null }},
 							{ labels: { enabled: false}, title: { text: null }, opposite: true },
 							{ labels: { enabled: false}, title: { text: null }},
 							{ labels: { enabled: false}, title: { text: null }}
-				        	],	    
-				    
-				    tooltip: {
+							],		
+					
+					tooltip: {
 						shared: true,
 						formatter: function() {
-					        var s = '<b>'+ this.x +'</b>';
+							var s = '<b>'+ this.x +'</b>';
 
-					        $.each(this.points, function(i, point) {
-					            s += '<br/><span style="color:' + point.color + '">\u25CF</span>: ' + point.series.name + ': ' + point.y;
-					            // if(i==4) s+= ' MH';
-					        });
+							$.each(this.points, function(i, point) {
+								s += '<br/><span style="color:' + point.color + '">\u25CF</span>: ' + point.series.name + ': ' + point.y;
+								// if(i==4) s+= ' MH';
+							});
 
-					        return s;
-					    },
-			        },
+							return s;
+						},
+					},
 
-				    plotOptions: {
-				        series: {
-				            label: {
-				                connectorAllowed: false
-				            },
-				            marker: {
-			                	enabled: false,
-			                	size: 2
-			            	}
-				        }
-				    },
+					plotOptions: {
+						series: {
+							label: {
+								connectorAllowed: false
+							},
+							marker: {
+								enabled: false,
+								size: 2
+							}
+						}
+					},
 
-				    series: [{
-					        name: 'Difficulty',
-					        data: [].concat(data["diffs"]).reverse(),
-					        yAxis: 1,
-					        color: '#7cb5ec',
-					        type: 'areaspline',
-					        fillOpacity: 0.3
-					    	}, {
-					        name: 'Transactions',
-					        data: [].concat(data["txs"]).reverse(),
-					        yAxis: 2,
-					        color: '#90ed7d'
-					    	}, {
-					        name: 'Size',
-					        data: [].concat(data["sizes"]).reverse(),
-					        yAxis: 3,
-					        color: '#f7a35c'
-					    	}],
+					series: [{
+							name: 'Difficulty',
+							data: [].concat(data["diffs"]).reverse(),
+							yAxis: 1,
+							color: '#7cb5ec',
+							type: 'areaspline',
+							fillOpacity: 0.3
+							}, {
+							name: 'Transactions',
+							data: [].concat(data["txs"]).reverse(),
+							yAxis: 2,
+							color: '#90ed7d'
+							}, {
+							name: 'Size',
+							data: [].concat(data["sizes"]).reverse(),
+							yAxis: 3,
+							color: '#f7a35c'
+							}],
 
-				    responsive: {
-				        rules: [{
-				            condition: {
-				                maxWidth: 500,
-				            },
-				            chartOptions: {
-				                legend: {
-				                    layout: 'horizontal',
-				                    align: 'center',
-				                    verticalAlign: 'bottom'
-				                }
-				            }
-				        }]
-				    }
+					responsive: {
+						rules: [{
+							condition: {
+								maxWidth: 500,
+							},
+							chartOptions: {
+								legend: {
+									layout: 'horizontal',
+									align: 'center',
+									verticalAlign: 'bottom'
+								}
+							}
+						}]
+					}
 
 				});
 				$('.highcharts-credits').hide();
@@ -1047,6 +1042,7 @@
 			}
 
 			function displayHome() {
+				$("#supply span").text("Loading...")
 				networkInfo().then(function(data) {
 					var db_height = data.result.height
 					var display_height = $("#blocks-table tbody tr:first-child").attr("data-height")
@@ -1248,6 +1244,10 @@
 					search($("#search-field").val())
 					$("#search-field").val("")
 					e.preventDefault()
+				})
+
+				$("#supply").click(function() {
+					displayHome()
 				})
 
 				$(window).on('hashchange', routePage)
