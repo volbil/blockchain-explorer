@@ -49,6 +49,7 @@
 			}
 		</style>
 		<title>Blockchain Explorer</title>
+		<meta name="description" content="MicroBitcoin Blockchain Explorer">
 	</head>
 	<body>
 		<!-- Navbar -->
@@ -407,7 +408,7 @@
 					displayNetworks()
 					displayHome()
 				}
-				swithchPage(page)
+				switchPage(page)
 			}
 
 			// Display networks list
@@ -460,7 +461,7 @@
 												displayBlockInfo(block.data)
 											} else {
 												showError(errorMessages["blocks-not-found"])
-												swithchPage()
+												switchPage()
 											}
 										})
 									} else {
@@ -476,7 +477,7 @@
 								})
 							} else {
 								showError(errorMessages["no-block-specified"])
-								swithchPage()
+								switchPage()
 							}
 
 							showLoadBtn($("#block-tx-list a[data-tx-index]:last-child").attr("data-tx-index"))
@@ -502,7 +503,7 @@
 												displayTxInfo(tx.data)
 											} else {
 												showError(errorMessages["tx-not-found"])
-												swithchPage()
+												switchPage()
 											}
 										})
 									} else {
@@ -511,7 +512,7 @@
 								}
 							} else {
 								showError(errorMessages["no-tx-specified"])
-								swithchPage()
+								switchPage()
 							}
 
 							break
@@ -535,7 +536,7 @@
 											} else {
 												console.log(info)
 												showError(errorMessages["not-valid-address"])
-												swithchPage()
+												switchPage()
 											}
 										})
 									} else {
@@ -544,7 +545,7 @@
 								}
 							} else {
 								showError(errorMessages["not-valid-address"])
-								swithchPage()
+								switchPage()
 							}
 
 							$("#load-more").click(function() {
@@ -564,15 +565,15 @@
 								getBlocks(urlParams[2], 0).then(function(blocks) {
 									setTitle("Loading")
 									if (!blocks["error"]) {
-										swithchPage("block", [blocks["blocks"][0]["block_hash"]])
+										switchPage("block", [blocks["blocks"][0]["block_hash"]])
 									} else {
 										showError(errorMessages["blocks-load-error"])
-										swithchPage()
+										switchPage()
 									}
 								})
 							} else {
 								showError(errorMessages["nan-error"])
-								swithchPage()
+								switchPage()
 							}
 
 							break
@@ -613,7 +614,7 @@
 							break
 
 						default:
-							swithchPage()
+							switchPage()
 
 							break
 					}
@@ -621,7 +622,7 @@
 			}
 
 			// Switch router page
-			function swithchPage(url = "", params = []) {
+			function switchPage(url = "", params = []) {
 				params = params.length > 0 ? "/" + params.join("/") : ""
 				window.location.hash = "#" + "/" + url + params;
 			}
@@ -1121,16 +1122,16 @@
 					var is_int = isNumeric(query)
 
 					if (is_int) {
-						swithchPage("height", [query])
+						switchPage("height", [query])
 					} else {
 						if (len == 64) {
 							if (query.substr(1, 3) == "000") {
-								swithchPage("block", [query])
+								switchPage("block", [query])
 							} else {
-								swithchPage("tx", [query])
+								switchPage("tx", [query])
 							}
 						} else if (len == 34) {
-							swithchPage("address", [query])
+							switchPage("address", [query])
 						} else {
 							showError(errorMessages["search-error"])
 						}
