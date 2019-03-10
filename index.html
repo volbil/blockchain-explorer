@@ -283,52 +283,46 @@
 			function showCharts(data) {
 				$("#charts").removeClass("d-none")
 				Highcharts.chart('network-chart', {
-
 					chart: {
 						type: 'spline',
 						height: 240
 					},
-
 					title: {
 						text: ''
 					},
-
-					colors: ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"],
-
 					xAxis: [{
 						categories: [].concat(data["blocks"]).reverse(),
 						crosshair: true,
 						labels: {
 							enabled: true,
-							step: 1			
+							step: 1
 							}
 						}],
-
 					yAxis: [{ labels: { enabled: false}, title: { text: null }},
 							{ labels: { enabled: false}, title: { text: null }},
 							{ labels: { enabled: false}, title: { text: null }, opposite: true },
 							{ labels: { enabled: false}, title: { text: null }},
 							{ labels: { enabled: false}, title: { text: null }}
 							],		
-					
 					tooltip: {
 						shared: true,
 						formatter: function() {
 							var s = '<b>'+ this.x +'</b>';
 
 							$.each(this.points, function(i, point) {
-								s += '<br/><span style="color:' + point.color + '">\u25CF</span>: ' + point.series.name + ': ' + point.y;
-								// if(i==4) s+= ' MH';
+								text = point.y
+								if (i == 3) { text = convertHashes(point.y) }
+								
+								s += '<br/><span style="color:' + point.color + '">\u25CF</span>: ' + point.series.name + ': ' + text;
 							});
 
 							return s;
 						},
 					},
-
 					plotOptions: {
 						series: {
 							label: {
-								connectorAllowed: false
+								connectorAllowed: true
 							},
 							marker: {
 								enabled: false,
@@ -336,7 +330,6 @@
 							}
 						}
 					},
-
 					series: [{
 							name: 'Difficulty',
 							data: [].concat(data["diffs"]).reverse(),
@@ -354,8 +347,12 @@
 							data: [].concat(data["sizes"]).reverse(),
 							yAxis: 3,
 							color: '#f7a35c'
+							}, {
+							name: 'Network hashrate',
+							data: [].concat(data["nethash"]).reverse(),
+							yAxis: 4,
+							color: '#ff2a65'
 							}],
-
 					responsive: {
 						rules: [{
 							condition: {
@@ -370,9 +367,27 @@
 							}
 						}]
 					}
-
 				});
 				$('.highcharts-credits').hide();
+			}
+
+			// Convert amount of hashes to readable form
+			function convertHashes(hashes) {
+				if (hashes >= 1000000000000000000000) {
+					return (hashes / 1000000000000000000000).toFixed(2) + ' Zh/s'
+				} else if (hashes >= 1000000000000000000) {
+					return (hashes / 1000000000000000000).toFixed(2) + ' Eh/s'
+				} else if (hashes >= 1000000000000000) {
+					return (hashes / 1000000000000000).toFixed(2) + ' Ph/s'
+				} else if (hashes >= 1000000000000) {
+					return (hashes / 1000000000000).toFixed(2) + ' Th/s'
+				} else if (hashes >= 1000000000) {
+					return (hashes / 1000000000).toFixed(2) + ' Gh/s'
+				} else if (hashes >= 1000000) {
+					return (hashes / 1000000).toFixed(2) + ' Mh/s'
+				} else {
+					return (hashes / 1000).toFixed(2) + ' H/s'
+				}
 			}
 
 			// Display doc links
@@ -470,7 +485,7 @@
 								}
 
 								$("#load-more").click(function() {
-									var last_index = $( "#block-tx-list a[data-tx-index]" ).last().attr("data-tx-index")
+									var last_index = parseInt($("#block-tx-list a[data-tx-index]" ).last().attr("data-tx-index")) + 1
 									blockInfo(block_hash, last_index).then(function(block) {
 										displayBlockTx(block.data.tx)
 									})
@@ -510,6 +525,13 @@
 										setTitle("Transaction " + data_tx_hash)
 									}
 								}
+
+								$("#load-more").click(function() {
+									var last_index = parseInt($("#tx-info-vin-total [data-tx-vin-index]").last().attr("data-tx-vin-index")) + 1
+									txInfo(tx_hash, last_index).then(function(tx) {
+										displayTxVin(tx.data.vin)
+									})
+								})
 							} else {
 								showError(errorMessages["no-tx-specified"])
 								switchPage()
@@ -534,7 +556,6 @@
 												setTitle("Address " + address)
 												displayAddressInfo(info.data)
 											} else {
-												console.log(info)
 												showError(errorMessages["not-valid-address"])
 												switchPage()
 											}
@@ -549,13 +570,14 @@
 							}
 
 							$("#load-more").click(function() {
-								var last_index = $( "#address-history-list a[data-address-history-index]").last().attr("data-address-history-index")
+								var last_index = parseInt($("#address-history-list a[data-address-history-index]").last().attr("data-address-history-index")) + 1
 								addressInfo(address, last_index).then(function(info) {
 									displayHistory(address, info.data.history)
 								})
 							})
 
 							showLoadBtn($("#address-history-list a[data-address-history-index]:last-child").attr("data-address-history-index"))
+
 							break
 
 						// Redirect to block page by block height
@@ -606,11 +628,6 @@
 								swithcApi(network)
 							}
 
-							break
-
-						case 'api':
-							setTitle("API Documentation")
-							displayDocs()
 							break
 
 						default:
@@ -678,8 +695,8 @@
 			}
 
 			// Transaction info
-			function txInfo(hash) {
-				return makeRequest({method: "blockchain.transaction.verbose", params: [hash]})
+			function txInfo(hash, vin_start = 0) {
+				return makeRequest({method: "blockchain.transaction.verbose", params: [hash, vin_start]})
 			}
 
 			// Address info
@@ -985,36 +1002,37 @@
 			}
 
 			function displayTxVin(vin_list) {
+				var total = $("#tx-info-vin-total .card-header b").text()
 				vin_list.forEach(function(vin, index) {
 					if (vin["coinbase"] != undefined) {
 						$("#tx-vin-list").append(`Newly Generated Coins (<b>Coinbase Transaction</b>)`)
 					} else {
-						txInfo(vin["txid"]).then(function (tx_info) {
-							if ($("#tx-vin-list").find(`[data-tx-vin-index="${vin.vin_index}"]`).length == 0) {
-								var content = `
-								<div class="list-group-item flex-column align-items-start" data-tx-vin-index="${vin.vin_index}">
-									<div class="row">
-										<div class="col-md-9 col-sm-12 col-xs-12">
-											<span class="text-muted mr-1">
-												<span class="entypo up text-danger"></span>
-											</span>
-											<a href="#/address/${tx_info.data.vout[vin["vout"]].scriptPubKey.addresses[0]}">
-												${tx_info.data.vout[vin["vout"]].scriptPubKey.addresses[0]}
-											</a>
-											(<a href="#/tx/${vin["txid"]}">Output</a>)
-										</div>
-										<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
-											<small class="text-muted">
-												${amountFormat(tx_info.data["vout"][vin["vout"]]["valueSat"])} <b>${getApi()["ticker"]}</b>
-											</small>
-										</div>
+						if ($("#tx-vin-list").find(`[data-tx-vin-index="${vin.vin_index}"]`).length == 0) {
+							var content = `
+							<div class="list-group-item flex-column align-items-start" data-tx-vin-index="${vin.vin_index}">
+								<div class="row">
+									<div class="col-md-9 col-sm-12 col-xs-12">
+										<span class="text-muted mr-1">
+											<span class="entypo up text-danger"></span>
+										</span>
+										<a href="#/address/${vin.scriptPubKey.addresses[0]}">
+											${vin.scriptPubKey.addresses[0]}
+										</a>
+										(<a href="#/tx/${vin["txid"]}">Output</a>)
 									</div>
-								</div>`
+									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
+										<small class="text-muted">
+											${amountFormat(vin["valueSat"])} <b>${getApi()["ticker"]}</b>
+										</small>
+									</div>
+								</div>
+							</div>`
 
-								$("#tx-vin-list").append(content)
-							}
-						})
+							$("#tx-vin-list").append(content)
+						}
 					}
+
+					showLoadBtn(vin.vin_index + 1, total)
 				})
 			}
 
@@ -1026,6 +1044,9 @@
 							<a href="#/tx/${tx_info.data.txid}" data-address-history-index="${tx_info.tx_index}" class="list-group-item list-group-item-action flex-column align-items-start">
 								<div class="row">
 									<div class="col-md-9 col-sm-12 col-xs-12">
+										<!-- <span class="text-muted mr-1">
+											<span class="entypo up text-danger"></span>
+										</span> -->
 										<span class="text-primary">${tx_info.data.txid}</span>
 									</div>
 									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
@@ -1069,7 +1090,8 @@
 									"blocks": [],
 									"sizes": [],
 									"timestamps": [],
-									"txs": []
+									"txs": [],
+									"nethash": []
 								}
 
 								$.each(blocks["blocks"].reverse(), function(index, block) {
@@ -1078,6 +1100,7 @@
 									chart_data["sizes"].push(block["size"])
 									chart_data["timestamps"].push(block["timestamp"])
 									chart_data["txs"].push(block["tx_count"])
+									chart_data["nethash"].push(block["nethash"])
 								})
 
 								showCharts(chart_data)
