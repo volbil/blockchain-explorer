@@ -71,7 +71,10 @@
 							<a href="https://mbc.wiki/d/5-api-guide" target="_blank" class="nav-link">API</a>
 						</li>
 						<li class="nav-item">
-							<a href="https://microbitcoinorg.github.io/wallet/#/" target="_blank" class="nav-link mr-md-1">Wallet</a>
+							<a href="https://microbitcoinorg.github.io/wallet/#/" target="_blank" class="nav-link">Wallet</a>
+						</li>
+						<li class="nav-item">
+							<a href="#/extras" class="nav-link mr-md-1">Extras</a>
 						</li>
 						<li class="nav-item dropdown" id="network-list">
 							<a class="nav-item nav-link dropdown-toggle" href="#" id="network-versions" data-toggle="dropdown">NETWORK</a>
@@ -206,6 +209,22 @@
 						  		
 						  	</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Page with extras -->
+		<div id="extras" class="router-page">
+			<div class="container">
+				<div class="card mb-3" id="address-history">
+					<div class="card-header">
+						Difficulty watch
+					</div>
+					<div class="card-body">
+						<a href="http://wordsgalore.com/diff/plots/p-microbitcoin.gif" target="_blank">
+							<img src="http://wordsgalore.com/diff/plots/p-microbitcoin.gif" class="img-fluid" alt="Difficulty watch">
+						</a>
 					</div>
 				</div>
 			</div>
@@ -385,8 +404,10 @@
 					return (hashes / 1000000000).toFixed(2) + ' Gh/s'
 				} else if (hashes >= 1000000) {
 					return (hashes / 1000000).toFixed(2) + ' Mh/s'
+				} else if (hashes >= 1000) {
+					return (hashes / 1000).toFixed(2) + ' Kh/s'
 				} else {
-					return (hashes / 1000).toFixed(2) + ' H/s'
+					return hashes + ' H/s'
 				}
 			}
 
@@ -578,6 +599,11 @@
 
 							showLoadBtn($("#address-history-list a[data-address-history-index]:last-child").attr("data-address-history-index"))
 
+							break
+
+						case 'extras':
+							setTitle("Extras")
+							
 							break
 
 						// Redirect to block page by block height
