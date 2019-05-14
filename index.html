@@ -14,7 +14,118 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
-		<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+		<script>
+			/*
+			 * Crypto-JS v2.5.4
+			 * http://code.google.com/p/crypto-js/
+			 * (c) 2009-2012 by Jeff Mott. All rights reserved.
+			 * http://code.google.com/p/crypto-js/wiki/License
+			 */
+			(typeof Crypto=="undefined"||!Crypto.util)&&function(){var e=window.Crypto={},f=e.util={rotl:function(a,b){return a<<b|a>>>32-b},rotr:function(a,b){return a<<32-b|a>>>b},endian:function(a){if(a.constructor==Number)return f.rotl(a,8)&16711935|f.rotl(a,24)&4278255360;for(var b=0;b<a.length;b++)a[b]=f.endian(a[b]);return a},randomBytes:function(a){for(var b=[];a>0;a--)b.push(Math.floor(Math.random()*256));return b},bytesToWords:function(a){for(var b=[],c=0,d=0;c<a.length;c++,d+=8)b[d>>>5]|=(a[c]&255)<<
+			24-d%32;return b},wordsToBytes:function(a){for(var b=[],c=0;c<a.length*32;c+=8)b.push(a[c>>>5]>>>24-c%32&255);return b},bytesToHex:function(a){for(var b=[],c=0;c<a.length;c++)b.push((a[c]>>>4).toString(16)),b.push((a[c]&15).toString(16));return b.join("")},hexToBytes:function(a){for(var b=[],c=0;c<a.length;c+=2)b.push(parseInt(a.substr(c,2),16));return b},bytesToBase64:function(a){for(var b=[],c=0;c<a.length;c+=3)for(var d=a[c]<<16|a[c+1]<<8|a[c+2],e=0;e<4;e++)c*8+e*6<=a.length*8?b.push("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt(d>>>
+			6*(3-e)&63)):b.push("=");return b.join("")},base64ToBytes:function(a){for(var a=a.replace(/[^A-Z0-9+\/]/ig,""),b=[],c=0,d=0;c<a.length;d=++c%4)d!=0&&b.push(("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(a.charAt(c-1))&Math.pow(2,-2*d+8)-1)<<d*2|"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(a.charAt(c))>>>6-d*2);return b}},e=e.charenc={};e.UTF8={stringToBytes:function(a){return g.stringToBytes(unescape(encodeURIComponent(a)))},bytesToString:function(a){return decodeURIComponent(escape(g.bytesToString(a)))}};
+			var g=e.Binary={stringToBytes:function(a){for(var b=[],c=0;c<a.length;c++)b.push(a.charCodeAt(c)&255);return b},bytesToString:function(a){for(var b=[],c=0;c<a.length;c++)b.push(String.fromCharCode(a[c]));return b.join("")}}}();
+
+			/*
+			 * Crypto-JS v2.5.4
+			 * http://code.google.com/p/crypto-js/
+			 * (c) 2009-2012 by Jeff Mott. All rights reserved.
+			 * http://code.google.com/p/crypto-js/wiki/License
+			 */
+			(typeof Crypto=="undefined"||!Crypto.util)&&function(){var f=window.Crypto={},l=f.util={rotl:function(b,a){return b<<a|b>>>32-a},rotr:function(b,a){return b<<32-a|b>>>a},endian:function(b){if(b.constructor==Number)return l.rotl(b,8)&16711935|l.rotl(b,24)&4278255360;for(var a=0;a<b.length;a++)b[a]=l.endian(b[a]);return b},randomBytes:function(b){for(var a=[];b>0;b--)a.push(Math.floor(Math.random()*256));return a},bytesToWords:function(b){for(var a=[],c=0,d=0;c<b.length;c++,d+=8)a[d>>>5]|=(b[c]&255)<<
+			24-d%32;return a},wordsToBytes:function(b){for(var a=[],c=0;c<b.length*32;c+=8)a.push(b[c>>>5]>>>24-c%32&255);return a},bytesToHex:function(b){for(var a=[],c=0;c<b.length;c++)a.push((b[c]>>>4).toString(16)),a.push((b[c]&15).toString(16));return a.join("")},hexToBytes:function(b){for(var a=[],c=0;c<b.length;c+=2)a.push(parseInt(b.substr(c,2),16));return a},bytesToBase64:function(b){for(var a=[],c=0;c<b.length;c+=3)for(var d=b[c]<<16|b[c+1]<<8|b[c+2],q=0;q<4;q++)c*8+q*6<=b.length*8?a.push("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt(d>>>
+			6*(3-q)&63)):a.push("=");return a.join("")},base64ToBytes:function(b){for(var b=b.replace(/[^A-Z0-9+\/]/ig,""),a=[],c=0,d=0;c<b.length;d=++c%4)d!=0&&a.push(("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(b.charAt(c-1))&Math.pow(2,-2*d+8)-1)<<d*2|"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(b.charAt(c))>>>6-d*2);return a}},f=f.charenc={};f.UTF8={stringToBytes:function(b){return i.stringToBytes(unescape(encodeURIComponent(b)))},bytesToString:function(b){return decodeURIComponent(escape(i.bytesToString(b)))}};
+			var i=f.Binary={stringToBytes:function(b){for(var a=[],c=0;c<b.length;c++)a.push(b.charCodeAt(c)&255);return a},bytesToString:function(b){for(var a=[],c=0;c<b.length;c++)a.push(String.fromCharCode(b[c]));return a.join("")}}}();
+			(function(){var f=Crypto,l=f.util,i=f.charenc,b=i.UTF8,a=i.Binary,c=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,
+			2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298],d=f.SHA256=function(b,c){var e=l.wordsToBytes(d._sha256(b));return c&&c.asBytes?e:c&&c.asString?a.bytesToString(e):l.bytesToHex(e)};d._sha256=function(a){a.constructor==String&&(a=b.stringToBytes(a));var d=l.bytesToWords(a),e=a.length*8,a=[1779033703,3144134277,
+			1013904242,2773480762,1359893119,2600822924,528734635,1541459225],f=[],m,n,i,h,o,p,r,s,g,k,j;d[e>>5]|=128<<24-e%32;d[(e+64>>9<<4)+15]=e;for(s=0;s<d.length;s+=16){e=a[0];m=a[1];n=a[2];i=a[3];h=a[4];o=a[5];p=a[6];r=a[7];for(g=0;g<64;g++){g<16?f[g]=d[g+s]:(k=f[g-15],j=f[g-2],f[g]=((k<<25|k>>>7)^(k<<14|k>>>18)^k>>>3)+(f[g-7]>>>0)+((j<<15|j>>>17)^(j<<13|j>>>19)^j>>>10)+(f[g-16]>>>0));j=e&m^e&n^m&n;var t=(e<<30|e>>>2)^(e<<19|e>>>13)^(e<<10|e>>>22);k=(r>>>0)+((h<<26|h>>>6)^(h<<21|h>>>11)^(h<<7|h>>>25))+
+			(h&o^~h&p)+c[g]+(f[g]>>>0);j=t+j;r=p;p=o;o=h;h=i+k>>>0;i=n;n=m;m=e;e=k+j>>>0}a[0]+=e;a[1]+=m;a[2]+=n;a[3]+=i;a[4]+=h;a[5]+=o;a[6]+=p;a[7]+=r}return a};d._blocksize=16;d._digestsize=32})();
+
+			/*
+			 * Crypto-JS v2.5.4
+			 * http://code.google.com/p/crypto-js/
+			 * (c) 2009-2012 by Jeff Mott. All rights reserved.
+			 * http://code.google.com/p/crypto-js/wiki/License
+			 */
+			(typeof Crypto=="undefined"||!Crypto.util)&&function(){var d=window.Crypto={},k=d.util={rotl:function(b,a){return b<<a|b>>>32-a},rotr:function(b,a){return b<<32-a|b>>>a},endian:function(b){if(b.constructor==Number)return k.rotl(b,8)&16711935|k.rotl(b,24)&4278255360;for(var a=0;a<b.length;a++)b[a]=k.endian(b[a]);return b},randomBytes:function(b){for(var a=[];b>0;b--)a.push(Math.floor(Math.random()*256));return a},bytesToWords:function(b){for(var a=[],c=0,e=0;c<b.length;c++,e+=8)a[e>>>5]|=(b[c]&255)<<
+			24-e%32;return a},wordsToBytes:function(b){for(var a=[],c=0;c<b.length*32;c+=8)a.push(b[c>>>5]>>>24-c%32&255);return a},bytesToHex:function(b){for(var a=[],c=0;c<b.length;c++)a.push((b[c]>>>4).toString(16)),a.push((b[c]&15).toString(16));return a.join("")},hexToBytes:function(b){for(var a=[],c=0;c<b.length;c+=2)a.push(parseInt(b.substr(c,2),16));return a},bytesToBase64:function(b){for(var a=[],c=0;c<b.length;c+=3)for(var e=b[c]<<16|b[c+1]<<8|b[c+2],p=0;p<4;p++)c*8+p*6<=b.length*8?a.push("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt(e>>>
+			6*(3-p)&63)):a.push("=");return a.join("")},base64ToBytes:function(b){for(var b=b.replace(/[^A-Z0-9+\/]/ig,""),a=[],c=0,e=0;c<b.length;e=++c%4)e!=0&&a.push(("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(b.charAt(c-1))&Math.pow(2,-2*e+8)-1)<<e*2|"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(b.charAt(c))>>>6-e*2);return a}},d=d.charenc={};d.UTF8={stringToBytes:function(b){return g.stringToBytes(unescape(encodeURIComponent(b)))},bytesToString:function(b){return decodeURIComponent(escape(g.bytesToString(b)))}};
+			var g=d.Binary={stringToBytes:function(b){for(var a=[],c=0;c<b.length;c++)a.push(b.charCodeAt(c)&255);return a},bytesToString:function(b){for(var a=[],c=0;c<b.length;c++)a.push(String.fromCharCode(b[c]));return a.join("")}}}();
+			(function(){var d=Crypto,k=d.util,g=d.charenc,b=g.UTF8,a=g.Binary,c=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,
+			2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298],e=d.SHA256=function(b,c){var f=k.wordsToBytes(e._sha256(b));return c&&c.asBytes?f:c&&c.asString?a.bytesToString(f):k.bytesToHex(f)};e._sha256=function(a){a.constructor==String&&(a=b.stringToBytes(a));var e=k.bytesToWords(a),f=a.length*8,a=[1779033703,3144134277,
+			1013904242,2773480762,1359893119,2600822924,528734635,1541459225],d=[],g,m,r,i,n,o,s,t,h,l,j;e[f>>5]|=128<<24-f%32;e[(f+64>>9<<4)+15]=f;for(t=0;t<e.length;t+=16){f=a[0];g=a[1];m=a[2];r=a[3];i=a[4];n=a[5];o=a[6];s=a[7];for(h=0;h<64;h++){h<16?d[h]=e[h+t]:(l=d[h-15],j=d[h-2],d[h]=((l<<25|l>>>7)^(l<<14|l>>>18)^l>>>3)+(d[h-7]>>>0)+((j<<15|j>>>17)^(j<<13|j>>>19)^j>>>10)+(d[h-16]>>>0));j=f&g^f&m^g&m;var u=(f<<30|f>>>2)^(f<<19|f>>>13)^(f<<10|f>>>22);l=(s>>>0)+((i<<26|i>>>6)^(i<<21|i>>>11)^(i<<7|i>>>25))+
+			(i&n^~i&o)+c[h]+(d[h]>>>0);j=u+j;s=o;o=n;n=i;i=r+l>>>0;r=m;m=g;g=f;f=l+j>>>0}a[0]+=f;a[1]+=g;a[2]+=m;a[3]+=r;a[4]+=i;a[5]+=n;a[6]+=o;a[7]+=s}return a};e._blocksize=16;e._digestsize=32})();
+			(function(){var d=Crypto,k=d.util,g=d.charenc,b=g.UTF8,a=g.Binary;d.HMAC=function(c,e,d,g){e.constructor==String&&(e=b.stringToBytes(e));d.constructor==String&&(d=b.stringToBytes(d));d.length>c._blocksize*4&&(d=c(d,{asBytes:!0}));for(var f=d.slice(0),d=d.slice(0),q=0;q<c._blocksize*4;q++)f[q]^=92,d[q]^=54;c=c(f.concat(c(d.concat(e),{asBytes:!0})),{asBytes:!0});return g&&g.asBytes?c:g&&g.asString?a.bytesToString(c):k.bytesToHex(c)}})();
+
+			(function() {/*
+			 A JavaScript implementation of the SHA family of hashes, as defined in FIPS
+			 PUB 180-2 as well as the corresponding HMAC implementation as defined in
+			 FIPS PUB 198a
+
+			 Copyright Brian Turek 2008-2012
+			 Distributed under the BSD License
+			 See http://caligatio.github.com/jsSHA/ for more information
+
+			 Several functions taken from Paul Johnson
+			*/
+			function n(a){throw a;}var q=null;function s(a,b){this.a=a;this.b=b}function u(a,b){var d=[],h=(1<<b)-1,f=a.length*b,g;for(g=0;g<f;g+=b)d[g>>>5]|=(a.charCodeAt(g/b)&h)<<32-b-g%32;return{value:d,binLen:f}}function x(a){var b=[],d=a.length,h,f;0!==d%2&&n("String of HEX type must be in byte increments");for(h=0;h<d;h+=2)f=parseInt(a.substr(h,2),16),isNaN(f)&&n("String of HEX type contains invalid characters"),b[h>>>3]|=f<<24-4*(h%8);return{value:b,binLen:4*d}}
+			function B(a){var b=[],d=0,h,f,g,k,m;-1===a.search(/^[a-zA-Z0-9=+\/]+$/)&&n("Invalid character in base-64 string");h=a.indexOf("=");a=a.replace(/\=/g,"");-1!==h&&h<a.length&&n("Invalid '=' found in base-64 string");for(f=0;f<a.length;f+=4){m=a.substr(f,4);for(g=k=0;g<m.length;g+=1)h="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(m[g]),k|=h<<18-6*g;for(g=0;g<m.length-1;g+=1)b[d>>2]|=(k>>>16-8*g&255)<<24-8*(d%4),d+=1}return{value:b,binLen:8*d}}
+			function E(a,b){var d="",h=4*a.length,f,g;for(f=0;f<h;f+=1)g=a[f>>>2]>>>8*(3-f%4),d+="0123456789abcdef".charAt(g>>>4&15)+"0123456789abcdef".charAt(g&15);return b.outputUpper?d.toUpperCase():d}
+			function F(a,b){var d="",h=4*a.length,f,g,k;for(f=0;f<h;f+=3){k=(a[f>>>2]>>>8*(3-f%4)&255)<<16|(a[f+1>>>2]>>>8*(3-(f+1)%4)&255)<<8|a[f+2>>>2]>>>8*(3-(f+2)%4)&255;for(g=0;4>g;g+=1)d=8*f+6*g<=32*a.length?d+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt(k>>>6*(3-g)&63):d+b.b64Pad}return d}
+			function G(a){var b={outputUpper:!1,b64Pad:"="};try{a.hasOwnProperty("outputUpper")&&(b.outputUpper=a.outputUpper),a.hasOwnProperty("b64Pad")&&(b.b64Pad=a.b64Pad)}catch(d){}"boolean"!==typeof b.outputUpper&&n("Invalid outputUpper formatting option");"string"!==typeof b.b64Pad&&n("Invalid b64Pad formatting option");return b}
+			function H(a,b){var d=q,d=new s(a.a,a.b);return d=32>=b?new s(d.a>>>b|d.b<<32-b&4294967295,d.b>>>b|d.a<<32-b&4294967295):new s(d.b>>>b-32|d.a<<64-b&4294967295,d.a>>>b-32|d.b<<64-b&4294967295)}function I(a,b){var d=q;return d=32>=b?new s(a.a>>>b,a.b>>>b|a.a<<32-b&4294967295):new s(0,a.a>>>b-32)}function J(a,b,d){return new s(a.a&b.a^~a.a&d.a,a.b&b.b^~a.b&d.b)}function U(a,b,d){return new s(a.a&b.a^a.a&d.a^b.a&d.a,a.b&b.b^a.b&d.b^b.b&d.b)}
+			function V(a){var b=H(a,28),d=H(a,34);a=H(a,39);return new s(b.a^d.a^a.a,b.b^d.b^a.b)}function W(a){var b=H(a,14),d=H(a,18);a=H(a,41);return new s(b.a^d.a^a.a,b.b^d.b^a.b)}function X(a){var b=H(a,1),d=H(a,8);a=I(a,7);return new s(b.a^d.a^a.a,b.b^d.b^a.b)}function Y(a){var b=H(a,19),d=H(a,61);a=I(a,6);return new s(b.a^d.a^a.a,b.b^d.b^a.b)}
+			function Z(a,b){var d,h,f;d=(a.b&65535)+(b.b&65535);h=(a.b>>>16)+(b.b>>>16)+(d>>>16);f=(h&65535)<<16|d&65535;d=(a.a&65535)+(b.a&65535)+(h>>>16);h=(a.a>>>16)+(b.a>>>16)+(d>>>16);return new s((h&65535)<<16|d&65535,f)}
+			function aa(a,b,d,h){var f,g,k;f=(a.b&65535)+(b.b&65535)+(d.b&65535)+(h.b&65535);g=(a.b>>>16)+(b.b>>>16)+(d.b>>>16)+(h.b>>>16)+(f>>>16);k=(g&65535)<<16|f&65535;f=(a.a&65535)+(b.a&65535)+(d.a&65535)+(h.a&65535)+(g>>>16);g=(a.a>>>16)+(b.a>>>16)+(d.a>>>16)+(h.a>>>16)+(f>>>16);return new s((g&65535)<<16|f&65535,k)}
+			function ba(a,b,d,h,f){var g,k,m;g=(a.b&65535)+(b.b&65535)+(d.b&65535)+(h.b&65535)+(f.b&65535);k=(a.b>>>16)+(b.b>>>16)+(d.b>>>16)+(h.b>>>16)+(f.b>>>16)+(g>>>16);m=(k&65535)<<16|g&65535;g=(a.a&65535)+(b.a&65535)+(d.a&65535)+(h.a&65535)+(f.a&65535)+(k>>>16);k=(a.a>>>16)+(b.a>>>16)+(d.a>>>16)+(h.a>>>16)+(f.a>>>16)+(g>>>16);return new s((k&65535)<<16|g&65535,m)}
+			function $(a,b,d){var h,f,g,k,m,j,A,C,K,e,L,v,l,M,t,p,y,z,r,N,O,P,Q,R,c,S,w=[],T,D;"SHA-384"===d||"SHA-512"===d?(L=80,h=(b+128>>>10<<5)+31,M=32,t=2,c=s,p=Z,y=aa,z=ba,r=X,N=Y,O=V,P=W,R=U,Q=J,S=[new c(1116352408,3609767458),new c(1899447441,602891725),new c(3049323471,3964484399),new c(3921009573,2173295548),new c(961987163,4081628472),new c(1508970993,3053834265),new c(2453635748,2937671579),new c(2870763221,3664609560),new c(3624381080,2734883394),new c(310598401,1164996542),new c(607225278,1323610764),
+			new c(1426881987,3590304994),new c(1925078388,4068182383),new c(2162078206,991336113),new c(2614888103,633803317),new c(3248222580,3479774868),new c(3835390401,2666613458),new c(4022224774,944711139),new c(264347078,2341262773),new c(604807628,2007800933),new c(770255983,1495990901),new c(1249150122,1856431235),new c(1555081692,3175218132),new c(1996064986,2198950837),new c(2554220882,3999719339),new c(2821834349,766784016),new c(2952996808,2566594879),new c(3210313671,3203337956),new c(3336571891,
+			1034457026),new c(3584528711,2466948901),new c(113926993,3758326383),new c(338241895,168717936),new c(666307205,1188179964),new c(773529912,1546045734),new c(1294757372,1522805485),new c(1396182291,2643833823),new c(1695183700,2343527390),new c(1986661051,1014477480),new c(2177026350,1206759142),new c(2456956037,344077627),new c(2730485921,1290863460),new c(2820302411,3158454273),new c(3259730800,3505952657),new c(3345764771,106217008),new c(3516065817,3606008344),new c(3600352804,1432725776),new c(4094571909,
+			1467031594),new c(275423344,851169720),new c(430227734,3100823752),new c(506948616,1363258195),new c(659060556,3750685593),new c(883997877,3785050280),new c(958139571,3318307427),new c(1322822218,3812723403),new c(1537002063,2003034995),new c(1747873779,3602036899),new c(1955562222,1575990012),new c(2024104815,1125592928),new c(2227730452,2716904306),new c(2361852424,442776044),new c(2428436474,593698344),new c(2756734187,3733110249),new c(3204031479,2999351573),new c(3329325298,3815920427),new c(3391569614,
+			3928383900),new c(3515267271,566280711),new c(3940187606,3454069534),new c(4118630271,4000239992),new c(116418474,1914138554),new c(174292421,2731055270),new c(289380356,3203993006),new c(460393269,320620315),new c(685471733,587496836),new c(852142971,1086792851),new c(1017036298,365543100),new c(1126000580,2618297676),new c(1288033470,3409855158),new c(1501505948,4234509866),new c(1607167915,987167468),new c(1816402316,1246189591)],e="SHA-384"===d?[new c(3418070365,3238371032),new c(1654270250,914150663),
+			new c(2438529370,812702999),new c(355462360,4144912697),new c(1731405415,4290775857),new c(41048885895,1750603025),new c(3675008525,1694076839),new c(1203062813,3204075428)]:[new c(1779033703,4089235720),new c(3144134277,2227873595),new c(1013904242,4271175723),new c(2773480762,1595750129),new c(1359893119,2917565137),new c(2600822924,725511199),new c(528734635,4215389547),new c(1541459225,327033209)]):n("Unexpected error in SHA-2 implementation");a[b>>>5]|=128<<24-b%32;a[h]=b;T=a.length;for(v=0;v<
+			T;v+=M){b=e[0];h=e[1];f=e[2];g=e[3];k=e[4];m=e[5];j=e[6];A=e[7];for(l=0;l<L;l+=1)w[l]=16>l?new c(a[l*t+v],a[l*t+v+1]):y(N(w[l-2]),w[l-7],r(w[l-15]),w[l-16]),C=z(A,P(k),Q(k,m,j),S[l],w[l]),K=p(O(b),R(b,h,f)),A=j,j=m,m=k,k=p(g,C),g=f,f=h,h=b,b=p(C,K);e[0]=p(b,e[0]);e[1]=p(h,e[1]);e[2]=p(f,e[2]);e[3]=p(g,e[3]);e[4]=p(k,e[4]);e[5]=p(m,e[5]);e[6]=p(j,e[6]);e[7]=p(A,e[7])}"SHA-384"===d?D=[e[0].a,e[0].b,e[1].a,e[1].b,e[2].a,e[2].b,e[3].a,e[3].b,e[4].a,e[4].b,e[5].a,e[5].b]:"SHA-512"===d?D=[e[0].a,e[0].b,
+			e[1].a,e[1].b,e[2].a,e[2].b,e[3].a,e[3].b,e[4].a,e[4].b,e[5].a,e[5].b,e[6].a,e[6].b,e[7].a,e[7].b]:n("Unexpected error in SHA-2 implementation");return D}
+			window.jsSHA=function(a,b,d){var h=q,f=q,g=0,k=[0],m=0,j=q,m="undefined"!==typeof d?d:8;8===m||16===m||n("charSize must be 8 or 16");"HEX"===b?(0!==a.length%2&&n("srcString of HEX type must be in byte increments"),j=x(a),g=j.binLen,k=j.value):"ASCII"===b||"TEXT"===b?(j=u(a,m),g=j.binLen,k=j.value):"B64"===b?(j=B(a),g=j.binLen,k=j.value):n("inputFormat must be HEX, TEXT, ASCII, or B64");this.getHash=function(a,b,d){var e=q,m=k.slice(),j="";switch(b){case "HEX":e=E;break;case "B64":e=F;break;default:n("format must be HEX or B64")}"SHA-384"===
+			a?(q===h&&(h=$(m,g,a)),j=e(h,G(d))):"SHA-512"===a?(q===f&&(f=$(m,g,a)),j=e(f,G(d))):n("Chosen SHA variant is not supported");return j};this.getHMAC=function(a,b,d,e,f){var h,l,j,t,p,y=[],z=[],r=q;switch(e){case "HEX":h=E;break;case "B64":h=F;break;default:n("outputFormat must be HEX or B64")}"SHA-384"===d?(j=128,p=384):"SHA-512"===d?(j=128,p=512):n("Chosen SHA variant is not supported");"HEX"===b?(r=x(a),t=r.binLen,l=r.value):"ASCII"===b||"TEXT"===b?(r=u(a,m),t=r.binLen,l=r.value):"B64"===b?(r=B(a),
+			t=r.binLen,l=r.value):n("inputFormat must be HEX, TEXT, ASCII, or B64");a=8*j;b=j/4-1;j<t/8?(l=$(l,t,d),l[b]&=4294967040):j>t/8&&(l[b]&=4294967040);for(j=0;j<=b;j+=1)y[j]=l[j]^909522486,z[j]=l[j]^1549556828;d=$(z.concat($(y.concat(k),a+g,d)),a+p,d);return h(d,G(f))}};})();
+
+			/*
+			CryptoJS v3.1.2
+			code.google.com/p/crypto-js
+			(c) 2009-2013 by Jeff Mott. All rights reserved.
+			code.google.com/p/crypto-js/wiki/License
+			*/
+			/** @preserve
+			(c) 2012 by Cédric Mesnil. All rights reserved.
+
+			Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+				- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+				- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+			THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+			*/
+
+			var zl=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,7,4,13,1,10,6,15,3,12,0,9,5,2,14,11,8,3,10,14,4,9,15,8,1,2,7,0,6,13,11,5,12,1,9,11,10,0,8,12,4,13,3,7,15,14,5,6,2,4,0,5,9,7,12,2,10,14,1,3,8,11,6,15,13],zr=[5,14,7,0,9,2,11,4,13,6,15,8,1,10,3,12,6,11,3,7,0,13,5,10,14,15,8,12,4,9,1,2,15,5,1,3,7,14,6,9,11,8,12,2,10,0,4,13,8,6,4,1,3,11,15,0,5,12,2,13,9,7,10,14,12,15,10,4,1,5,8,7,6,2,13,14,0,3,9,11],sl=[11,14,15,12,5,8,7,9,11,13,14,15,6,7,9,8,7,6,8,13,11,9,7,15,7,12,15,9,11,7,13,12,11,13,6,7,14,9,13,15,14,8,13,6,5,12,7,5,11,12,14,15,14,15,9,8,9,14,5,6,8,6,5,12,9,15,5,11,6,8,13,12,5,12,13,14,11,8,5,6],sr=[8,9,9,11,13,15,15,5,7,7,8,11,14,14,12,6,9,13,15,7,12,8,9,11,7,7,12,7,6,15,13,11,9,7,15,11,8,6,6,14,12,13,5,14,13,13,7,5,15,5,8,11,14,14,6,14,6,9,12,9,12,5,15,8,8,5,12,9,12,5,14,6,8,13,6,5,15,13,11,11],hl=[0,1518500249,1859775393,2400959708,2840853838],hr=[1352829926,1548603684,1836072691,2053994217,0],bytesToWords=function(r){for(var n=[],o=0,t=0;o<r.length;o++,t+=8)n[t>>>5]|=r[o]<<24-t%32;return n},wordsToBytes=function(r){for(var n=[],o=0;o<32*r.length;o+=8)n.push(r[o>>>5]>>>24-o%32&255);return n},processBlock=function(r,n,o){for(var t=0;t<16;t++){var f=o+t,l=n[f];n[f]=16711935&(l<<8|l>>>24)|4278255360&(l<<24|l>>>8)}var e,u,h,s,c,i,a,v,d,g,p;i=e=r[0],a=u=r[1],v=h=r[2],d=s=r[3],g=c=r[4];for(t=0;t<80;t+=1)p=e+n[o+zl[t]]|0,p+=t<16?f1(u,h,s)+hl[0]:t<32?f2(u,h,s)+hl[1]:t<48?f3(u,h,s)+hl[2]:t<64?f4(u,h,s)+hl[3]:f5(u,h,s)+hl[4],p=(p=rotl(p|=0,sl[t]))+c|0,e=c,c=s,s=rotl(h,10),h=u,u=p,p=i+n[o+zr[t]]|0,p+=t<16?f5(a,v,d)+hr[0]:t<32?f4(a,v,d)+hr[1]:t<48?f3(a,v,d)+hr[2]:t<64?f2(a,v,d)+hr[3]:f1(a,v,d)+hr[4],p=(p=rotl(p|=0,sr[t]))+g|0,i=g,g=d,d=rotl(v,10),v=a,a=p;p=r[1]+h+d|0,r[1]=r[2]+s+g|0,r[2]=r[3]+c+i|0,r[3]=r[4]+e+a|0,r[4]=r[0]+u+v|0,r[0]=p};function f1(r,n,o){return r^n^o}function f2(r,n,o){return r&n|~r&o}function f3(r,n,o){return(r|~n)^o}function f4(r,n,o){return r&o|n&~o}function f5(r,n,o){return r^(n|~o)}function rotl(r,n){return r<<n|r>>>32-n}function ripemd160(r){var n=[1732584193,4023233417,2562383102,271733878,3285377520],o=bytesToWords(r),t=8*r.length,f=8*r.length;o[t>>>5]|=128<<24-t%32,o[14+(t+64>>>9<<4)]=16711935&(f<<8|f>>>24)|4278255360&(f<<24|f>>>8);for(var l=0;l<o.length;l+=16)processBlock(n,o,l);for(l=0;l<5;l++){var e=n[l];n[l]=16711935&(e<<8|e>>>24)|4278255360&(e<<24|e>>>8)}return wordsToBytes(n)}
+
+			// Copyright (c) 2005  Tom Wu
+			// All Rights Reserved.
+			// Basic JavaScript BN library - subset useful for RSA encryption.
+			// Bits per digit
+			var dbits,canary=0xdeadbeefcafe,j_lm=15715070==(16777215&canary);function BigInteger(t,r,o){if(!(this instanceof BigInteger))return new BigInteger(t,r,o);null!=t&&("number"==typeof t?this.fromNumber(t,r,o):null==r&&"string"!=typeof t?this.fromString(t,256):this.fromString(t,r))}var proto=BigInteger.prototype;function nbi(){return new BigInteger(null)}function am1(t,r,o,n,i,e){for(;--e>=0;){var s=r*this[t++]+o[n]+i;i=Math.floor(s/67108864),o[n++]=67108863&s}return i}function am2(t,r,o,n,i,e){for(var s=32767&r,u=r>>15;--e>=0;){var h=32767&this[t],f=this[t++]>>15,a=u*h+f*s;i=((h=s*h+((32767&a)<<15)+o[n]+(1073741823&i))>>>30)+(a>>>15)+u*f+(i>>>30),o[n++]=1073741823&h}return i}function am3(t,r,o,n,i,e){for(var s=16383&r,u=r>>14;--e>=0;){var h=16383&this[t],f=this[t++]>>14,a=u*h+f*s;i=((h=s*h+((16383&a)<<14)+o[n]+i)>>28)+(a>>14)+u*f,o[n++]=268435455&h}return i}BigInteger.prototype.am=am1,dbits=26,BigInteger.prototype.DB=dbits,BigInteger.prototype.DM=(1<<dbits)-1;var DV=BigInteger.prototype.DV=1<<dbits,BI_FP=52;BigInteger.prototype.FV=Math.pow(2,BI_FP),BigInteger.prototype.F1=BI_FP-dbits,BigInteger.prototype.F2=2*dbits-BI_FP;var rr,vv,BI_RM="0123456789abcdefghijklmnopqrstuvwxyz",BI_RC=new Array;for(rr="0".charCodeAt(0),vv=0;vv<=9;++vv)BI_RC[rr++]=vv;for(rr="a".charCodeAt(0),vv=10;vv<36;++vv)BI_RC[rr++]=vv;for(rr="A".charCodeAt(0),vv=10;vv<36;++vv)BI_RC[rr++]=vv;function int2char(t){return BI_RM.charAt(t)}function intAt(t,r){var o=BI_RC[t.charCodeAt(r)];return null==o?-1:o}function bnpCopyTo(t){for(var r=this.t-1;r>=0;--r)t[r]=this[r];t.t=this.t,t.s=this.s}function bnpFromInt(t){this.t=1,this.s=t<0?-1:0,t>0?this[0]=t:t<-1?this[0]=t+DV:this.t=0}function nbv(t){var r=nbi();return r.fromInt(t),r}function bnpFromString(t,r){var o,n=this;if(16==r)o=4;else if(8==r)o=3;else if(256==r)o=8;else if(2==r)o=1;else if(32==r)o=5;else{if(4!=r)return void n.fromRadix(t,r);o=2}n.t=0,n.s=0;for(var i=t.length,e=!1,s=0;--i>=0;){var u=8==o?255&t[i]:intAt(t,i);u<0?"-"==t.charAt(i)&&(e=!0):(e=!1,0==s?n[n.t++]=u:s+o>n.DB?(n[n.t-1]|=(u&(1<<n.DB-s)-1)<<s,n[n.t++]=u>>n.DB-s):n[n.t-1]|=u<<s,(s+=o)>=n.DB&&(s-=n.DB))}8==o&&0!=(128&t[0])&&(n.s=-1,s>0&&(n[n.t-1]|=(1<<n.DB-s)-1<<s)),n.clamp(),e&&BigInteger.ZERO.subTo(n,n)}function bnpClamp(){for(var t=this.s&this.DM;this.t>0&&this[this.t-1]==t;)--this.t}function bnToString(t){var r,o=this;if(o.s<0)return"-"+o.negate().toString(t);if(16==t)r=4;else if(8==t)r=3;else if(2==t)r=1;else if(32==t)r=5;else{if(4!=t)return o.toRadix(t);r=2}var n,i=(1<<r)-1,e=!1,s="",u=o.t,h=o.DB-u*o.DB%r;if(u-- >0)for(h<o.DB&&(n=o[u]>>h)>0&&(e=!0,s=int2char(n));u>=0;)h<r?(n=(o[u]&(1<<h)-1)<<r-h,n|=o[--u]>>(h+=o.DB-r)):(n=o[u]>>(h-=r)&i,h<=0&&(h+=o.DB,--u)),n>0&&(e=!0),e&&(s+=int2char(n));return e?s:"0"}function bnNegate(){var t=nbi();return BigInteger.ZERO.subTo(this,t),t}function bnAbs(){return this.s<0?this.negate():this}function bnCompareTo(t){var r=this.s-t.s;if(0!=r)return r;var o=this.t;if(0!=(r=o-t.t))return this.s<0?-r:r;for(;--o>=0;)if(0!=(r=this[o]-t[o]))return r;return 0}function nbits(t){var r,o=1;return 0!=(r=t>>>16)&&(t=r,o+=16),0!=(r=t>>8)&&(t=r,o+=8),0!=(r=t>>4)&&(t=r,o+=4),0!=(r=t>>2)&&(t=r,o+=2),0!=(r=t>>1)&&(t=r,o+=1),o}function bnBitLength(){return this.t<=0?0:this.DB*(this.t-1)+nbits(this[this.t-1]^this.s&this.DM)}function bnpDLShiftTo(t,r){var o;for(o=this.t-1;o>=0;--o)r[o+t]=this[o];for(o=t-1;o>=0;--o)r[o]=0;r.t=this.t+t,r.s=this.s}function bnpDRShiftTo(t,r){for(var o=t;o<this.t;++o)r[o-t]=this[o];r.t=Math.max(this.t-t,0),r.s=this.s}function bnpLShiftTo(t,r){var o,n=this,i=t%n.DB,e=n.DB-i,s=(1<<e)-1,u=Math.floor(t/n.DB),h=n.s<<i&n.DM;for(o=n.t-1;o>=0;--o)r[o+u+1]=n[o]>>e|h,h=(n[o]&s)<<i;for(o=u-1;o>=0;--o)r[o]=0;r[u]=h,r.t=n.t+u+1,r.s=n.s,r.clamp()}function bnpRShiftTo(t,r){var o=this;r.s=o.s;var n=Math.floor(t/o.DB);if(n>=o.t)r.t=0;else{var i=t%o.DB,e=o.DB-i,s=(1<<i)-1;r[0]=o[n]>>i;for(var u=n+1;u<o.t;++u)r[u-n-1]|=(o[u]&s)<<e,r[u-n]=o[u]>>i;i>0&&(r[o.t-n-1]|=(o.s&s)<<e),r.t=o.t-n,r.clamp()}}function bnpSubTo(t,r){for(var o=this,n=0,i=0,e=Math.min(t.t,o.t);n<e;)i+=o[n]-t[n],r[n++]=i&o.DM,i>>=o.DB;if(t.t<o.t){for(i-=t.s;n<o.t;)i+=o[n],r[n++]=i&o.DM,i>>=o.DB;i+=o.s}else{for(i+=o.s;n<t.t;)i-=t[n],r[n++]=i&o.DM,i>>=o.DB;i-=t.s}r.s=i<0?-1:0,i<-1?r[n++]=o.DV+i:i>0&&(r[n++]=i),r.t=n,r.clamp()}function bnpMultiplyTo(t,r){var o=this.abs(),n=t.abs(),i=o.t;for(r.t=i+n.t;--i>=0;)r[i]=0;for(i=0;i<n.t;++i)r[i+o.t]=o.am(0,n[i],r,i,0,o.t);r.s=0,r.clamp(),this.s!=t.s&&BigInteger.ZERO.subTo(r,r)}function bnpSquareTo(t){for(var r=this.abs(),o=t.t=2*r.t;--o>=0;)t[o]=0;for(o=0;o<r.t-1;++o){var n=r.am(o,r[o],t,2*o,0,1);(t[o+r.t]+=r.am(o+1,2*r[o],t,2*o+1,n,r.t-o-1))>=r.DV&&(t[o+r.t]-=r.DV,t[o+r.t+1]=1)}t.t>0&&(t[t.t-1]+=r.am(o,r[o],t,2*o,0,1)),t.s=0,t.clamp()}function bnpDivRemTo(t,r,o){var n=this,i=t.abs();if(!(i.t<=0)){var e=n.abs();if(e.t<i.t)return null!=r&&r.fromInt(0),void(null!=o&&n.copyTo(o));null==o&&(o=nbi());var s=nbi(),u=n.s,h=t.s,f=n.DB-nbits(i[i.t-1]);f>0?(i.lShiftTo(f,s),e.lShiftTo(f,o)):(i.copyTo(s),e.copyTo(o));var a=s.t,p=s[a-1];if(0!=p){var b=p*(1<<n.F1)+(a>1?s[a-2]>>n.F2:0),c=n.FV/b,l=(1<<n.F1)/b,m=1<<n.F2,v=o.t,T=v-a,d=null==r?nbi():r;for(s.dlShiftTo(T,d),o.compareTo(d)>=0&&(o[o.t++]=1,o.subTo(d,o)),BigInteger.ONE.dlShiftTo(a,d),d.subTo(s,s);s.t<a;)s[s.t++]=0;for(;--T>=0;){var g=o[--v]==p?n.DM:Math.floor(o[v]*c+(o[v-1]+m)*l);if((o[v]+=s.am(0,g,o,T,0,a))<g)for(s.dlShiftTo(T,d),o.subTo(d,o);o[v]<--g;)o.subTo(d,o)}null!=r&&(o.drShiftTo(a,r),u!=h&&BigInteger.ZERO.subTo(r,r)),o.t=a,o.clamp(),f>0&&o.rShiftTo(f,o),u<0&&BigInteger.ZERO.subTo(o,o)}}}function bnMod(t){var r=nbi();return this.abs().divRemTo(t,null,r),this.s<0&&r.compareTo(BigInteger.ZERO)>0&&t.subTo(r,r),r}function Classic(t){this.m=t}function cConvert(t){return t.s<0||t.compareTo(this.m)>=0?t.mod(this.m):t}function cRevert(t){return t}function cReduce(t){t.divRemTo(this.m,null,t)}function cMulTo(t,r,o){t.multiplyTo(r,o),this.reduce(o)}function cSqrTo(t,r){t.squareTo(r),this.reduce(r)}function bnpInvDigit(){if(this.t<1)return 0;var t=this[0];if(0==(1&t))return 0;var r=3&t;return(r=(r=(r=(r=r*(2-(15&t)*r)&15)*(2-(255&t)*r)&255)*(2-((65535&t)*r&65535))&65535)*(2-t*r%this.DV)%this.DV)>0?this.DV-r:-r}function Montgomery(t){this.m=t,this.mp=t.invDigit(),this.mpl=32767&this.mp,this.mph=this.mp>>15,this.um=(1<<t.DB-15)-1,this.mt2=2*t.t}function montConvert(t){var r=nbi();return t.abs().dlShiftTo(this.m.t,r),r.divRemTo(this.m,null,r),t.s<0&&r.compareTo(BigInteger.ZERO)>0&&this.m.subTo(r,r),r}function montRevert(t){var r=nbi();return t.copyTo(r),this.reduce(r),r}function montReduce(t){for(;t.t<=this.mt2;)t[t.t++]=0;for(var r=0;r<this.m.t;++r){var o=32767&t[r],n=o*this.mpl+((o*this.mph+(t[r]>>15)*this.mpl&this.um)<<15)&t.DM;for(t[o=r+this.m.t]+=this.m.am(0,n,t,r,0,this.m.t);t[o]>=t.DV;)t[o]-=t.DV,t[++o]++}t.clamp(),t.drShiftTo(this.m.t,t),t.compareTo(this.m)>=0&&t.subTo(this.m,t)}function montSqrTo(t,r){t.squareTo(r),this.reduce(r)}function montMulTo(t,r,o){t.multiplyTo(r,o),this.reduce(o)}function bnpIsEven(){return 0==(this.t>0?1&this[0]:this.s)}function bnpExp(t,r){if(t>4294967295||t<1)return BigInteger.ONE;var o=nbi(),n=nbi(),i=r.convert(this),e=nbits(t)-1;for(i.copyTo(o);--e>=0;)if(r.sqrTo(o,n),(t&1<<e)>0)r.mulTo(n,i,o);else{var s=o;o=n,n=s}return r.revert(o)}function bnModPowInt(t,r){var o;return o=t<256||r.isEven()?new Classic(r):new Montgomery(r),this.exp(t,o)}function nbi(){return new BigInteger(null)}function bnClone(){var t=nbi();return this.copyTo(t),t}function bnIntValue(){if(this.s<0){if(1==this.t)return this[0]-this.DV;if(0==this.t)return-1}else{if(1==this.t)return this[0];if(0==this.t)return 0}return(this[1]&(1<<32-this.DB)-1)<<this.DB|this[0]}function bnByteValue(){return 0==this.t?this.s:this[0]<<24>>24}function bnShortValue(){return 0==this.t?this.s:this[0]<<16>>16}function bnpChunkSize(t){return Math.floor(Math.LN2*this.DB/Math.log(t))}function bnSigNum(){return this.s<0?-1:this.t<=0||1==this.t&&this[0]<=0?0:1}function bnpToRadix(t){if(null==t&&(t=10),0==this.signum()||t<2||t>36)return"0";var r=this.chunkSize(t),o=Math.pow(t,r),n=nbv(o),i=nbi(),e=nbi(),s="";for(this.divRemTo(n,i,e);i.signum()>0;)s=(o+e.intValue()).toString(t).substr(1)+s,i.divRemTo(n,i,e);return e.intValue().toString(t)+s}function bnpFromRadix(t,r){var o=this;o.fromInt(0),null==r&&(r=10);for(var n=o.chunkSize(r),i=Math.pow(r,n),e=!1,s=0,u=0,h=0;h<t.length;++h){var f=intAt(t,h);f<0?"-"==t.charAt(h)&&0==o.signum()&&(e=!0):(u=r*u+f,++s>=n&&(o.dMultiply(i),o.dAddOffset(u,0),s=0,u=0))}s>0&&(o.dMultiply(Math.pow(r,s)),o.dAddOffset(u,0)),e&&BigInteger.ZERO.subTo(o,o)}function bnpFromNumber(t,r,o){var n=this;if("number"==typeof r)if(t<2)n.fromInt(1);else for(n.fromNumber(t,o),n.testBit(t-1)||n.bitwiseTo(BigInteger.ONE.shiftLeft(t-1),op_or,n),n.isEven()&&n.dAddOffset(1,0);!n.isProbablePrime(r);)n.dAddOffset(2,0),n.bitLength()>t&&n.subTo(BigInteger.ONE.shiftLeft(t-1),n);else{var i=new Array,e=7&t;i.length=1+(t>>3),r.nextBytes(i),e>0?i[0]&=(1<<e)-1:i[0]=0,n.fromString(i,256)}}function bnToByteArray(){var t=this,r=t.t,o=new Array;o[0]=t.s;var n,i=t.DB-r*t.DB%8,e=0;if(r-- >0)for(i<t.DB&&(n=t[r]>>i)!=(t.s&t.DM)>>i&&(o[e++]=n|t.s<<t.DB-i);r>=0;)i<8?(n=(t[r]&(1<<i)-1)<<8-i,n|=t[--r]>>(i+=t.DB-8)):(n=t[r]>>(i-=8)&255,i<=0&&(i+=t.DB,--r)),0!=(128&n)&&(n|=-256),0===e&&(128&t.s)!=(128&n)&&++e,(e>0||n!=t.s)&&(o[e++]=n);return o}function bnEquals(t){return 0==this.compareTo(t)}function bnMin(t){return this.compareTo(t)<0?this:t}function bnMax(t){return this.compareTo(t)>0?this:t}function bnpBitwiseTo(t,r,o){var n,i,e=this,s=Math.min(t.t,e.t);for(n=0;n<s;++n)o[n]=r(e[n],t[n]);if(t.t<e.t){for(i=t.s&e.DM,n=s;n<e.t;++n)o[n]=r(e[n],i);o.t=e.t}else{for(i=e.s&e.DM,n=s;n<t.t;++n)o[n]=r(i,t[n]);o.t=t.t}o.s=r(e.s,t.s),o.clamp()}function op_and(t,r){return t&r}function bnAnd(t){var r=nbi();return this.bitwiseTo(t,op_and,r),r}function op_or(t,r){return t|r}function bnOr(t){var r=nbi();return this.bitwiseTo(t,op_or,r),r}function op_xor(t,r){return t^r}function bnXor(t){var r=nbi();return this.bitwiseTo(t,op_xor,r),r}function op_andnot(t,r){return t&~r}function bnAndNot(t){var r=nbi();return this.bitwiseTo(t,op_andnot,r),r}function bnNot(){for(var t=nbi(),r=0;r<this.t;++r)t[r]=this.DM&~this[r];return t.t=this.t,t.s=~this.s,t}function bnShiftLeft(t){var r=nbi();return t<0?this.rShiftTo(-t,r):this.lShiftTo(t,r),r}function bnShiftRight(t){var r=nbi();return t<0?this.lShiftTo(-t,r):this.rShiftTo(t,r),r}function lbit(t){if(0==t)return-1;var r=0;return 0==(65535&t)&&(t>>=16,r+=16),0==(255&t)&&(t>>=8,r+=8),0==(15&t)&&(t>>=4,r+=4),0==(3&t)&&(t>>=2,r+=2),0==(1&t)&&++r,r}function bnGetLowestSetBit(){for(var t=0;t<this.t;++t)if(0!=this[t])return t*this.DB+lbit(this[t]);return this.s<0?this.t*this.DB:-1}function cbit(t){for(var r=0;0!=t;)t&=t-1,++r;return r}function bnBitCount(){for(var t=0,r=this.s&this.DM,o=0;o<this.t;++o)t+=cbit(this[o]^r);return t}function bnTestBit(t){var r=Math.floor(t/this.DB);return r>=this.t?0!=this.s:0!=(this[r]&1<<t%this.DB)}function bnpChangeBit(t,r){var o=BigInteger.ONE.shiftLeft(t);return this.bitwiseTo(o,r,o),o}function bnSetBit(t){return this.changeBit(t,op_or)}function bnClearBit(t){return this.changeBit(t,op_andnot)}function bnFlipBit(t){return this.changeBit(t,op_xor)}function bnpAddTo(t,r){for(var o=this,n=0,i=0,e=Math.min(t.t,o.t);n<e;)i+=o[n]+t[n],r[n++]=i&o.DM,i>>=o.DB;if(t.t<o.t){for(i+=t.s;n<o.t;)i+=o[n],r[n++]=i&o.DM,i>>=o.DB;i+=o.s}else{for(i+=o.s;n<t.t;)i+=t[n],r[n++]=i&o.DM,i>>=o.DB;i+=t.s}r.s=i<0?-1:0,i>0?r[n++]=i:i<-1&&(r[n++]=o.DV+i),r.t=n,r.clamp()}function bnAdd(t){var r=nbi();return this.addTo(t,r),r}function bnSubtract(t){var r=nbi();return this.subTo(t,r),r}function bnMultiply(t){var r=nbi();return this.multiplyTo(t,r),r}function bnSquare(){var t=nbi();return this.squareTo(t),t}function bnDivide(t){var r=nbi();return this.divRemTo(t,r,null),r}function bnRemainder(t){var r=nbi();return this.divRemTo(t,null,r),r}function bnDivideAndRemainder(t){var r=nbi(),o=nbi();return this.divRemTo(t,r,o),new Array(r,o)}function bnpDMultiply(t){this[this.t]=this.am(0,t-1,this,0,0,this.t),++this.t,this.clamp()}function bnpDAddOffset(t,r){if(0!=t){for(;this.t<=r;)this[this.t++]=0;for(this[r]+=t;this[r]>=this.DV;)this[r]-=this.DV,++r>=this.t&&(this[this.t++]=0),++this[r]}}function NullExp(){}function nNop(t){return t}function nMulTo(t,r,o){t.multiplyTo(r,o)}function nSqrTo(t,r){t.squareTo(r)}function bnPow(t){return this.exp(t,new NullExp)}function bnpMultiplyLowerTo(t,r,o){var n,i=Math.min(this.t+t.t,r);for(o.s=0,o.t=i;i>0;)o[--i]=0;for(n=o.t-this.t;i<n;++i)o[i+this.t]=this.am(0,t[i],o,i,0,this.t);for(n=Math.min(t.t,r);i<n;++i)this.am(0,t[i],o,i,0,r-i);o.clamp()}function bnpMultiplyUpperTo(t,r,o){--r;var n=o.t=this.t+t.t-r;for(o.s=0;--n>=0;)o[n]=0;for(n=Math.max(r-this.t,0);n<t.t;++n)o[this.t+n-r]=this.am(r-n,t[n],o,0,0,this.t+n-r);o.clamp(),o.drShiftTo(1,o)}function Barrett(t){this.r2=nbi(),this.q3=nbi(),BigInteger.ONE.dlShiftTo(2*t.t,this.r2),this.mu=this.r2.divide(t),this.m=t}function barrettConvert(t){if(t.s<0||t.t>2*this.m.t)return t.mod(this.m);if(t.compareTo(this.m)<0)return t;var r=nbi();return t.copyTo(r),this.reduce(r),r}function barrettRevert(t){return t}function barrettReduce(t){var r=this;for(t.drShiftTo(r.m.t-1,r.r2),t.t>r.m.t+1&&(t.t=r.m.t+1,t.clamp()),r.mu.multiplyUpperTo(r.r2,r.m.t+1,r.q3),r.m.multiplyLowerTo(r.q3,r.m.t+1,r.r2);t.compareTo(r.r2)<0;)t.dAddOffset(1,r.m.t+1);for(t.subTo(r.r2,t);t.compareTo(r.m)>=0;)t.subTo(r.m,t)}function barrettSqrTo(t,r){t.squareTo(r),this.reduce(r)}function barrettMulTo(t,r,o){t.multiplyTo(r,o),this.reduce(o)}function bnModPow(t,r){var o,n,i=t.bitLength(),e=nbv(1);if(i<=0)return e;o=i<18?1:i<48?3:i<144?4:i<768?5:6,n=i<8?new Classic(r):r.isEven()?new Barrett(r):new Montgomery(r);var s=new Array,u=3,h=o-1,f=(1<<o)-1;if(s[1]=n.convert(this),o>1){var a=nbi();for(n.sqrTo(s[1],a);u<=f;)s[u]=nbi(),n.mulTo(a,s[u-2],s[u]),u+=2}var p,b,c=t.t-1,l=!0,m=nbi();for(i=nbits(t[c])-1;c>=0;){for(i>=h?p=t[c]>>i-h&f:(p=(t[c]&(1<<i+1)-1)<<h-i,c>0&&(p|=t[c-1]>>this.DB+i-h)),u=o;0==(1&p);)p>>=1,--u;if((i-=u)<0&&(i+=this.DB,--c),l)s[p].copyTo(e),l=!1;else{for(;u>1;)n.sqrTo(e,m),n.sqrTo(m,e),u-=2;u>0?n.sqrTo(e,m):(b=e,e=m,m=b),n.mulTo(m,s[p],e)}for(;c>=0&&0==(t[c]&1<<i);)n.sqrTo(e,m),b=e,e=m,m=b,--i<0&&(i=this.DB-1,--c)}return n.revert(e)}function bnGCD(t){var r=this.s<0?this.negate():this.clone(),o=t.s<0?t.negate():t.clone();if(r.compareTo(o)<0){var n=r;r=o,o=n}var i=r.getLowestSetBit(),e=o.getLowestSetBit();if(e<0)return r;for(i<e&&(e=i),e>0&&(r.rShiftTo(e,r),o.rShiftTo(e,o));r.signum()>0;)(i=r.getLowestSetBit())>0&&r.rShiftTo(i,r),(i=o.getLowestSetBit())>0&&o.rShiftTo(i,o),r.compareTo(o)>=0?(r.subTo(o,r),r.rShiftTo(1,r)):(o.subTo(r,o),o.rShiftTo(1,o));return e>0&&o.lShiftTo(e,o),o}function bnpModInt(t){if(t<=0)return 0;var r=this.DV%t,o=this.s<0?t-1:0;if(this.t>0)if(0==r)o=this[0]%t;else for(var n=this.t-1;n>=0;--n)o=(r*o+this[n])%t;return o}function bnModInverse(t){var r=t.isEven();if(this.isEven()&&r||0==t.signum())return BigInteger.ZERO;for(var o=t.clone(),n=this.clone(),i=nbv(1),e=nbv(0),s=nbv(0),u=nbv(1);0!=o.signum();){for(;o.isEven();)o.rShiftTo(1,o),r?(i.isEven()&&e.isEven()||(i.addTo(this,i),e.subTo(t,e)),i.rShiftTo(1,i)):e.isEven()||e.subTo(t,e),e.rShiftTo(1,e);for(;n.isEven();)n.rShiftTo(1,n),r?(s.isEven()&&u.isEven()||(s.addTo(this,s),u.subTo(t,u)),s.rShiftTo(1,s)):u.isEven()||u.subTo(t,u),u.rShiftTo(1,u);o.compareTo(n)>=0?(o.subTo(n,o),r&&i.subTo(s,i),e.subTo(u,e)):(n.subTo(o,n),r&&s.subTo(i,s),u.subTo(e,u))}return 0!=n.compareTo(BigInteger.ONE)?BigInteger.ZERO:u.compareTo(t)>=0?u.subtract(t):u.signum()<0?(u.addTo(t,u),u.signum()<0?u.add(t):u):u}Classic.prototype.convert=cConvert,Classic.prototype.revert=cRevert,Classic.prototype.reduce=cReduce,Classic.prototype.mulTo=cMulTo,Classic.prototype.sqrTo=cSqrTo,Montgomery.prototype.convert=montConvert,Montgomery.prototype.revert=montRevert,Montgomery.prototype.reduce=montReduce,Montgomery.prototype.mulTo=montMulTo,Montgomery.prototype.sqrTo=montSqrTo,proto.copyTo=bnpCopyTo,proto.fromInt=bnpFromInt,proto.fromString=bnpFromString,proto.clamp=bnpClamp,proto.dlShiftTo=bnpDLShiftTo,proto.drShiftTo=bnpDRShiftTo,proto.lShiftTo=bnpLShiftTo,proto.rShiftTo=bnpRShiftTo,proto.subTo=bnpSubTo,proto.multiplyTo=bnpMultiplyTo,proto.squareTo=bnpSquareTo,proto.divRemTo=bnpDivRemTo,proto.invDigit=bnpInvDigit,proto.isEven=bnpIsEven,proto.exp=bnpExp,proto.toString=bnToString,proto.negate=bnNegate,proto.abs=bnAbs,proto.compareTo=bnCompareTo,proto.bitLength=bnBitLength,proto.mod=bnMod,proto.modPowInt=bnModPowInt,NullExp.prototype.convert=nNop,NullExp.prototype.revert=nNop,NullExp.prototype.mulTo=nMulTo,NullExp.prototype.sqrTo=nSqrTo,Barrett.prototype.convert=barrettConvert,Barrett.prototype.revert=barrettRevert,Barrett.prototype.reduce=barrettReduce,Barrett.prototype.mulTo=barrettMulTo,Barrett.prototype.sqrTo=barrettSqrTo,proto.chunkSize=bnpChunkSize,proto.toRadix=bnpToRadix,proto.fromRadix=bnpFromRadix,proto.fromNumber=bnpFromNumber,proto.bitwiseTo=bnpBitwiseTo,proto.changeBit=bnpChangeBit,proto.addTo=bnpAddTo,proto.dMultiply=bnpDMultiply,proto.dAddOffset=bnpDAddOffset,proto.multiplyLowerTo=bnpMultiplyLowerTo,proto.multiplyUpperTo=bnpMultiplyUpperTo,proto.modInt=bnpModInt,proto.clone=bnClone,proto.intValue=bnIntValue,proto.byteValue=bnByteValue,proto.shortValue=bnShortValue,proto.signum=bnSigNum,proto.toByteArray=bnToByteArray,proto.equals=bnEquals,proto.min=bnMin,proto.max=bnMax,proto.and=bnAnd,proto.or=bnOr,proto.xor=bnXor,proto.andNot=bnAndNot,proto.not=bnNot,proto.shiftLeft=bnShiftLeft,proto.shiftRight=bnShiftRight,proto.getLowestSetBit=bnGetLowestSetBit,proto.bitCount=bnBitCount,proto.testBit=bnTestBit,proto.setBit=bnSetBit,proto.clearBit=bnClearBit,proto.flipBit=bnFlipBit,proto.add=bnAdd,proto.subtract=bnSubtract,proto.multiply=bnMultiply,proto.divide=bnDivide,proto.remainder=bnRemainder,proto.divideAndRemainder=bnDivideAndRemainder,proto.modPow=bnModPow,proto.modInverse=bnModInverse,proto.pow=bnPow,proto.gcd=bnGCD,proto.square=bnSquare,BigInteger.ZERO=nbv(0),BigInteger.ONE=nbv(1),BigInteger.valueOf=nbv,BigInteger.fromByteArrayUnsigned=function(t){return t.length?128&t[0]?new BigInteger([0].concat(t)):new BigInteger(t):new BigInteger.valueOf(0)},BigInteger.fromByteArraySigned=function(t){return 128&t[0]?(t[0]&=127,BigInteger.fromByteArrayUnsigned(t).negate()):BigInteger.fromByteArrayUnsigned(t)},BigInteger.prototype.toByteArrayUnsigned=function(){var t=this.abs().toByteArray();if(!t.length)return t;0===t[0]&&(t=t.slice(1));for(var r=0;r<t.length;++r)t[r]=t[r]<0?t[r]+256:t[r];return t},BigInteger.prototype.toByteArraySigned=function(){var t=this.toByteArrayUnsigned(),r=this.s<0;return 128&t[0]?t.unshift(r?128:0):r&&(t[0]|=128),t};
+
+			/*!
+			* Basic Javascript Elliptic Curve implementation
+			* Ported loosely from BouncyCastle's Java EC code
+			* Only Fp curves implemented for now
+			* 
+			* Copyright Tom Wu, bitaddress.org  BSD License.
+			* http://www-cs-students.stanford.edu/~tjw/jsbn/LICENSE
+			*/
+			!function(){var t=window.EllipticCurve=function(){};t.FieldElementFp=function(t,e){this.x=e,this.q=t},t.FieldElementFp.prototype.equals=function(t){return t==this||this.q.equals(t.q)&&this.x.equals(t.x)},t.FieldElementFp.prototype.toBigInteger=function(){return this.x},t.FieldElementFp.prototype.negate=function(){return new t.FieldElementFp(this.q,this.x.negate().mod(this.q))},t.FieldElementFp.prototype.add=function(e){return new t.FieldElementFp(this.q,this.x.add(e.toBigInteger()).mod(this.q))},t.FieldElementFp.prototype.subtract=function(e){return new t.FieldElementFp(this.q,this.x.subtract(e.toBigInteger()).mod(this.q))},t.FieldElementFp.prototype.multiply=function(e){return new t.FieldElementFp(this.q,this.x.multiply(e.toBigInteger()).mod(this.q))},t.FieldElementFp.prototype.square=function(){return new t.FieldElementFp(this.q,this.x.square().mod(this.q))},t.FieldElementFp.prototype.divide=function(e){return new t.FieldElementFp(this.q,this.x.multiply(e.toBigInteger().modInverse(this.q)).mod(this.q))},t.FieldElementFp.prototype.getByteLength=function(){return Math.floor((this.toBigInteger().bitLength()+7)/8)},t.FieldElementFp.prototype.sqrt=function(){if(!this.q.testBit(0))throw new Error("even value of q");if(this.q.testBit(1)){var e=new t.FieldElementFp(this.q,this.x.modPow(this.q.shiftRight(2).add(BigInteger.ONE),this.q));return e.square().equals(this)?e:null}var i=this.q.subtract(BigInteger.ONE),r=i.shiftRight(1);if(!this.x.modPow(r,this.q).equals(BigInteger.ONE))return null;var n,s,u=i.shiftRight(2).shiftLeft(1).add(BigInteger.ONE),o=this.x,h=o.shiftLeft(2).mod(this.q);do{var l,g=new SecureRandom;do{l=new BigInteger(this.q.bitLength(),g)}while(l.compareTo(this.q)>=0||!l.multiply(l).subtract(h).modPow(r,this.q).equals(i));var p=t.FieldElementFp.fastLucasSequence(this.q,l,o,u);if(n=p[0],(s=p[1]).multiply(s).mod(this.q).equals(h))return s.testBit(0)&&(s=s.add(this.q)),s=s.shiftRight(1),new t.FieldElementFp(this.q,s)}while(n.equals(BigInteger.ONE)||n.equals(i));return null},t.FieldElementFp.fastLucasSequence=function(t,e,i,r){for(var n=r.bitLength(),s=r.getLowestSetBit(),u=BigInteger.ONE,o=BigInteger.TWO,h=e,l=BigInteger.ONE,g=BigInteger.ONE,p=n-1;p>=s+1;--p)l=l.multiply(g).mod(t),r.testBit(p)?(g=l.multiply(i).mod(t),u=u.multiply(h).mod(t),o=h.multiply(o).subtract(e.multiply(l)).mod(t),h=h.multiply(h).subtract(g.shiftLeft(1)).mod(t)):(g=l,u=u.multiply(o).subtract(l).mod(t),h=h.multiply(o).subtract(e.multiply(l)).mod(t),o=o.multiply(o).subtract(l.shiftLeft(1)).mod(t));g=(l=l.multiply(g).mod(t)).multiply(i).mod(t),u=u.multiply(o).subtract(l).mod(t),o=h.multiply(o).subtract(e.multiply(l)).mod(t),l=l.multiply(g).mod(t);for(p=1;p<=s;++p)u=u.multiply(o).mod(t),o=o.multiply(o).subtract(l.shiftLeft(1)).mod(t),l=l.multiply(l).mod(t);return[u,o]},t.PointFp=function(t,e,i,r,n){this.curve=t,this.x=e,this.y=i,this.z=null==r?BigInteger.ONE:r,this.zinv=null,this.compressed=!!n},t.PointFp.prototype.getX=function(){null==this.zinv&&(this.zinv=this.z.modInverse(this.curve.q));var t=this.x.toBigInteger().multiply(this.zinv);return this.curve.reduce(t),this.curve.fromBigInteger(t)},t.PointFp.prototype.getY=function(){null==this.zinv&&(this.zinv=this.z.modInverse(this.curve.q));var t=this.y.toBigInteger().multiply(this.zinv);return this.curve.reduce(t),this.curve.fromBigInteger(t)},t.PointFp.prototype.equals=function(t){return t==this||(this.isInfinity()?t.isInfinity():t.isInfinity()?this.isInfinity():!!t.y.toBigInteger().multiply(this.z).subtract(this.y.toBigInteger().multiply(t.z)).mod(this.curve.q).equals(BigInteger.ZERO)&&t.x.toBigInteger().multiply(this.z).subtract(this.x.toBigInteger().multiply(t.z)).mod(this.curve.q).equals(BigInteger.ZERO))},t.PointFp.prototype.isInfinity=function(){return null==this.x&&null==this.y||this.z.equals(BigInteger.ZERO)&&!this.y.toBigInteger().equals(BigInteger.ZERO)},t.PointFp.prototype.negate=function(){return new t.PointFp(this.curve,this.x,this.y.negate(),this.z)},t.PointFp.prototype.add=function(e){if(this.isInfinity())return e;if(e.isInfinity())return this;var i=e.y.toBigInteger().multiply(this.z).subtract(this.y.toBigInteger().multiply(e.z)).mod(this.curve.q),r=e.x.toBigInteger().multiply(this.z).subtract(this.x.toBigInteger().multiply(e.z)).mod(this.curve.q);if(BigInteger.ZERO.equals(r))return BigInteger.ZERO.equals(i)?this.twice():this.curve.getInfinity();var n=new BigInteger("3"),s=this.x.toBigInteger(),u=this.y.toBigInteger(),o=(e.x.toBigInteger(),e.y.toBigInteger(),r.square()),h=o.multiply(r),l=s.multiply(o),g=i.square().multiply(this.z),p=g.subtract(l.shiftLeft(1)).multiply(e.z).subtract(h).multiply(r).mod(this.curve.q),a=l.multiply(n).multiply(i).subtract(u.multiply(h)).subtract(g.multiply(i)).multiply(e.z).add(i.multiply(h)).mod(this.curve.q),m=h.multiply(this.z).multiply(e.z).mod(this.curve.q);return new t.PointFp(this.curve,this.curve.fromBigInteger(p),this.curve.fromBigInteger(a),m)},t.PointFp.prototype.twice=function(){if(this.isInfinity())return this;if(0==this.y.toBigInteger().signum())return this.curve.getInfinity();var e=new BigInteger("3"),i=this.x.toBigInteger(),r=this.y.toBigInteger(),n=r.multiply(this.z),s=n.multiply(r).mod(this.curve.q),u=this.curve.a.toBigInteger(),o=i.square().multiply(e);BigInteger.ZERO.equals(u)||(o=o.add(this.z.square().multiply(u)));var h=(o=o.mod(this.curve.q)).square().subtract(i.shiftLeft(3).multiply(s)).shiftLeft(1).multiply(n).mod(this.curve.q),l=o.multiply(e).multiply(i).subtract(s.shiftLeft(1)).shiftLeft(2).multiply(s).subtract(o.square().multiply(o)).mod(this.curve.q),g=n.square().multiply(n).shiftLeft(3).mod(this.curve.q);return new t.PointFp(this.curve,this.curve.fromBigInteger(h),this.curve.fromBigInteger(l),g)},t.PointFp.prototype.multiply=function(t){if(this.isInfinity())return this;if(0==t.signum())return this.curve.getInfinity();var e,i=t,r=i.multiply(new BigInteger("3")),n=this.negate(),s=this;for(e=r.bitLength()-2;e>0;--e){s=s.twice();var u=r.testBit(e);u!=i.testBit(e)&&(s=s.add(u?this:n))}return s},t.PointFp.prototype.multiplyTwo=function(t,e,i){var r;r=t.bitLength()>i.bitLength()?t.bitLength()-1:i.bitLength()-1;for(var n=this.curve.getInfinity(),s=this.add(e);r>=0;)n=n.twice(),t.testBit(r)?n=i.testBit(r)?n.add(s):n.add(this):i.testBit(r)&&(n=n.add(e)),--r;return n},t.PointFp.prototype.getEncoded=function(e){var i=this.getX().toBigInteger(),r=this.getY().toBigInteger(),n=t.integerToBytes(i,32);return e?r.isEven()?n.unshift(2):n.unshift(3):(n.unshift(4),n=n.concat(t.integerToBytes(r,32))),n},t.PointFp.decodeFrom=function(e,i){i[0];var r=i.length-1,n=i.slice(1,1+r/2),s=i.slice(1+r/2,1+r);n.unshift(0),s.unshift(0);var u=new BigInteger(n),o=new BigInteger(s);return new t.PointFp(e,e.fromBigInteger(u),e.fromBigInteger(o))},t.PointFp.prototype.add2D=function(e){if(this.isInfinity())return e;if(e.isInfinity())return this;if(this.x.equals(e.x))return this.y.equals(e.y)?this.twice():this.curve.getInfinity();var i=e.x.subtract(this.x),r=e.y.subtract(this.y).divide(i),n=r.square().subtract(this.x).subtract(e.x),s=r.multiply(this.x.subtract(n)).subtract(this.y);return new t.PointFp(this.curve,n,s)},t.PointFp.prototype.twice2D=function(){if(this.isInfinity())return this;if(0==this.y.toBigInteger().signum())return this.curve.getInfinity();var e=this.curve.fromBigInteger(BigInteger.valueOf(2)),i=this.curve.fromBigInteger(BigInteger.valueOf(3)),r=this.x.square().multiply(i).add(this.curve.a).divide(this.y.multiply(e)),n=r.square().subtract(this.x.multiply(e)),s=r.multiply(this.x.subtract(n)).subtract(this.y);return new t.PointFp(this.curve,n,s)},t.PointFp.prototype.multiply2D=function(t){if(this.isInfinity())return this;if(0==t.signum())return this.curve.getInfinity();var e,i=t,r=i.multiply(new BigInteger("3")),n=this.negate(),s=this;for(e=r.bitLength()-2;e>0;--e){s=s.twice();var u=r.testBit(e);u!=i.testBit(e)&&(s=s.add2D(u?this:n))}return s},t.PointFp.prototype.isOnCurve=function(){var t=this.getX().toBigInteger(),e=this.getY().toBigInteger(),i=this.curve.getA().toBigInteger(),r=this.curve.getB().toBigInteger(),n=this.curve.getQ(),s=e.multiply(e).mod(n),u=t.multiply(t).multiply(t).add(i.multiply(t)).add(r).mod(n);return s.equals(u)},t.PointFp.prototype.toString=function(){return"("+this.getX().toBigInteger().toString()+","+this.getY().toBigInteger().toString()+")"},t.PointFp.prototype.validate=function(){var t=this.curve.getQ();if(this.isInfinity())throw new Error("Point is at infinity.");var e=this.getX().toBigInteger(),i=this.getY().toBigInteger();if(e.compareTo(BigInteger.ONE)<0||e.compareTo(t.subtract(BigInteger.ONE))>0)throw new Error("x coordinate out of bounds");if(i.compareTo(BigInteger.ONE)<0||i.compareTo(t.subtract(BigInteger.ONE))>0)throw new Error("y coordinate out of bounds");if(!this.isOnCurve())throw new Error("Point is not on the curve.");if(this.multiply(t).isInfinity())throw new Error("Point is not a scalar multiple of G.");return!0},t.CurveFp=function(e,i,r){this.q=e,this.a=this.fromBigInteger(i),this.b=this.fromBigInteger(r),this.infinity=new t.PointFp(this,null,null),this.reducer=new Barrett(this.q)},t.CurveFp.prototype.getQ=function(){return this.q},t.CurveFp.prototype.getA=function(){return this.a},t.CurveFp.prototype.getB=function(){return this.b},t.CurveFp.prototype.equals=function(t){return t==this||this.q.equals(t.q)&&this.a.equals(t.a)&&this.b.equals(t.b)},t.CurveFp.prototype.getInfinity=function(){return this.infinity},t.CurveFp.prototype.fromBigInteger=function(e){return new t.FieldElementFp(this.q,e)},t.CurveFp.prototype.reduce=function(t){this.reducer.reduce(t)},t.CurveFp.prototype.decodePointHex=function(e){var i=parseInt(e.substr(0,2),16);switch(i){case 0:return this.infinity;case 2:case 3:var r=1&i,n=e.substr(2,e.length-2),s=new BigInteger(n,16);return this.decompressPoint(r,s);case 4:case 6:case 7:var u=(e.length-2)/2,o=(n=e.substr(2,u),e.substr(u+2,u));return new t.PointFp(this,this.fromBigInteger(new BigInteger(n,16)),this.fromBigInteger(new BigInteger(o,16)));default:return null}},t.CurveFp.prototype.encodePointHex=function(t){if(t.isInfinity())return"00";var e=t.getX().toBigInteger().toString(16),i=t.getY().toBigInteger().toString(16),r=this.getQ().toString(16).length;for(r%2!=0&&r++;e.length<r;)e="0"+e;for(;i.length<r;)i="0"+i;return"04"+e+i},t.CurveFp.prototype.decompressPoint=function(e,i){var r=this.fromBigInteger(i),n=r.multiply(r.square().add(this.getA())).add(this.getB()).sqrt();if(null==n)throw new Error("Invalid point compression");var s=n.toBigInteger();return(s.testBit(0)?1:0)!=e&&(n=this.fromBigInteger(this.getQ().subtract(s))),new t.PointFp(this,r,n,null,!0)},t.fromHex=function(t){return new BigInteger(t,16)},t.integerToBytes=function(t,e){var i=t.toByteArrayUnsigned();if(e<i.length)i=i.slice(i.length-e);else for(;e>i.length;)i.unshift(0);return i},t.X9Parameters=function(t,e,i,r){this.curve=t,this.g=e,this.n=i,this.h=r},t.X9Parameters.prototype.getCurve=function(){return this.curve},t.X9Parameters.prototype.getG=function(){return this.g},t.X9Parameters.prototype.getN=function(){return this.n},t.X9Parameters.prototype.getH=function(){return this.h},t.secNamedCurves={secp256k1:function(){var e=t.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F"),i=BigInteger.ZERO,r=t.fromHex("7"),n=t.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141"),s=BigInteger.ONE,u=new t.CurveFp(e,i,r),o=u.decodePointHex("0479BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8");return new t.X9Parameters(u,o,n,s)}},t.getSECCurveByName=function(e){return void 0==t.secNamedCurves[e]?null:t.secNamedCurves[e]()}}();
+		</script>
 
 		<style>
 			html {
@@ -28,14 +139,36 @@
 				padding-bottom: 56px;
 				position: relative;
 			}
-			#supply {
-				cursor: pointer;
+			.b-width {
+				width: 90px;
 			}
-			#qrCode canvas{
-				max-width: 100%;
+			.navbar-dark .navbar-nav .nav-link.active {
+				color: rgba(255,255,255,.75);
 			}
 			.router-page {
 				display: none;
+			}
+			.c-pointer {
+				cursor: pointer;
+			}
+			.disabled {
+				pointer-events: none;
+			}
+			.break-lines {
+			  /* https://stackoverflow.com/a/18706058/9217774 <3 */
+			  -ms-word-break: break-all;
+			    word-break: break-all;
+
+			  /* Non standard for webkit */
+			    word-break: break-word;
+
+			    -webkit-hyphens: auto;
+			       -moz-hyphens: auto;
+			        -ms-hyphens: auto;
+			            hyphens: auto;
+			}
+			.qr-code canvas{
+				max-width: 100%;
 			}
 			[class*="entypo"]:before {
 				font-family: 'EntypoRegular', sans-serif;
@@ -48,8 +181,8 @@
 				}
 			}
 		</style>
-		<title>Blockchain Explorer</title>
-		<meta name="description" content="MicroBitcoin Blockchain Explorer">
+		<title>Wallet</title>
+		<meta name="description" content="MicroBitcoin Web Wallet">
 	</head>
 	<body>
 		<!-- Navbar -->
@@ -57,7 +190,7 @@
 			<div class="container">
 				<a href="#" class="navbar-brand">
 					<svg id="logo" style="max-width: 15px;margin-top: -5px;margin-right: 5px;" data-name="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290.82 480"><defs><style>.cls-1{fill:#fff;}</style></defs><title>mbc_whiteicon</title><path class="cls-1" d="M110.59,412.2q0-154.62,0-309.25c.08-.4.19-.8.24-1.2.26-1.9.37-3.82.78-5.68C115.3,79.56,128.94,68,146.06,66.85c2.9-.19,5.82,0,8.88,0V65q0-11.51,0-23a21,21,0,0,1,2.72-10.45c4.19-7.45,10.78-11.77,18.8-14.11,2.28-.66,4.65-1,7-1.48h7.2a4.15,4.15,0,0,0,.79.25,34.53,34.53,0,0,1,13,4c9.41,5.18,15,12.69,14.72,23.91-.18,7,0,14,0,21v1.48h36.33V64.93q0-11.44,0-22.88a20.7,20.7,0,0,1,2.25-9.56c4.08-8,10.9-12.53,19.27-15,2.28-.67,4.66-1,7-1.47h7.2a5.89,5.89,0,0,0,.93.26,34.58,34.58,0,0,1,12.71,3.87c9.59,5.23,15.17,12.89,14.86,24.28-.21,7.57,0,15.15-.06,22.73,0,1,.23,1.44,1.34,1.68,27.3,5.89,48.79,20.41,64.25,43.67a96.28,96.28,0,0,1,15.73,45c.15,1.6.35,3.2.53,4.8v9.21a7,7,0,0,0-.23.94c-.43,3.81-.58,7.67-1.3,11.42-6.09,32.14-23.7,55.91-52.3,71.64-1.33.73-2.7,1.38-4.19,2.14.38.22.57.35.78.45a99.39,99.39,0,0,1,34.49,27,98.22,98.22,0,0,1,22.22,53.8c.15,1.6.35,3.19.53,4.79v9.21a5,5,0,0,0-.23.94,94.9,94.9,0,0,1-11,40.3c-15,28-38.19,45.41-69.22,52.3-1.05.23-1.4.56-1.39,1.65,0,7,0,14,0,21a23.11,23.11,0,0,1-7,17c-12,12.2-34,13.36-47.5,2.52-6.43-5.17-10-11.71-9.74-20.16.16-6.09,0-12.19,0-18.28v-1.55H219.1v1.65c0,6.29-.05,12.57,0,18.86a23.08,23.08,0,0,1-7.45,17.46c-11.8,11.42-32.44,12.69-46,2.81-7.11-5.19-11-12-10.8-21.09.15-6,0-12.09,0-18.14v-1.64h-7.19a37.26,37.26,0,0,1-36.31-30.21C111.07,416.26,110.87,414.23,110.59,412.2ZM234.1,196.25h62.18c7.14,0,14.3-.17,21.43.05a31.46,31.46,0,1,0,1.48-62.89l-41.58,0H229.15l-48,0c-22.34,0-37.63,22.6-29.06,43.23,2,4.93,4.92,9.52,7.46,14.24,3.92,7.25,7.88,14.47,11.83,21.7l14,25.73q5.51,10.09,11,20.2a1.55,1.55,0,0,1,0,1.26q-5.52,10.08-11.11,20.13L169.4,308.47c-4.71,8.51-9.33,17.06-14.14,25.52-3.28,5.77-5.92,11.65-6.13,18.47-.48,15.47,11,29.58,26.26,31.76,3.6.51,7.34.06,11,.06H287.54c8.68,0,17.36,0,26,0,4.5,0,9,.34,13.47-.7a31.45,31.45,0,0,0,24.24-35.62c-2-14.28-14.62-25.83-29-26.44-5.83-.25-11.68-.13-17.53-.12-7.23,0-14.46.08-21.69.08s-14.74-.08-22.12-.08-14.45.06-21.68.09H234.2c.43-.83.72-1.42,1-2l10.44-18.86,14.06-25.4c5.31-9.59,5.88-19.41,1.25-29.38-1.77-3.82-3.94-7.45-6-11.15q-7.9-14.51-15.82-29C237.54,202.61,235.88,199.54,234.1,196.25Z" transform="translate(-110.59 -16)"/></svg>
-					<b>Explorer</b>
+					<b>Wallet</b>
 				</a>
 				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -65,22 +198,19 @@
 				<div class="collapse navbar-collapse" id="navbarResponsive">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a href="#" class="nav-link">Home</a>
+							<a href="#" class="nav-link router-link mr-md-2" data-route="homepage">Home</a>
 						</li>
 						<li class="nav-item">
-							<a href="https://mbc.wiki/d/5-api-guide" target="_blank" class="nav-link">API</a>
+							<a href="#/create" class="nav-link router-link mr-md-2" data-route="create">Create</a>
 						</li>
 						<li class="nav-item">
-							<a href="https://microbitcoinorg.github.io/wallet/#/" target="_blank" class="nav-link">Wallet</a>
-						</li>
-						<li class="nav-item">
-							<a href="#/extras" class="nav-link mr-md-1">Extras</a>
+							<a href="#/broadcast" class="nav-link router-link mr-md-2" data-route="broadcast">Broadcast</a>
 						</li>
 						<li class="nav-item dropdown" id="network-list">
 							<a class="nav-item nav-link dropdown-toggle" href="#" id="network-versions" data-toggle="dropdown">NETWORK</a>
-						  	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" >
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" >
 								
-						  	</div>
+							</div>
 						</li>
 					</ul>
 				</div>
@@ -92,332 +222,374 @@
 			<div id="error-message" class="alert alert-warning d-none" role="alert">
 				Error, yay ∠( ᐛ 」∠)
 			</div>
-			<div class="card mb-3">
-				<div class="card-body">
-					<form id="search-form">
-						<div class="input-group">
-							<input type="text" id="search-field" name="search-field" class="form-control" placeholder="Block, hash, transaction, etc..." aria-label="Recipient's username" aria-describedby="button-addon2">
-							<div class="input-group-append">
-								<button class="btn btn-outline-dark" type="submit" id="button-addon2">Search!</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
 		</div>
 	
 		<!-- Home page -->
 		<div id="homepage" class="router-page">
 			<div class="container">
-				<div id="charts" class="card mb-3 d-none">
-					<div class="card-body pb-2">
-						<div>
-							<div class="panel-body chart-wrapper" id="network-chart"></div>
-							<div class="text-center small text-success" id="supply">
-								<b>Circulating supply: <span>Loading...</span></b>
+				<div id="open-block">
+					<div class="card mb-3">
+						<div class="card-header">
+							<ul class="nav nav-tabs card-header-tabs">
+								<li class="nav-item mr-2">
+									<a class="nav-link tab-link active" data-tab-name="open-regular" data-tab-family="open-block" href="#">Regular wallet</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link tab-link" data-tab-name="open-key" data-tab-family="open-block" href="#">Open by key</a>
+								</li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<form id="open-regular-form" class="open-form tab-item" data-tab="open-regular">
+								<div class="input-group pb-2">
+									<input id="open-email" name="open-email" class="form-control" placeholder="Email address" type="text">
+								</div>
+								<div class="input-group">
+									<input id="open-password" name="open-password" class="form-control" placeholder="Password" type="password">
+									<input id="open-password-confirm" name="open-password-confirm" class="form-control" placeholder="Confirm password" type="password">
+									<div class="input-group-append">
+										<button class="btn btn-outline-dark b-width" type="submit" id="open-regular-wallet">Open</button>
+									</div>
+								</div>
+							</form>
+							<form id="open-key-form" class="open-form tab-item d-none" data-tab="open-key">
+								<div class="input-group">
+									<input id="passphrase" name="passphrase" class="form-control" placeholder="WIF private key" type="password">
+									<div class="input-group-append">
+										<button class="btn btn-outline-dark b-width" type="submit" id="open-key-wallet">Open</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="card-footer">
+							<div class="footer-item tab-item" data-tab="open-regular">
+								<b>Notice:</b> Please make sure that you remember your account details, otherwise you may lose access to your funds.
+							</div>
+							<div class="footer-item tab-item d-none" data-tab="open-key">
+								Still don't have wallet? <a id="paper-wallet" href="#/create">Generate</a> it!
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="card mb-3">
-					<div class="table-responsive">
-						<table id="blocks-table" class="table table-borderless table-md table-striped text-center mb-0">
-							<thead>
-								<tr>
-									<th scope="col">Height</th>
-									<th scope="col">Time</th>
-									<th scope="col">Hash</th>
-									<th scope="col">Transactions</th>
-								</tr>
-							</thead>
-							<tbody>
+				<div id="wallet-block" class="d-none">
+					<div class="card mb-3">
+						<div class="card-header">
+							<ul class="nav nav-tabs card-header-tabs">
+								<li class="nav-item mr-2">
+									<a class="nav-link tab-link active" data-tab-name="wallet-balance" data-tab-family="wallet-block" href="#">Wallet</a>
+								</li>
+								<li class="nav-item mr-2">
+									<a class="nav-link tab-link" data-tab-name="wallet-send" data-tab-family="wallet-block" href="#">Send</a>
+								</li>
+								<li class="nav-item mr-2">
+									<a class="nav-link tab-link" data-tab-name="wallet-history" data-tab-family="wallet-block" href="#">History</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link tab-link" data-tab-name="wallet-keys" data-tab-family="wallet-block" href="#">Keys</a>
+								</li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<div class="text-center">
+								<div class="tab-item" data-tab="wallet-balance">
+									<div id="qr-code-addres" class="qr-code"></div>
+									<div id="wallet-address"></div>
+									<h3 class="wallet-balance mb-0 pb-0 c-pointer">Loading...</h3>
+									<div class="dropright mt-1">
+										<button class="btn btn-sm btn-default dropdown-toggle" type="button" id="address-type-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											TYPE
+										</button>
+										<div class="dropdown-menu" aria-labelledby="address-type-btn">
+											<a class="dropdown-item address-type-switch" data-address-type="segwit" href="#">SegWit</a>
+											<a class="dropdown-item address-type-switch" data-address-type="legacy" href="#">Legacy</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="wallet-send" class="tab-item d-none" data-tab="wallet-send">
+								<p>
+									<span>
+										Available balance:
+										<b class="wallet-balance c-pointer"></b>
+									</span>
+									<a href="#" id="send-reset" style="float: right;">Reset</a>
+								</p>
 								
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-		<!-- Block page -->
-		<div id="block" class="router-page">
-			<div class="container">
-				<div id="block-info-table">
-					
-				</div>
-				<div class="card mb-3 d-none" id="block-info-tx-total">
-					<div class="card-header">
-						Transactions: <b>0</b>
-					</div>
-					<div class="card-body">
-						<div class="list-group">
-						  	<div id="block-tx-list">
-						  		
-						  	</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-		<!-- Transaction page -->
-		<div id="tx" class="router-page">
-			<div class="container">
-				<div id="tx-info-table">
-					
-				</div>
-				<div class="card mb-3" id="tx-info-vout-total">
-					<div class="card-header">
-						Outputs: <b>0</b>
-					</div>
-					<div class="card-body">
-						<div class="list-group">
-						  	<div id="tx-vout-list">
+								<div id="send-outputs">
+									<div class="input-group send-outputs-item mb-2">
+										<input name="send-address" class="form-control" placeholder="Enter address" type="text" value="">
+										<input name="send-ammount" class="form-control" placeholder="Amount" type="text" value="">
+										<div class="input-group-append">
+											<button id="add-output" class="btn btn-success">
+												<span class="entypo plus"></span>
+											</button>
+										</div>
+									</div>
+								</div>
 
-						  	</div>
+								<div class="input-group">
+									<input id="send-fee" class="form-control" placeholder="Fee" type="text" value="">
+									<div class="input-group-append">
+										<button class="btn btn-outline-dark b-width" type="submit" id="send-tx">Send</button>
+									</div>
+								</div>
+							</div>
+
+							<div id="wallet-history" class="tab-item d-none" data-tab="wallet-history">
+								<div id="history-block">
+									<p>
+										<span>
+											List of recent transactions:
+										</span>
+										<a href="#" id="explorer-link" target="_blank" style="float: right;">Open in explorer</a>
+									</p>
+
+									<div class="tx-list"></div>
+									<div id="empty-history" class="alert alert-warning mb-0">
+										Transaction history is empty
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-item d-none" data-tab="wallet-keys">
+								<div id="wallet-keys">
+									<div id="wallet-keys-pubkey">
+										<label>Public Key</label>
+										<div class="input-group pb-2">
+											<input class="form-control" readonly type="text">
+										</div>
+									</div>
+
+									<div id="wallet-keys-privkey">
+										<label>Private Key</label>
+										<div class="input-group pb-2">
+											<div class="input-group">
+												<input class="form-control keys-privkey privkey" readonly data-original-title="" title="" type="password">
+												<span class="input-group-append">
+													<button class="btn btn-outline-dark b-width toggle-priv-key" type="button">Show</button>
+												</span>
+											</div>
+										</div>
+									</div>
+
+									<div id="wallet-keys-script">
+										<label>Redeem Script <i>(SegWit)</i></label>
+										<div class="input-group pb-2">
+											<input class="form-control" readonly type="text">
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="card mb-3" id="tx-info-vin-total">
-					<div class="card-header">
-						Inputs: <b>0</b>
-					</div>
-					<div class="card-body">
-						<div class="list-group">
-						  	<div id="tx-vin-list">
-						  		
-						  	</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-		<!-- Address page -->
-		<div id="address" class="router-page">
-			<div class="container">
-				<div id="address-info-table">
-					
-				</div>
-				<div class="card mb-3" id="address-history">
-					<div class="card-header">
-						Transactions: <b>0</b>
-					</div>
-					<div class="card-body">
-						<div class="list-group">
-						  	<div id="address-history-list">
-						  		
-						  	</div>
+						<div class="card-footer">
+							<button id="footer-close" type="button" class="btn btn-danger btn-block footer-item">Close</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- Page with extras -->
-		<div id="extras" class="router-page">
+		<!-- Generate address -->
+		<div id="create" class="router-page">
 			<div class="container">
-				<div class="card mb-3" id="address-history">
+				<div class="card mb-3">
 					<div class="card-header">
-						Difficulty watch
+						<b>Create wallet</b>
 					</div>
 					<div class="card-body">
-						<a href="http://wordsgalore.com/diff/plots/p-microbitcoin.gif" target="_blank">
-							<img src="http://wordsgalore.com/diff/plots/p-microbitcoin.gif" class="img-fluid" alt="Difficulty watch">
-						</a>
+						<div id="create-keys">
+							<div id="create-keys-address">
+								<label>Address</label>
+								<div class="input-group pb-2">
+									<input class="form-control" readonly type="text">
+								</div>
+							</div>
+
+							<div id="create-keys-pubkey">
+								<label>Public Key</label>
+								<div class="input-group pb-2">
+									<input class="form-control" readonly type="text">
+								</div>
+							</div>
+
+							<div id="create-keys-privkey">
+								<label>Private Key</label>
+								<div class="input-group pb-2">
+									<div class="input-group">
+										<input class="form-control keys-privkey privkey" readonly data-original-title="" title="" type="password">
+										<span class="input-group-append">
+											<button class="btn btn-outline-dark b-width toggle-priv-key" type="button">Show</button>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button id="footer-create" type="button" class="btn btn-primary btn-block footer-item">Create</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<!-- Load more button -->
-		<div class="container">
-			<div class="text-center">
-				<button type="button" style="width: 190px;" id="load-more" class="btn btn-outline-dark d-none mb-3">
-					Load more
-				</button>
+
+		<!-- Broadcast transaction -->
+		<div id="broadcast" class="router-page">
+			<div class="container">
+				<div class="card mb-3">
+					<div class="card-header">
+						<b>Broadcast transaction</b>
+					</div>
+					<div class="card-body">
+						<textarea class="form-control" id="transaction-broadcast-raw" placeholder="Enter your signed raw transaction" rows="4"></textarea>
+					</div>
+					<div class="card-footer">
+						<button id="footer-broadcast" type="button" class="btn btn-primary btn-block footer-item">Broadcast</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		
-		<!-- QR code modal window -->
-		<div id="qrModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog" role="document">
+
+		<div id="send-modal" class="modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-md" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<div class="col-10" style="word-wrap: break-word;">
-							<b class="title"></b>
+						<h5 id="send-title" class="modal-title"></h5>
+						<button id="send-close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div id="confirm-screen">
+							You are one step away from sending <strong id="confirm-amount">0 MBC</strong>. This action <strong>cannot</strong> be reversed. Are you sure about this?
 						</div>
-						<div class="col-2">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
+						<div id="status-screen" class="break-lines d-none">
+							<span></span>
+							<div class="extra-info"></div>
 						</div>
 					</div>
-					<div class="modal-body text-center">
-						<div id="qrCode"></div>
+					<div class="modal-footer">
+						<button id="send-cancel" type="button" class="btn btn-block mr-auto btn-dark" data-dismiss="modal">Cancel</button>
+						<button id="send-confirm" type="button" class="btn btn-block mt-0 mr-auto btn-primary">Yes, send it!</button>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="disclaimer mb-3">
+			<div class="container text-center">
+				<small class="text-muted" style="max-width: 1100px;">This page uses javascript to generate your addresses and sign your transactions within your browser, this means we never receive your private keys, this can be independently verified by reviewing the source code on github.</small>
 			</div>
 		</div>
 
 		<!-- Footer :3 -->
 		<footer class="mb-3">
 			<div class="container text-center">
-				Made with <span class="entypo heart text-danger"></span> by <a target="_blank" href="https://github.com/volbil/blockchain-explorer">Volbil</a>
+				Made with <span class="entypo heart text-danger"></span> by <a target="_blank" href="https://github.com/volbil/web-wallet">Volbil</a>
 			</div>
 		</footer>
 
-		<!-- All magic is here :D -->
 		<script>
-
 			// Config
+			var walletTimer = false
+			var walletVersion = "0.1.2"
 			var networksConfigs = {
 				"MBC": {
 					"name": "Main Network (MBC)",
 					"api": "https://api.mbc.wiki/",
 					"ticker": "MBC",
-					"decimals": 4
+					"decimals": 4,
+					"fee": 0.01,
+					"params": {
+						"satoshis": 10000,
+						"decimals": 4,
+						"pub": 0x1A,
+						"multisig": 0x33,
+						"priv": 0x80,
+						"forkid": 0x60
+					}
 				},
 				"TMBC": {
 					"name": "Test Network (TMBC)",
 					"api": "https://api.mbc.wiki/test/",
 					"ticker": "TMBC",
-					"decimals": 4
-				}
-			}
-
-			// Error messages
-			var errorMessages = {
-				"blocks-load-error": "There was an error while trying to load the blocks!",
-				"blocks-not-found": "Block not found!",
-				"tx-not-found": "Transaction not found!",
-				"nan-error": "The height of the block should be a non-negative integer!",
-				"no-block-specified": "You must specify blocks!",
-				"no-tx-specified": "You must specify transaction!",
-				"not-valid-address": "You must specify valid address!",
-				"search-error": "We can't process your request :(",
-				"circulating-supply-load-error": "There was an error while trying to load the circulating supply :("
-			}
-
-			function showCharts(data) {
-				$("#charts").removeClass("d-none")
-				Highcharts.chart('network-chart', {
-					chart: {
-						type: 'spline',
-						height: 240
-					},
-					title: {
-						text: ''
-					},
-					xAxis: [{
-						categories: [].concat(data["blocks"]).reverse(),
-						crosshair: true,
-						labels: {
-							enabled: true,
-							step: 1
-							}
-						}],
-					yAxis: [{ labels: { enabled: false}, title: { text: null }},
-							{ labels: { enabled: false}, title: { text: null }},
-							{ labels: { enabled: false}, title: { text: null }, opposite: true },
-							{ labels: { enabled: false}, title: { text: null }},
-							{ labels: { enabled: false}, title: { text: null }}
-							],		
-					tooltip: {
-						shared: true,
-						formatter: function() {
-							var s = '<b>'+ this.x +'</b>';
-
-							$.each(this.points, function(i, point) {
-								text = point.y
-								if (i == 3) { text = convertHashes(point.y) }
-								
-								s += '<br/><span style="color:' + point.color + '">\u25CF</span>: ' + point.series.name + ': ' + text;
-							});
-
-							return s;
-						},
-					},
-					plotOptions: {
-						series: {
-							label: {
-								connectorAllowed: true
-							},
-							marker: {
-								enabled: false,
-								size: 2
-							}
-						}
-					},
-					series: [{
-							name: 'Difficulty',
-							data: [].concat(data["diffs"]).reverse(),
-							yAxis: 1,
-							color: '#7cb5ec',
-							type: 'areaspline',
-							fillOpacity: 0.3
-							}, {
-							name: 'Transactions',
-							data: [].concat(data["txs"]).reverse(),
-							yAxis: 2,
-							color: '#90ed7d'
-							}, {
-							name: 'Size',
-							data: [].concat(data["sizes"]).reverse(),
-							yAxis: 3,
-							color: '#f7a35c'
-							}, {
-							name: 'Network hashrate',
-							data: [].concat(data["nethash"]).reverse(),
-							yAxis: 4,
-							color: '#ff2a65'
-							}],
-					responsive: {
-						rules: [{
-							condition: {
-								maxWidth: 500,
-							},
-							chartOptions: {
-								legend: {
-									layout: 'horizontal',
-									align: 'center',
-									verticalAlign: 'bottom'
-								}
-							}
-						}]
+					"decimals": 4,
+					"fee": 0.01,
+					"params": {
+						"satoshis": 10000,
+						"decimals": 4,
+						"pub": 0x47,
+						"multisig": 0x49,
+						"priv": 0x80,
+						"forkid": 0x60
 					}
-				});
-				$('.highcharts-credits').hide();
-			}
-
-			// Convert amount of hashes to readable form
-			function convertHashes(hashes) {
-				if (hashes >= 1000000000000000000000) {
-					return (hashes / 1000000000000000000000).toFixed(2) + ' Zh/s'
-				} else if (hashes >= 1000000000000000000) {
-					return (hashes / 1000000000000000000).toFixed(2) + ' Eh/s'
-				} else if (hashes >= 1000000000000000) {
-					return (hashes / 1000000000000000).toFixed(2) + ' Ph/s'
-				} else if (hashes >= 1000000000000) {
-					return (hashes / 1000000000000).toFixed(2) + ' Th/s'
-				} else if (hashes >= 1000000000) {
-					return (hashes / 1000000000).toFixed(2) + ' Gh/s'
-				} else if (hashes >= 1000000) {
-					return (hashes / 1000000).toFixed(2) + ' Mh/s'
-				} else if (hashes >= 1000) {
-					return (hashes / 1000).toFixed(2) + ' Kh/s'
-				} else {
-					return hashes + ' H/s'
 				}
 			}
 
-			// Display doc links
-			function displayDocs() {
-				$("a.api-link").each(function() {
-					docsLink = getApi()["api"] + docs[$(this).attr("data-docs-link")];
-					$(this).attr("href", docsLink)
-					$(this).text(docsLink)
-				});
+			// Explorer links
+			var blockExplorer = {
+				"address": function(address) {
+					return "https://microbitcoinorg.github.io/explorer/#/address/" + address + "/" + getApi()["ticker"] 
+				},
+				"tx": function(tx) {
+					return "https://microbitcoinorg.github.io/explorer/#/tx/" + tx + "/" + getApi()["ticker"] 
+				}
+			}
+
+			var globalData = {
+				"keys": {},
+				"address": "",
+				"segwit": true,
+				"balance": 0,
+				"rfee": getApi()["fee"],
+				"tx": {
+					"amount": 0,
+					"outputs": [],
+					"fee": 0
+				},
+				"resetTx": function() {
+					this.tx = {
+						"amount": 0,
+						"outputs": [],
+						"fee": 0
+					}
+				},
+				"clear": function() {
+					this.keys = {}
+					this.address = ""
+					this.balance = 0
+					this.resetTx()
+				}
+			}
+
+			// Messages
+			var messages = {
+				"error": {
+					"not-enough-funds": "You don't have enough funds for this transaction!",
+					"not-valid-address": "You must specify valid address!",
+					"not-valid-amount": "You must specify valid amount!",
+					"not-valid-fee": "You must specify valid fee!",
+					"bad-priv-key": "Bad WIF private key!",
+					"not-enough-utxo": "Not enough utxo :(",
+					"broadcast-failed": "Transaction broadcast failed :(",
+					"pass-not-match": "Your passwords do not match!",
+					"pass-too-short": "Your password must be at least 10 chars long!",
+					"bad-email": "Your email address doesn't appear to be valid!",
+					"toSmallFee": function (fee, ticker) {
+						return "You should specify fee not less than " + fee + " " + ticker + "!"
+					}
+				},
+				"tx": {
+					"loading-utxo": "Loading UTXOs...",
+					"generating": "Generating transaction...",
+					"success": "Transaction successfully broadcasted: ",
+				},
+				"title": {
+					"sure": "Are you sure?",
+					"processing": "Processing...",
+					"success": "Success",
+					"failed": "Failed"
+				}
 			}
 
 			// Get current network config
@@ -436,19 +608,15 @@
 				network = network.toUpperCase()
 				if (networksConfigs[network] != undefined & networksConfigs[network] != getApi()) {
 					setCookie("network", network, 60)
-					$("#blocks-table tbody").empty()
-					$("#block-info-hash").empty()
-					$("#data-address").empty()
-					$("#tx-info-hash").empty()
-					$("#charts").addClass("d-none")
+					closeWallet()
 					displayNetworks()
-					displayHome()
 				}
 				switchPage(page)
 			}
 
 			// Display networks list
 			function displayNetworks() {
+				coinjsInit()
 				network = getApi()
 				$("#network-versions").text(network["name"])
 				$("#network-list .dropdown-menu").empty()
@@ -456,686 +624,6 @@
 				for (var key in networksConfigs) {
 					$("#network-list .dropdown-menu").append(`<a class="dropdown-item ${networksConfigs[key]["name"] == network["name"] ? "active" : ""}" href="#/network/${key}">${networksConfigs[key]["name"]}</a>`)
 				}
-			}
-
-			// SPA router function
-			function routePage() {
-				showLoadBtn()
-				var urlParams = readParams()
-				if (window.location.hash == "") {
-					window.location.hash = "#/"
-				}
-
-				if (urlParams[0] == "#") {
-					var pageName = urlParams[1] != "" ? urlParams[1] : "homepage"
-					var templateName = "#" + pageName
-					
-					if ($(".router-page:visible").attr("id") != urlParams[1]) {
-						$('div.router-page').hide()
-						if ($(templateName).length) {
-							$(templateName).show()
-						}
-					}
-
-					switch(pageName) {
-						// Block info page
-						case 'block':
-							var block_hash = urlParams[2]
-							var api = urlParams[3]
-							var data_block_hash = $("#block-info-hash").attr("data-block-info-hash")
-							if (block_hash != undefined && block_hash.length == 64) {
-								if (api != undefined) {
-									page = urlParams[1] + "/" + urlParams[2]
-									swithcApi(api, page)
-								} else {
-									if (data_block_hash != urlParams[2]) {
-										$("#block-info-tx-total").addClass("d-none")
-										$("#block-info-table").empty()
-										blockInfo(block_hash).then(function(block) {
-											if (!block["error"]) {
-												setTitle("Block #" + block.data.height)
-												displayBlockInfo(block.data)
-											} else {
-												showError(errorMessages["blocks-not-found"])
-												switchPage()
-											}
-										})
-									} else {
-										setTitle("Block #" + block_hash)
-									}
-								}
-
-								$("#load-more").click(function() {
-									var last_index = parseInt($("#block-tx-list a[data-tx-index]" ).last().attr("data-tx-index")) + 1
-									blockInfo(block_hash, last_index).then(function(block) {
-										displayBlockTx(block.data.tx)
-									})
-								})
-							} else {
-								showError(errorMessages["no-block-specified"])
-								switchPage()
-							}
-
-							showLoadBtn($("#block-tx-list a[data-tx-index]:last-child").attr("data-tx-index"))
-							break
-
-						// Transaction info page
-						case 'tx':
-							var tx_hash = urlParams[2]
-							var api = urlParams[3]
-							var data_tx_hash = $("#tx-info-hash").attr("data-tx-info-hash")
-							if (tx_hash != undefined) {
-								if (api != undefined) {
-									page = urlParams[1] + "/" + urlParams[2]
-									swithcApi(api, page)
-								} else {
-									if (data_tx_hash != urlParams[2]) {
-										$("#tx-info-vout-total").addClass("d-none")
-										$("#tx-info-vin-total").addClass("d-none")
-										$("#tx-info-table").empty()
-										txInfo(tx_hash).then(function(tx) {
-											if (!tx["error"]) {
-												setTitle("Transaction " + tx_hash)
-												displayTxInfo(tx.data)
-											} else {
-												showError(errorMessages["tx-not-found"])
-												switchPage()
-											}
-										})
-									} else {
-										setTitle("Transaction " + data_tx_hash)
-									}
-								}
-
-								$("#load-more").click(function() {
-									var last_index = parseInt($("#tx-info-vin-total [data-tx-vin-index]").last().attr("data-tx-vin-index")) + 1
-									txInfo(tx_hash, last_index).then(function(tx) {
-										displayTxVin(tx.data.vin)
-									})
-								})
-							} else {
-								showError(errorMessages["no-tx-specified"])
-								switchPage()
-							}
-
-							break
-
-						case 'address':
-							var address = urlParams[2]
-							var api = urlParams[3]
-							var data_address = $("#data-address").attr("data-address")
-							if (address != undefined) {
-								if (api != undefined) {
-									page = urlParams[1] + "/" + urlParams[2]
-									swithcApi(api, page)
-								} else {
-									if (data_address != urlParams[2]) {
-										$("#address-history").addClass("d-none")
-										$("#address-info-table").empty()
-										addressInfo(address).then(function(info) {
-											if (!info["error"]) {
-												setTitle("Address " + address)
-												displayAddressInfo(info.data)
-											} else {
-												showError(errorMessages["not-valid-address"])
-												switchPage()
-											}
-										})
-									} else {
-										setTitle("Address " + data_address)
-									}
-								}
-							} else {
-								showError(errorMessages["not-valid-address"])
-								switchPage()
-							}
-
-							$("#load-more").click(function() {
-								var last_index = parseInt($("#address-history-list a[data-address-history-index]").last().attr("data-address-history-index")) + 1
-								addressInfo(address, last_index).then(function(info) {
-									displayHistory(address, info.data.history)
-								})
-							})
-
-							showLoadBtn($("#address-history-list a[data-address-history-index]:last-child").attr("data-address-history-index"))
-
-							break
-
-						case 'extras':
-							setTitle("Extras")
-							
-							break
-
-						// Redirect to block page by block height
-						case 'height':
-							block_height = urlParams[2]
-							if (block_height != undefined && isNumeric(block_height)) {
-								getBlocks(urlParams[2], 0).then(function(blocks) {
-									setTitle("Loading")
-									if (!blocks["error"]) {
-										switchPage("block", [blocks["blocks"][0]["block_hash"]])
-									} else {
-										showError(errorMessages["blocks-load-error"])
-										switchPage()
-									}
-								})
-							} else {
-								showError(errorMessages["nan-error"])
-								switchPage()
-							}
-
-							break
-
-						// Home page ¯\_(ツ)_/¯
-						case 'homepage':
-							setTitle("Latest Blocks")
-							displayHome()
-							$("#load-more").click(function() {
-								var display_height = $("#blocks-table tbody tr:last-child").data("height")
-
-								if (display_height != 0) {
-									getBlocks(display_height).then(function(blocks) {
-										if (!blocks["error"]) {
-											displayBlocks(blocks["blocks"])
-										} else {
-											showError(errorMessages["blocks-load-error"])
-										}
-									})
-								}
-							})
-							showLoadBtn($("#blocks-table tbody tr:last-child").data("height"))
-
-							break
-
-						// Swith network to explore
-						case 'network':
-							network = urlParams[2]
-							if (network != undefined) {
-								swithcApi(network)
-							}
-
-							break
-
-						default:
-							switchPage()
-
-							break
-					}
-				}
-			}
-
-			// Switch router page
-			function switchPage(url = "", params = []) {
-				params = params.length > 0 ? "/" + params.join("/") : ""
-				window.location.hash = "#" + "/" + url + params;
-			}
-
-			// Read URL params
-			function readParams() {
-				return window.location.hash.split('/')
-			}
-
-			// Set window title
-			function setTitle(title) {
-				document.title = title + ' | MBC Explorer';
-			}
-
-			// Bocks request
-			function getBlocks(start_from, offset = 19) {
-				var request = {}
-
-				if (offset == 0) {
-					request = {method: "blockchain.block.header", params: [start_from]}
-				} else {
-					var start = (start_from - offset >= 0) ? start_from - offset : 0
-					var end = start_from
-					request = {method: "blockchain.block.range", params: [start, end]}
-				}
-				
-				return Promise.resolve($.ajax({
-					url: getApi()["api"],
-					data: request
-				})).then(function(blocks) {
-					result = {
-						"error": "error" in blocks,
-						"blocks": []
-					}
-					
-					if (!result["error"]) {
-						if (blocks.result.length != undefined) {
-							blocks = blocks.result.reverse()
-						} else {
-							blocks = [blocks.result]
-						}
-
-						result["blocks"] = blocks
-					}
-
-					return result
-				})
-			}
-
-			// Block info
-			function blockInfo(hash, tx_start = 0) {
-				return makeRequest({method: "blockchain.block.info", params: [hash, tx_start]})
-			}
-
-			// Transaction info
-			function txInfo(hash, vin_start = 0) {
-				return makeRequest({method: "blockchain.transaction.verbose", params: [hash, vin_start]})
-			}
-
-			// Address info
-			function addressInfo(address, history_start = 0) {
-				return makeRequest({method: "blockchain.address.info", params: [address, history_start]})
-			}
-
-			// Get current network info
-			function networkInfo() {
-				return makeRequest({method: "blockchain.info"}, false)
-			}
-
-			// Get circulating supply
-			function getCirculatingSupply() {
-				return makeRequest({ method: "blockchain.supply" }, false);
-			}
-
-			// Make request :D
-			function makeRequest(data, error_check = true) {
-				return Promise.resolve($.ajax({
-					url: getApi()["api"],
-					data: data
-				})).then(function(data) {
-					if (error_check) {
-						result = {
-							"error": "error" in data,
-							"data": []
-						}
-						
-						if (!result["error"]) {
-							result["data"] = data.result
-						}
-					} else {
-						result = data
-					}
-
-					return result
-				})
-			}
-
-			// Display stuffs here~
-			function displayBlocks(blocks, prepend = false) {
-				blocks = prepend ? blocks.reverse() : blocks 
-				blocks.forEach(function(block, index) {
-					if ($('tr[data-height="' + block.block_height + '"]').length == 0) {
-						var content = `
-							<tr data-height="${block.block_height}">
-								<td>
-									<a href="#/block/${block.block_hash}">
-										${block.block_height}
-									</a>
-								</td>
-								<td>
-									${timeFormat(block.timestamp)}
-								</td>
-								<td>
-									<a href="#/block/${block.block_hash}">
-										${block.block_hash}
-									</a>
-								</td>
-								<td>
-									${block.tx_count != undefined ? block.tx_count : "1"}
-								</td>
-							</tr>`
-
-						if (prepend) {
-							$("#blocks-table tbody").prepend(content)
-						} else {
-							$("#blocks-table tbody").append(content)
-						}
-					}					
-				});
-
-				if ($("#homepage").is(":visible")) {
-					showLoadBtn($("#blocks-table tbody tr:last-child").data("height"))
-				}
-			}
-
-			function displayBlockInfo(data) {
-				content = `
-					<div class="card mb-3">
-						<div class="table-responsive">
-							<table class="table table-borderless table-md table-striped mb-0">
-								<tbody>
-									<tr>
-										<td>Height</td>
-										<td id="block-info-height" data-block-info-height="${data.height}">${data.height} (<b>Confirmations ${data.confirmations}</b>)</td>
-									</tr>
-									<tr>
-										<td>Timestamp</td>
-										<td>${timeFormat(data.time)} (<b>${data.time}</b>)</td>
-									</tr>
-									<tr>
-										<td>Block Hash</td>
-										<td id="block-info-hash" data-block-info-hash="${data.hash}">${data.hash}</td>
-									</tr>
-									<tr>
-										<td>Previous Block</td>
-										<td>
-											<a href="#/block/${data.previousblockhash}">${data.previousblockhash}</a>
-										</td>
-									</tr>
-									<tr>
-										<td>Next Block</td>
-										<td>
-											<a href="#/block/${data.nextblockhash}">${data.nextblockhash}</a>
-										</td>
-									</tr>
-									<tr>
-										<td>Merkle Root</td>
-										<td>
-											${data.merkleroot}
-										</td>
-									</tr>
-									<tr>
-										<td>Nonce</td>
-										<td>${data.nonce}</td>
-									</tr>
-									<tr>
-										<td>Version</td>
-										<td>${data.versionHex}</td>
-									</tr>
-									<tr>
-										<td>Bits</td>
-										<td>${data.bits}</td>
-									</tr>
-									<tr>
-										<td>Size</td>
-										<td>${data.size} Bytes</td>
-									</tr>
-									<tr>
-										<td>Stripped Size</td>
-										<td>${data.strippedsize} Bytes</td>
-									</tr>
-									<tr>
-										<td>Difficulty</td>
-										<td>${data.difficulty}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>`
-				$("#block-info-table").html(content)
-				$("#block-info-tx-total .card-header b").text(data.tx_count)
-				$("#block-tx-list").empty()
-
-				displayBlockTx(data.tx)
-
-				$("#block-info-tx-total").removeClass("d-none")
-			}
-
-			function displayTxInfo(data) {
-				content = `
-					<div class="card mb-3">
-						<div class="table-responsive">
-							<table class="table table-borderless table-md table-striped mb-0">
-								<tbody>
-									<tr>
-										<td>Transaction Hash</td>
-										<td id="tx-info-hash" data-tx-info-hash="${data.txid}">${data.txid}</td>
-									</tr>
-									${data.time != undefined ? `
-										<tr>
-											<td>Timestamp</td>
-											<td>${timeFormat(data.time)} (<b>${data.time}</b>)</td>
-										</tr>
-									` : ""}
-									<tr>
-										<td>Height</td>
-										<td>
-											${data.blockhash != undefined ? `
-												<a href="#/block/${data.blockhash}">${data.height}</a> (<b>Confirmations ${data.confirmations}</b>)
-											` : `
-												<span class="text-danger">This transaction located in memory pool and not included to blockchain yet!</span>
-											`}
-										</td>
-									</tr>
-									<tr>
-										<td>Amount Transferred</td>
-										<td>${amountFormat(data.amount)} <b>${getApi()["ticker"]}</b></td>
-									</tr>
-									<tr>
-										<td>Size</td>
-										<td>${data.size} (bytes)</td>
-									</tr>
-									<tr>
-										<td>Version</td>
-										<td>${data.version}</td>
-									</tr>
-									<tr class="${data.locktime == 0 ? "d-none" : ""}">
-										<td>Locktime</td>
-										<td>${data.locktime}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>`
-
-				$("#tx-info-table").html(content)
-				$("#tx-info-vout-total .card-header b").text(data.vout_count)
-				$("#tx-info-vin-total .card-header b").text(data.vin_count)
-				$("#tx-vout-list").empty()
-				$("#tx-vin-list").empty()
-				displayTxVout(data.vout)
-				displayTxVin(data.vin)
-				$("#tx-info-vout-total").removeClass("d-none")
-				$("#tx-info-vin-total").removeClass("d-none")
-			}
-
-			function showQrModal(e, text) {
-				$('#qrCode').empty()
-				$('#qrCode').qrcode(text)
-				$('#qrModal .title').text(text)
-				$('#qrModal').modal('toggle')
-				e.preventDefault()
-			}
-
-			function displayAddressInfo(data) {
-				content = `
-					<div class="card mb-3">
-						<div class="table-responsive">
-							<table class="table table-borderless table-md table-striped mb-0">
-								<tbody>
-									<tr>
-										<td>Address</td>
-										<td id="data-address" data-address="${data.address}">
-											${data.address}
-											<a href="#" onclick="showQrModal(event, '${data.address}')">(QR)</a>
-										</td>
-									</tr>
-									<tr>
-										<td>Hash160</td>
-										<td>${base58ToHash160(data.address)}</td>
-									</tr>
-									<tr>
-										<td>Balance</td>
-										<td>${amountFormat(data.balance.confirmed)} <b>${getApi()["ticker"]}</b></td>
-									</tr>
-									<tr>
-										<td>Unconfirmed Balance</td>
-										<td>${amountFormat(data.balance.unconfirmed)} <b>${getApi()["ticker"]}</b></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>`
-
-				$("#address-info-table").html(content)
-				$("#address-history .card-header b").text(data.history_count)
-				$("#address-history-list").empty()
-				displayHistory(address, data.history)
-				$("#address-history").removeClass("d-none")
-			}
-
-			function displayBlockTx(tx_list) {
-				var total = $("#block-info-tx-total .card-header b").text()
-				tx_list.forEach(function(tx_data, index) {
-					if ($("#block-tx-list").find(`[data-tx-index="${tx_data.tx_index}"]`).length == 0) {
-						var content = `
-							<a href="#/tx/${tx_data.hash}" data-tx-index="${tx_data.tx_index}" class="list-group-item list-group-item-action flex-column align-items-start">
-								<div class="row">
-									<div class="col-md-9 col-sm-12 col-xs-12">
-										<span class="text-muted mr-1">#${tx_data.tx_index}</span>
-										<span class="text-primary">${tx_data.hash}</span>
-									</div>
-									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
-										<small class="text-muted">
-											${amountFormat(tx_data.amount)} <b>${getApi()["ticker"]}</b>
-										</small>
-									</div>
-								</div>
-							</a>`
-
-						$("#block-tx-list").append(content)
-					}
-					showLoadBtn(tx_data.tx_index + 1, total)
-				})
-			}
-
-			function displayTxVout(vout_list) {
-				vout_list.forEach(function(vout, index) {
-					if ($("#tx-vout-list").find(`[data-tx-vout-index="${vout.vout_index}"]`).length == 0 && vout.valueSat != 0) {
-						var content = `
-							<a href="#/address/${vout.scriptPubKey.addresses[0]}" data-tx-vout-index="${vout.vout_index}" class="list-group-item list-group-item-action flex-column align-items-start">
-								<div class="row">
-									<div class="col-md-9 col-sm-12 col-xs-12">
-										<span class="text-muted mr-1">
-											<span class="entypo down text-success"></span>
-										</span>
-										<span class="text-primary">${vout.scriptPubKey.addresses[0]}</span>
-									</div>
-									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
-										<small class="text-muted">
-											${amountFormat(vout.valueSat)} <b>${getApi()["ticker"]}</b>
-										</small>
-									</div>
-								</div>
-							</a>`
-
-						$("#tx-vout-list").append(content)
-					}
-				})
-			}
-
-			function displayTxVin(vin_list) {
-				var total = $("#tx-info-vin-total .card-header b").text()
-				vin_list.forEach(function(vin, index) {
-					if (vin["coinbase"] != undefined) {
-						$("#tx-vin-list").append(`Newly Generated Coins (<b>Coinbase Transaction</b>)`)
-					} else {
-						if ($("#tx-vin-list").find(`[data-tx-vin-index="${vin.vin_index}"]`).length == 0) {
-							var content = `
-							<div class="list-group-item flex-column align-items-start" data-tx-vin-index="${vin.vin_index}">
-								<div class="row">
-									<div class="col-md-9 col-sm-12 col-xs-12">
-										<span class="text-muted mr-1">
-											<span class="entypo up text-danger"></span>
-										</span>
-										<a href="#/address/${vin.scriptPubKey.addresses[0]}">
-											${vin.scriptPubKey.addresses[0]}
-										</a>
-										(<a href="#/tx/${vin["txid"]}">Output</a>)
-									</div>
-									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
-										<small class="text-muted">
-											${amountFormat(vin["valueSat"])} <b>${getApi()["ticker"]}</b>
-										</small>
-									</div>
-								</div>
-							</div>`
-
-							$("#tx-vin-list").append(content)
-						}
-					}
-
-					showLoadBtn(vin.vin_index + 1, total)
-				})
-			}
-
-			function displayHistory(address, history_list) {
-				var total = $("#address-history .card-header b").text()
-				history_list.forEach(function(tx_info, index) {
-					if ($("#address-history-list").find(`[data-address-history-index="${tx_info.tx_index}"]`).length == 0) {
-						var content = `
-							<a href="#/tx/${tx_info.data.txid}" data-address-history-index="${tx_info.tx_index}" class="list-group-item list-group-item-action flex-column align-items-start">
-								<div class="row">
-									<div class="col-md-9 col-sm-12 col-xs-12">
-										<!-- <span class="text-muted mr-1">
-											<span class="entypo up text-danger"></span>
-										</span> -->
-										<span class="text-primary">${tx_info.data.txid}</span>
-									</div>
-									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
-										<small class="text-muted">
-											${tx_info.data.height > 0 ? "#" + tx_info.data.height : "Mempool"}
-										</small>
-									</div>
-								</div>
-							</a>`
-
-						$("#address-history-list").append(content)
-					}
-
-					showLoadBtn(tx_info.tx_index + 1, total)
-				})
-			}
-
-			function displayHome() {
-				$("#supply span").text("Loading...")
-				networkInfo().then(function(data) {
-					var db_height = data.result.height
-					var display_height = $("#blocks-table tbody tr:first-child").attr("data-height")
-
-					// Display circulating supply
-					getCirculatingSupply().then(function(supply) {
-						if(!supply["error"]) {
-							circulatingSupply = parseInt(amountFormat(supply.result.supply))
-							$("#supply span").text(circulatingSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + getApi()["ticker"]);
-						} else {
-							showError(errorMessages["circulating-supply-load-error"])
-						}
-					});
-
-					if (db_height != display_height || $("#blocks-table tbody tr").length > 0) {
-						getBlocks(db_height).then(function(blocks) {
-							if (!blocks["error"]) {
-								displayBlocks(blocks["blocks"], true)
-
-								var chart_data = {
-									"diffs": [],
-									"blocks": [],
-									"sizes": [],
-									"timestamps": [],
-									"txs": [],
-									"nethash": []
-								}
-
-								$.each(blocks["blocks"].reverse(), function(index, block) {
-									chart_data["diffs"].push(block["difficulty"])
-									chart_data["blocks"].push(block["block_height"])
-									chart_data["sizes"].push(block["size"])
-									chart_data["timestamps"].push(block["timestamp"])
-									chart_data["txs"].push(block["tx_count"])
-									chart_data["nethash"].push(block["nethash"])
-								})
-
-								showCharts(chart_data)
-							} else {
-								showError(errorMessages["blocks-load-error"])
-							}
-						})
-					}
-				})
 			}
 
 			// Set cookie
@@ -1164,126 +652,2367 @@
 				return null;
 			}
 
-			// Search form
-			function search(query) {
-				if (query != "") {
-					var len = query.length
-					var is_int = isNumeric(query)
+			// SPA router function
+			function routePage() {
+				var urlParams = readParams()
+				if (window.location.hash == "") {
+					window.location.hash = "#/"
+				}
 
-					if (is_int) {
-						switchPage("height", [query])
-					} else {
-						if (len == 64) {
-							if (query.substr(1, 3) == "000") {
-								switchPage("block", [query])
-							} else {
-								switchPage("tx", [query])
-							}
-						} else if (len == 34) {
-							switchPage("address", [query])
-						} else {
-							showError(errorMessages["search-error"])
+				if (urlParams[0] == "#") {
+					var pageName = urlParams[1] != "" ? urlParams[1] : "homepage"
+					var templateName = "#" + pageName
+						
+					$(".router-link").removeClass("active")
+					$(".router-link[data-route=" + pageName + "]").addClass("active")
+					if ($(".router-page:visible").attr("id") != urlParams[1]) {
+						$('div.router-page').hide()
+						if ($(templateName).length) {
+							$(templateName).show()
 						}
+					}
+
+					switch(pageName) {
+						// Home page ¯\_(ツ)_/¯
+						case "homepage":
+							setHomeTitle()
+							break
+
+						case "create":
+							setTitle("Create wallet")
+							break
+
+						case "broadcast":
+							setTitle("Broadcast transaction")
+							break
+
+						// Swith network
+						case "network":
+							network = urlParams[2]
+							if (network != undefined) {
+								swithcApi(network)
+							}
+
+							break
+
+						default:
+							switchPage()
+
+							break
 					}
 				}
 			}
 
-			// Check if variable is number lol
-			function isNumeric(num){
-				return !isNaN(num)
+			// Switch router page
+			function switchPage(url = "", params = []) {
+				params = params.length > 0 ? "/" + params.join("/") : ""
+				window.location.hash = "#" + "/" + url + params;
+			}
+
+			// Read URL params
+			function readParams() {
+				return window.location.hash.split('/')
+			}
+
+			// Set window title
+			function setTitle(title) {
+				document.title = title + ' | MBC Wallet';
+			}
+
+			// Broadcast tx
+			function txBroadcast(rawtx) {
+				return makeRequest({method: "blockchain.transaction.send", params: [rawtx]}, "POST")
+			}
+
+			// Estimate fee
+			function estimateFee() {
+				return makeRequest({method: "blockchain.estimatesmartfee", params: ["30"]}, "POST")
+			}
+
+			// Address history
+			function addressHistory(address, index) {
+				return makeRequest({method: "blockchain.address.history", params: [address, index]}, "POST")
+			}
+
+			// Make request :D
+			function makeRequest(data, method = "GET", error_check=true) {
+				return Promise.resolve($.ajax({
+					"method": method,
+					"url": getApi()["api"],
+					"data": data
+				})).then(function(data) {
+					if (error_check) {
+						result = {
+							"error": "error" in data,
+							"data": []
+						}
+						
+						if (!result["error"]) {
+							result["data"] = data.result
+						} else {
+							result["error"] = data.error
+						}
+					} else {
+						result = data
+					}
+
+					return result
+				})
 			}
 
 			// Convert satoshis to readable amount
-			function amountFormat(amount) {
+			function amountFormat(amount, invert = false) {
 				var decimals = getApi()["decimals"]
-				return (amount / Math.pow(10, decimals)).toFixed(decimals);
-			}
-
-			// Convert timestamp to readable date
-			function timeFormat(timestamp) {	 
-				var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-				var date = new Date(timestamp * 1000)
-				var year = date.getFullYear()
-				var month = months_arr[date.getMonth()]
-				var day = date.getDate()
-				var hours = date.getHours()
-				var minutes = "0" + date.getMinutes()
-				var seconds = "0" + date.getSeconds()
-				var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
-
-				return convdataTime
+				if (!invert) {
+					return parseFloat((amount / Math.pow(10, decimals)).toFixed(decimals))
+				} else {
+					return parseInt(amount * Math.pow(10, decimals))
+				}
 			}
 
 			// Show big error message at the top of the page :D 
-			function showError(message) {
-				$("#error-message").text(message)
+			function showMessage(message) {
+				$("#error-message").html(message)
 				$("#error-message").removeClass("d-none")
 				setTimeout(function() {
 					$("#error-message").addClass("d-none")
 				}, 3400);
 			}
 
-			// Show load button at the bottom of the page
-			function showLoadBtn(value = 0, check = 0) {
-				if (value != check) {
-					$("#load-more").removeClass("d-none")
+			function showQrAddress(text) {
+				$("#qr-code-addres").empty()
+				$("#qr-code-addres").qrcode(text)
+			}
+		</script>
+
+		<script>
+			/*
+			 Coinjs 0.01 beta by OutCast3k{at}gmail.com
+			 A bitcoin framework.
+
+			 http://github.com/OutCast3k/coinjs or http://coinb.in/coinjs
+			*/
+
+			function coinjsInit() {
+
+				var coinjs = window.coinjs = function () { };
+
+				config = getApi()
+				coinjs.pub = config.params.pub
+				coinjs.multisig = config.params.multisig
+				coinjs.priv = config.params.priv
+				coinjs.forkid = config.params.forkid
+				coinjs.host = config.api
+
+				coinjs.hdkey = {'prv': 0x0488ade4, 'pub': 0x0488b21e}
+				coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp': 'bc'}
+				coinjs.compressed = true
+
+				/* start of address functions */
+
+				/* generate a private and public keypair, with address and WIF address */
+				coinjs.newKeys = function(input) {
+					var privkey = (input) ? Crypto.SHA256(input) : this.newPrivkey();
+					var pubkey = this.newPubkey(privkey);
+					return {
+						'privkey': privkey,
+						'pubkey': pubkey,
+						'address': this.pubkey2address(pubkey),
+						'wif': this.privkey2wif(privkey),
+						'compressed': this.compressed
+					};
+				}
+
+				/* Get key pair */
+				coinjs.getKeys = function(wif) {
+					var privkey = this.wif2privkey(wif)["privkey"]
+					var pubkey = this.newPubkey(privkey);
+					return {
+						'privkey': privkey,
+						'pubkey': pubkey,
+						'address': this.pubkey2address(pubkey),
+						'wif': wif,
+						'compressed': this.compressed
+					};
+				}
+
+				/* generate a new random private key */
+				coinjs.newPrivkey = function(){
+					var x = window.location;
+					x += (window.screen.height * window.screen.width * window.screen.colorDepth);
+					x += coinjs.random(64);
+					x += (window.screen.availHeight * window.screen.availWidth * window.screen.pixelDepth);
+					x += navigator.language;
+					x += window.history.length;
+					x += coinjs.random(64);
+					x += navigator.userAgent;
+					x += 'volbil:3';
+					x += (Crypto.util.randomBytes(64)).join("");
+					x += x.length;
+					var dateObj = new Date();
+					x += dateObj.getTimezoneOffset();
+					x += coinjs.random(64);
+					x += (document.getElementById("entropybucket")) ? document.getElementById("entropybucket").innerHTML : '';
+					x += x+''+x;
+					var r = x;
+					for(i=0;i<(x).length/25;i++){
+						r = Crypto.SHA256(r.concat(x));
+					}
+					var checkrBigInt = new BigInteger(r);
+					var orderBigInt = new BigInteger("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141");
+					while (checkrBigInt.compareTo(orderBigInt) >= 0 || checkrBigInt.equals(BigInteger.ZERO) || checkrBigInt.equals(BigInteger.ONE)) {
+						r = Crypto.SHA256(r.concat(x));
+						checkrBigInt = new BigInteger(r);
+					}
+					return r;
+				}
+
+				/* generate a public key from a private key */
+				coinjs.newPubkey = function(hash){
+					var privateKeyBigInt = BigInteger.fromByteArrayUnsigned(Crypto.util.hexToBytes(hash));
+					var curve = EllipticCurve.getSECCurveByName("secp256k1");
+
+					var curvePt = curve.getG().multiply(privateKeyBigInt);
+					var x = curvePt.getX().toBigInteger();
+					var y = curvePt.getY().toBigInteger();
+
+					var publicKeyBytes = EllipticCurve.integerToBytes(x, 32);
+					publicKeyBytes = publicKeyBytes.concat(EllipticCurve.integerToBytes(y,32));
+					publicKeyBytes.unshift(0x04);
+
+					if(coinjs.compressed==true){
+						var publicKeyBytesCompressed = EllipticCurve.integerToBytes(x,32)
+						if (y.isEven()){
+							publicKeyBytesCompressed.unshift(0x02)
+						} else {
+							publicKeyBytesCompressed.unshift(0x03)
+						}
+						return Crypto.util.bytesToHex(publicKeyBytesCompressed);
+					} else {
+						return Crypto.util.bytesToHex(publicKeyBytes);
+					}
+				}
+
+				/* provide a public key and return address */
+				coinjs.pubkey2address = function(h, byte){
+					var r = ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(h), {asBytes: true}));
+					r.unshift(byte || coinjs.pub);
+					var hash = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+					var checksum = hash.slice(0, 4);
+					return coinjs.base58encode(r.concat(checksum));
+				}
+
+				/* provide a scripthash and return address */
+				coinjs.scripthash2address = function(h){
+					var x = Crypto.util.hexToBytes(h);
+					x.unshift(coinjs.pub);
+					var r = x;
+					r = Crypto.SHA256(Crypto.SHA256(r,{asBytes: true}),{asBytes: true});
+					var checksum = r.slice(0,4);
+					return coinjs.base58encode(x.concat(checksum));
+				}
+
+				/* new multisig address, provide the pubkeys AND required signatures to release the funds */
+				coinjs.pubkeys2MultisigAddress = function(pubkeys, required) {
+					var s = coinjs.script();
+					s.writeOp(81 + (required*1) - 1); //OP_1
+					for (var i = 0; i < pubkeys.length; ++i) {
+						s.writeBytes(Crypto.util.hexToBytes(pubkeys[i]));
+					}
+					s.writeOp(81 + pubkeys.length - 1); //OP_1 
+					s.writeOp(174); //OP_CHECKMULTISIG
+					var x = ripemd160(Crypto.SHA256(s.buffer, {asBytes: true}), {asBytes: true});
+					x.unshift(coinjs.multisig);
+					var r = x;
+					r = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+					var checksum = r.slice(0,4);
+					var redeemScript = Crypto.util.bytesToHex(s.buffer);
+					var address = coinjs.base58encode(x.concat(checksum));
+
+					if(s.buffer.length > 520){ // too large
+						address = 'invalid';
+						redeemScript = 'invalid';
+					}
+
+					return {'address':address, 'redeemScript':redeemScript, 'size': s.buffer.length};
+				}
+
+				/* new time locked address, provide the pubkey and time necessary to unlock the funds.
+				  when time is greater than 500000000, it should be a unix timestamp (seconds since epoch),
+				   otherwise it should be the block height required before this transaction can be released. 
+
+				   may throw a string on failure!
+				*/
+				coinjs.simpleHodlAddress = function(pubkey, checklocktimeverify) {
+
+					if(checklocktimeverify < 0) {
+						throw "Parameter for OP_CHECKLOCKTIMEVERIFY is negative.";
+					}
+
+					var s = coinjs.script();
+					s.writeBytes(coinjs.numToByteArray(checklocktimeverify));
+					s.writeOp(177);//OP_CHECKLOCKTIMEVERIFY
+					s.writeOp(117);//OP_DROP
+					s.writeBytes(Crypto.util.hexToBytes(pubkey));
+					s.writeOp(172);//OP_CHECKSIG
+
+					var x = ripemd160(Crypto.SHA256(s.buffer, {asBytes: true}), {asBytes: true});
+					x.unshift(coinjs.multisig);
+					var r = x;
+					r = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+					var checksum = r.slice(0,4);
+					var redeemScript = Crypto.util.bytesToHex(s.buffer);
+					var address = coinjs.base58encode(x.concat(checksum));
+
+					return {'address':address, 'redeemScript':redeemScript};
+				}
+
+				/* create a new segwit address */
+				coinjs.segwitAddress = function(pubkey){
+					var keyhash = [0x00,0x14].concat(ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(pubkey), {asBytes: true}), {asBytes: true}));
+					var x = ripemd160(Crypto.SHA256(keyhash, {asBytes: true}), {asBytes: true});
+					x.unshift(coinjs.multisig);
+					var r = x;
+					r = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+					var checksum = r.slice(0,4);
+					var address = coinjs.base58encode(x.concat(checksum));
+
+					return {'address':address, 'type':'segwit', 'redeemscript':Crypto.util.bytesToHex(keyhash)};
+				}
+
+				/* create a new segwit bech32 encoded address */
+				coinjs.bech32Address = function(pubkey){
+					var program = ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(pubkey), {asBytes: true}), {asBytes: true});
+					var address = coinjs.bech32_encode(coinjs.bech32.hrp, [coinjs.bech32.version].concat(coinjs.bech32_convert(program, 8, 5, true))); 
+					return {'address':address, 'type':'bech32', 'redeemscript':Crypto.util.bytesToHex(program)};
+				}
+
+				/* extract the redeemscript from a bech32 address */
+				coinjs.bech32redeemscript = function(address){
+					var r = false;
+					var decode = coinjs.bech32_decode(address);
+					if(decode){
+						decode.data.shift();
+						return Crypto.util.bytesToHex(coinjs.bech32_convert(decode.data, 5, 8, true));
+					}
+					return r;
+				}
+
+				/* provide a privkey and return an WIF */
+				coinjs.privkey2wif = function(h){
+					var r = Crypto.util.hexToBytes(h);
+
+					if(coinjs.compressed==true){
+						r.push(0x01);
+					}
+
+					r.unshift(coinjs.priv);
+					var hash = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+					var checksum = hash.slice(0, 4);
+
+					return coinjs.base58encode(r.concat(checksum));
+				}
+
+				/* convert a wif key back to a private key */
+				coinjs.wif2privkey = function(wif){
+					var compressed = false;
+					var decode = coinjs.base58decode(wif);
+					var key = decode.slice(0, decode.length-4);
+					key = key.slice(1, key.length);
+					if(key.length>=33 && key[key.length-1]==0x01){
+						key = key.slice(0, key.length-1);
+						compressed = true;
+					}
+					return {'privkey': Crypto.util.bytesToHex(key), 'compressed':compressed};
+				}
+
+				/* convert a wif to a pubkey */
+				coinjs.wif2pubkey = function(wif){
+					var compressed = coinjs.compressed;
+					var r = coinjs.wif2privkey(wif);
+					coinjs.compressed = r['compressed'];
+					var pubkey = coinjs.newPubkey(r['privkey']);
+					coinjs.compressed = compressed;
+					return {'pubkey':pubkey,'compressed':r['compressed']};
+				}
+
+				/* convert a wif to a address */
+				coinjs.wif2address = function(wif){
+					var r = coinjs.wif2pubkey(wif);
+					return {'address':coinjs.pubkey2address(r['pubkey']), 'compressed':r['compressed']};
+				}
+
+				/* decode or validate an address and return the hash */
+				coinjs.addressDecode = function(addr){
+					try {
+						var bytes = coinjs.base58decode(addr);
+						var front = bytes.slice(0, bytes.length-4);
+						var back = bytes.slice(bytes.length-4);
+						var checksum = Crypto.SHA256(Crypto.SHA256(front, {asBytes: true}), {asBytes: true}).slice(0, 4);
+						if (checksum+"" == back+"") {
+
+							var o = {};
+							o.bytes = front.slice(1);
+							o.version = front[0];
+
+							if(o.version==coinjs.pub){ // standard address
+								o.type = 'standard';
+
+							} else if (o.version==coinjs.multisig) { // multisig address
+								o.type = 'multisig';
+
+							} else if (o.version==coinjs.priv){ // wifkey
+								o.type = 'wifkey';
+
+							} else if (o.version==42) { // stealth address
+								o.type = 'stealth';
+
+								o.option = front[1];
+								if (o.option != 0) {
+									alert("Stealth Address option other than 0 is currently not supported!");
+									return false;
+								};
+
+								o.scankey = Crypto.util.bytesToHex(front.slice(2, 35));
+								o.n = front[35];
+
+								if (o.n > 1) {
+									alert("Stealth Multisig is currently not supported!");
+									return false;
+								};
+							
+								o.spendkey = Crypto.util.bytesToHex(front.slice(36, 69));
+								o.m = front[69];
+								o.prefixlen = front[70];
+							
+								if (o.prefixlen > 0) {
+									alert("Stealth Address Prefixes are currently not supported!");
+									return false;
+								};
+								o.prefix = front.slice(71);
+
+							} else { // everything else
+								o.type = 'other'; // address is still valid but unknown version
+							}
+
+							return o;
+						} else {
+							return false;
+						}
+					} catch(e) {
+						return false;
+					}
+				}
+
+				// Retreive the balance from a given address
+				coinjs.addressBalance = function(address, callback) {
+					coinjs.ajax(
+						coinjs.host + "?method=blockchain.address.balance&params[]=" + address,
+						callback,
+						"GET"
+					);
+				}
+
+				/* decompress an compressed public key */
+				coinjs.pubkeydecompress = function(pubkey) {
+					if((typeof(pubkey) == 'string') && pubkey.match(/^[a-f0-9]+$/i)){
+						var curve = EllipticCurve.getSECCurveByName("secp256k1");
+						try {
+							var pt = curve.curve.decodePointHex(pubkey);
+							var x = pt.getX().toBigInteger();
+							var y = pt.getY().toBigInteger();
+
+							var publicKeyBytes = EllipticCurve.integerToBytes(x, 32);
+							publicKeyBytes = publicKeyBytes.concat(EllipticCurve.integerToBytes(y,32));
+							publicKeyBytes.unshift(0x04);
+							return Crypto.util.bytesToHex(publicKeyBytes);
+						} catch (e) {
+							return false;
+						}
+					}
+					return false;
+				}
+
+				coinjs.bech32_polymod = function(values) {
+					var chk = 1;
+					var BECH32_GENERATOR = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
+					for (var p = 0; p < values.length; ++p) {
+						var top = chk >> 25;
+						chk = (chk & 0x1ffffff) << 5 ^ values[p];
+						for (var i = 0; i < 5; ++i) {
+							if ((top >> i) & 1) {
+								chk ^= BECH32_GENERATOR[i];
+							}
+						}
+					}
+					return chk;
+				}
+
+				coinjs.bech32_hrpExpand = function(hrp) {
+					var ret = [];
+					var p;
+					for (p = 0; p < hrp.length; ++p) {
+						ret.push(hrp.charCodeAt(p) >> 5);
+					}
+					ret.push(0);
+					for (p = 0; p < hrp.length; ++p) {
+						ret.push(hrp.charCodeAt(p) & 31);
+					}
+					return ret;
+				}	
+
+				coinjs.	bech32_verifyChecksum = function(hrp, data) {
+					return coinjs.bech32_polymod(coinjs.bech32_hrpExpand(hrp).concat(data)) === 1;
+				}
+
+				coinjs.bech32_createChecksum = function(hrp, data) {
+					var values = coinjs.bech32_hrpExpand(hrp).concat(data).concat([0, 0, 0, 0, 0, 0]);
+					var mod = coinjs.bech32_polymod(values) ^ 1;
+					var ret = [];
+					for (var p = 0; p < 6; ++p) {
+						ret.push((mod >> 5 * (5 - p)) & 31);
+					}	
+					return ret;
+				}
+
+				coinjs.bech32_encode = function(hrp, data) {
+					var combined = data.concat(coinjs.bech32_createChecksum(hrp, data));
+					var ret = hrp + '1';
+					for (var p = 0; p < combined.length; ++p) {
+						ret += coinjs.bech32.charset.charAt(combined[p]);
+					}
+					return ret;
+				}
+
+				coinjs.bech32_decode = function(bechString) {
+					var p;
+					var has_lower = false;
+					var has_upper = false;
+					for (p = 0; p < bechString.length; ++p) {
+						if (bechString.charCodeAt(p) < 33 || bechString.charCodeAt(p) > 126) {
+							return null;
+						}
+						if (bechString.charCodeAt(p) >= 97 && bechString.charCodeAt(p) <= 122) {
+							has_lower = true;
+						}
+						if (bechString.charCodeAt(p) >= 65 && bechString.charCodeAt(p) <= 90) {
+							has_upper = true;
+						}
+					}
+					if (has_lower && has_upper) {
+						return null;
+					}
+					bechString = bechString.toLowerCase();
+					var pos = bechString.lastIndexOf('1');
+					if (pos < 1 || pos + 7 > bechString.length || bechString.length > 90) {
+						return null;
+					}
+					var hrp = bechString.substring(0, pos);
+					var data = [];
+					for (p = pos + 1; p < bechString.length; ++p) {
+						var d = coinjs.bech32.charset.indexOf(bechString.charAt(p));
+						if (d === -1) {
+							return null;
+						}
+						data.push(d);
+					}
+					if (!coinjs.bech32_verifyChecksum(hrp, data)) {
+						return null;
+					}
+					return {
+						hrp: hrp,
+						data: data.slice(0, data.length - 6)
+					};
+				}
+
+				coinjs.bech32_convert = function(data, inBits, outBits, pad) {
+					var value = 0;
+					var bits = 0;
+					var maxV = (1 << outBits) - 1;
+
+					var result = [];
+					for (var i = 0; i < data.length; ++i) {
+						value = (value << inBits) | data[i];
+						bits += inBits;
+
+						while (bits >= outBits) {
+							bits -= outBits;
+							result.push((value >> bits) & maxV);
+						}
+					}
+
+					if (pad) {
+						if (bits > 0) {
+							result.push((value << (outBits - bits)) & maxV);
+						}
+					} else {
+						if (bits >= inBits) throw new Error('Excess padding');
+						if ((value << (outBits - bits)) & maxV) throw new Error('Non-zero padding');
+					}
+
+					return result;
+				}
+
+				coinjs.testdeterministicK = function() {
+					// https://github.com/bitpay/bitcore/blob/9a5193d8e94b0bd5b8e7f00038e7c0b935405a03/test/crypto/ecdsa.js
+					// Line 21 and 22 specify digest hash and privkey for the first 2 test vectors.
+					// Line 96-117 tells expected result.
+
+					var tx = coinjs.transaction();
+
+					var test_vectors = [
+						{
+							'message': 'test data',
+							'privkey': 'fee0a1f7afebf9d2a5a80c0c98a31c709681cce195cbcd06342b517970c0be1e',
+							'k_bad00': 'fcce1de7a9bcd6b2d3defade6afa1913fb9229e3b7ddf4749b55c4848b2a196e',
+							'k_bad01': '727fbcb59eb48b1d7d46f95a04991fc512eb9dbf9105628e3aec87428df28fd8',
+							'k_bad15': '398f0e2c9f79728f7b3d84d447ac3a86d8b2083c8f234a0ffa9c4043d68bd258'
+						},
+						{
+							'message': 'Everything should be made as simple as possible, but not simpler.',
+							'privkey': '0000000000000000000000000000000000000000000000000000000000000001',
+							'k_bad00': 'ec633bd56a5774a0940cb97e27a9e4e51dc94af737596a0c5cbb3d30332d92a5',
+							'k_bad01': 'df55b6d1b5c48184622b0ead41a0e02bfa5ac3ebdb4c34701454e80aabf36f56',
+							'k_bad15': 'def007a9a3c2f7c769c75da9d47f2af84075af95cadd1407393dc1e26086ef87'
+						},
+						{
+							'message': 'Satoshi Nakamoto',
+							'privkey': '0000000000000000000000000000000000000000000000000000000000000002',
+							'k_bad00': 'd3edc1b8224e953f6ee05c8bbf7ae228f461030e47caf97cde91430b4607405e',
+							'k_bad01': 'f86d8e43c09a6a83953f0ab6d0af59fb7446b4660119902e9967067596b58374',
+							'k_bad15': '241d1f57d6cfd2f73b1ada7907b199951f95ef5ad362b13aed84009656e0254a'
+						},
+						{
+							'message': 'Diffie Hellman',
+							'privkey': '7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f',
+							'k_bad00': 'c378a41cb17dce12340788dd3503635f54f894c306d52f6e9bc4b8f18d27afcc',
+							'k_bad01': '90756c96fef41152ac9abe08819c4e95f16da2af472880192c69a2b7bac29114',
+							'k_bad15': '7b3f53300ab0ccd0f698f4d67db87c44cf3e9e513d9df61137256652b2e94e7c'
+						},
+						{
+							'message': 'Japan',
+							'privkey': '8080808080808080808080808080808080808080808080808080808080808080',
+							'k_bad00': 'f471e61b51d2d8db78f3dae19d973616f57cdc54caaa81c269394b8c34edcf59',
+							'k_bad01': '6819d85b9730acc876fdf59e162bf309e9f63dd35550edf20869d23c2f3e6d17',
+							'k_bad15': 'd8e8bae3ee330a198d1f5e00ad7c5f9ed7c24c357c0a004322abca5d9cd17847'
+						},
+						{
+							'message': 'Bitcoin',
+							'privkey': 'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140',
+							'k_bad00': '36c848ffb2cbecc5422c33a994955b807665317c1ce2a0f59c689321aaa631cc',
+							'k_bad01': '4ed8de1ec952a4f5b3bd79d1ff96446bcd45cabb00fc6ca127183e14671bcb85',
+							'k_bad15': '56b6f47babc1662c011d3b1f93aa51a6e9b5f6512e9f2e16821a238d450a31f8'
+						},
+						{
+							'message': 'i2FLPP8WEus5WPjpoHwheXOMSobUJVaZM1JPMQZq',
+							'privkey': 'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140',
+							'k_bad00': '6e9b434fcc6bbb081a0463c094356b47d62d7efae7da9c518ed7bac23f4e2ed6',
+							'k_bad01': 'ae5323ae338d6117ce8520a43b92eacd2ea1312ae514d53d8e34010154c593bb',
+							'k_bad15': '3eaa1b61d1b8ab2f1ca71219c399f2b8b3defa624719f1e96fe3957628c2c4ea'
+						},
+						{
+							'message': 'lEE55EJNP7aLrMtjkeJKKux4Yg0E8E1SAJnWTCEh',
+							'privkey': '3881e5286abc580bb6139fe8e83d7c8271c6fe5e5c2d640c1f0ed0e1ee37edc9',
+							'k_bad00': '5b606665a16da29cc1c5411d744ab554640479dd8abd3c04ff23bd6b302e7034',
+							'k_bad01': 'f8b25263152c042807c992eacd2ac2cc5790d1e9957c394f77ea368e3d9923bd',
+							'k_bad15': 'ea624578f7e7964ac1d84adb5b5087dd14f0ee78b49072aa19051cc15dab6f33'
+						},
+						{
+							'message': '2SaVPvhxkAPrayIVKcsoQO5DKA8Uv5X/esZFlf+y',
+							'privkey': '7259dff07922de7f9c4c5720d68c9745e230b32508c497dd24cb95ef18856631',
+							'k_bad00': '3ab6c19ab5d3aea6aa0c6da37516b1d6e28e3985019b3adb388714e8f536686b',
+							'k_bad01': '19af21b05004b0ce9cdca82458a371a9d2cf0dc35a813108c557b551c08eb52e',
+							'k_bad15': '117a32665fca1b7137a91c4739ac5719fec0cf2e146f40f8e7c21b45a07ebc6a'
+						},
+						{
+							'message': '00A0OwO2THi7j5Z/jp0FmN6nn7N/DQd6eBnCS+/b',
+							'privkey': '0d6ea45d62b334777d6995052965c795a4f8506044b4fd7dc59c15656a28f7aa',
+							'k_bad00': '79487de0c8799158294d94c0eb92ee4b567e4dc7ca18addc86e49d31ce1d2db6',
+							'k_bad01': '9561d2401164a48a8f600882753b3105ebdd35e2358f4f808c4f549c91490009',
+							'k_bad15': 'b0d273634129ff4dbdf0df317d4062a1dbc58818f88878ffdb4ec511c77976c0'
+						}
+					];
+
+					var result_txt = '\n----------------------\nResults\n----------------------\n\n';
+
+					for (i = 0; i < test_vectors.length; i++) {
+						var hash = Crypto.SHA256(test_vectors[i]['message'].split('').map(function (c) { return c.charCodeAt (0); }), { asBytes: true });
+						var wif = coinjs.privkey2wif(test_vectors[i]['privkey']);
+
+						var KBigInt = tx.deterministicK(wif, hash);
+						var KBigInt0 = tx.deterministicK(wif, hash, 0);
+						var KBigInt1 = tx.deterministicK(wif, hash, 1);
+						var KBigInt15 = tx.deterministicK(wif, hash, 15);
+
+						var K = Crypto.util.bytesToHex(KBigInt.toByteArrayUnsigned());
+						var K0 = Crypto.util.bytesToHex(KBigInt0.toByteArrayUnsigned());
+						var K1 = Crypto.util.bytesToHex(KBigInt1.toByteArrayUnsigned());
+						var K15 = Crypto.util.bytesToHex(KBigInt15.toByteArrayUnsigned());
+
+						if (K != test_vectors[i]['k_bad00']) {
+							result_txt += 'Failed Test #' + (i + 1) + '\n	   K = ' + K + '\nExpected = ' + test_vectors[i]['k_bad00'] + '\n\n';
+						} else if (K0 != test_vectors[i]['k_bad00']) {
+							result_txt += 'Failed Test #' + (i + 1) + '\n	  K0 = ' + K0 + '\nExpected = ' + test_vectors[i]['k_bad00'] + '\n\n';
+						} else if (K1 != test_vectors[i]['k_bad01']) {
+							result_txt += 'Failed Test #' + (i + 1) + '\n	  K1 = ' + K1 + '\nExpected = ' + test_vectors[i]['k_bad01'] + '\n\n';
+						} else if (K15 != test_vectors[i]['k_bad15']) {
+							result_txt += 'Failed Test #' + (i + 1) + '\n	 K15 = ' + K15 + '\nExpected = ' + test_vectors[i]['k_bad15'] + '\n\n';
+						};
+					};
+
+					if (result_txt.length < 60) {
+						result_txt = 'All Tests OK!';
+					};
+
+					return result_txt;
+				};
+
+				/* start of hd functions, thanks bip32.org */
+				coinjs.hd = function(data){
+
+					var r = {};
+
+					/* some hd value parsing */
+					r.parse = function() {
+
+						var bytes = [];
+
+						// some quick validation
+						if(typeof(data) == 'string'){
+							var decoded = coinjs.base58decode(data);
+							if(decoded.length == 82){
+								var checksum = decoded.slice(78, 82);
+								var hash = Crypto.SHA256(Crypto.SHA256(decoded.slice(0, 78), { asBytes: true } ), { asBytes: true } );
+								if(checksum[0]==hash[0] && checksum[1]==hash[1] && checksum[2]==hash[2] && checksum[3]==hash[3]){
+									bytes = decoded.slice(0, 78);
+								}
+							}
+						}
+
+						// actual parsing code
+						if(bytes && bytes.length>0) {
+			 				r.version = coinjs.uint(bytes.slice(0, 4) , 4);
+			 				r.depth = coinjs.uint(bytes.slice(4, 5) ,1);
+							r.parent_fingerprint = bytes.slice(5, 9);
+							r.child_index = coinjs.uint(bytes.slice(9, 13), 4);
+			 				r.chain_code = bytes.slice(13, 45);
+							r.key_bytes = bytes.slice(45, 78);
+
+							var c = coinjs.compressed; // get current default
+							coinjs.compressed = true;
+
+							if(r.key_bytes[0] == 0x00) {
+								r.type = 'private';
+								var privkey = (r.key_bytes).slice(1, 33);
+								var privkeyHex = Crypto.util.bytesToHex(privkey);
+								var pubkey = coinjs.newPubkey(privkeyHex);
+
+								r.keys = {'privkey':privkeyHex,
+									'pubkey':pubkey,
+									'address':coinjs.pubkey2address(pubkey),
+									'wif':coinjs.privkey2wif(privkeyHex)};
+
+							} else if(r.key_bytes[0] == 0x02 || r.key_bytes[0] == 0x03) {
+								r.type = 'public';
+								var pubkeyHex = Crypto.util.bytesToHex(r.key_bytes);
+
+								r.keys = {'pubkey': pubkeyHex,
+									'address':coinjs.pubkey2address(pubkeyHex)};
+							} else {
+								r.type = 'invalid';
+							}
+
+							r.keys_extended = r.extend();
+
+							coinjs.compressed = c; // reset to default
+						}
+					}
+
+					// extend prv/pub key
+					r.extend = function(){
+						var hd = coinjs.hd();
+						return hd.make({'depth':(this.depth*1)+1,
+							'parent_fingerprint':this.parent_fingerprint,
+							'child_index':this.child_index,
+							'chain_code':this.chain_code,
+							'privkey':this.keys.privkey,
+							'pubkey':this.keys.pubkey});
+					}
+
+					// derive key from index
+					r.derive = function(i){
+						i = (i)?i:0;
+						var blob = (Crypto.util.hexToBytes(this.keys.pubkey)).concat(coinjs.numToBytes(i,4).reverse());
+
+						var j = new jsSHA(Crypto.util.bytesToHex(blob), 'HEX');
+			 			var hash = j.getHMAC(Crypto.util.bytesToHex(r.chain_code), "HEX", "SHA-512", "HEX");
+
+						var il = new BigInteger(hash.slice(0, 64), 16);
+						var ir = Crypto.util.hexToBytes(hash.slice(64,128));
+
+						var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
+						var curve = ecparams.getCurve();
+
+						var k, key, pubkey, o;
+
+						o = coinjs.clone(this);
+						o.chain_code = ir;
+						o.child_index = i;
+
+						if(this.type=='private'){
+							// derive key pair from from a xprv key
+							k = il.add(new BigInteger([0].concat(Crypto.util.hexToBytes(this.keys.privkey)))).mod(ecparams.getN());
+							key = Crypto.util.bytesToHex(k.toByteArrayUnsigned());
+
+							pubkey = coinjs.newPubkey(key);
+
+							o.keys = {'privkey':key,
+								'pubkey':pubkey,
+								'wif':coinjs.privkey2wif(key),
+								'address':coinjs.pubkey2address(pubkey)};
+
+						} else if (this.type=='public'){
+							// derive xpub key from an xpub key
+							q = ecparams.curve.decodePointHex(this.keys.pubkey);
+							var curvePt = ecparams.getG().multiply(il).add(q);
+
+							var x = curvePt.getX().toBigInteger();
+							var y = curvePt.getY().toBigInteger();
+
+							var publicKeyBytesCompressed = EllipticCurve.integerToBytes(x,32)
+							if (y.isEven()){
+								publicKeyBytesCompressed.unshift(0x02)
+							} else {
+								publicKeyBytesCompressed.unshift(0x03)
+							}
+							pubkey = Crypto.util.bytesToHex(publicKeyBytesCompressed);
+
+							o.keys = {'pubkey':pubkey,
+								'address':coinjs.pubkey2address(pubkey)}
+						} else {
+							// fail
+						}
+
+						o.parent_fingerprint = (ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(r.keys.pubkey),{asBytes:true}),{asBytes:true})).slice(0,4);
+						o.keys_extended = o.extend();
+
+						return o;
+					}
+
+					// make a master hd xprv/xpub
+					r.master = function(pass) {
+						var seed = (pass) ? Crypto.SHA256(pass) : coinjs.newPrivkey();
+						var hasher = new jsSHA(seed, 'HEX');
+						var I = hasher.getHMAC("Bitcoin seed", "TEXT", "SHA-512", "HEX");
+
+						var privkey = Crypto.util.hexToBytes(I.slice(0, 64));
+						var chain = Crypto.util.hexToBytes(I.slice(64, 128));
+
+						var hd = coinjs.hd();
+						return hd.make({'depth':0,
+							'parent_fingerprint':[0,0,0,0],
+							'child_index':0,
+							'chain_code':chain,
+							'privkey':I.slice(0, 64),
+							'pubkey':coinjs.newPubkey(I.slice(0, 64))});
+					}
+
+					// encode data to a base58 string
+					r.make = function(data){ // { (int) depth, (array) parent_fingerprint, (int) child_index, (byte array) chain_code, (hex str) privkey, (hex str) pubkey}
+						var k = [];
+
+						//depth
+						k.push(data.depth*1);
+
+						//parent fingerprint
+						k = k.concat(data.parent_fingerprint);
+
+						//child index
+						k = k.concat((coinjs.numToBytes(data.child_index, 4)).reverse());
+
+						//Chain code
+						k = k.concat(data.chain_code);
+
+						var o = {}; // results
+
+						//encode xprv key
+						if(data.privkey){
+							var prv = (coinjs.numToBytes(coinjs.hdkey.prv, 4)).reverse();
+							prv = prv.concat(k);
+							prv.push(0x00);
+							prv = prv.concat(Crypto.util.hexToBytes(data.privkey));
+							var hash = Crypto.SHA256( Crypto.SHA256(prv, { asBytes: true } ), { asBytes: true } );
+							var checksum = hash.slice(0, 4);
+							var ret = prv.concat(checksum);
+							o.privkey = coinjs.base58encode(ret);
+						}
+
+						//encode xpub key
+						if(data.pubkey){
+							var pub = (coinjs.numToBytes(coinjs.hdkey.pub, 4)).reverse();
+							pub = pub.concat(k);
+							pub = pub.concat(Crypto.util.hexToBytes(data.pubkey));
+							var hash = Crypto.SHA256( Crypto.SHA256(pub, { asBytes: true } ), { asBytes: true } );
+							var checksum = hash.slice(0, 4);
+							var ret = pub.concat(checksum);
+							o.pubkey = coinjs.base58encode(ret);
+						}
+						return o;
+					}
+
+					r.parse();
+					return r;
+				}
+
+
+				/* start of script functions */
+				coinjs.script = function(data) {
+					var r = {};
+
+					if(!data){
+						r.buffer = [];
+					} else if ("string" == typeof data) {
+						r.buffer = Crypto.util.hexToBytes(data);
+					} else if (coinjs.isArray(data)) {
+						r.buffer = data;
+					} else if (data instanceof coinjs.script) {
+						r.buffer = data.buffer;
+					} else {
+						r.buffer = data;
+					}
+
+					/* parse buffer array */
+					r.parse = function () {
+
+						var self = this;
+						r.chunks = [];
+						var i = 0;
+
+						function readChunk(n) {
+							self.chunks.push(self.buffer.slice(i, i + n));
+							i += n;
+						};
+
+						while (i < this.buffer.length) {
+							var opcode = this.buffer[i++];
+							if (opcode >= 0xF0) {
+			 					opcode = (opcode << 8) | this.buffer[i++];
+							}
+
+							var len;
+							if (opcode > 0 && opcode < 76) { //OP_PUSHDATA1
+								readChunk(opcode);
+							} else if (opcode == 76) { //OP_PUSHDATA1
+								len = this.buffer[i++];
+								readChunk(len);
+							} else if (opcode == 77) { //OP_PUSHDATA2
+			 					len = (this.buffer[i++] << 8) | this.buffer[i++];
+								readChunk(len);
+							} else if (opcode == 78) { //OP_PUSHDATA4
+								len = (this.buffer[i++] << 24) | (this.buffer[i++] << 16) | (this.buffer[i++] << 8) | this.buffer[i++];
+								readChunk(len);
+							} else {
+								this.chunks.push(opcode);
+							}
+
+							if(i<0x00){
+								break;
+							}
+						}
+
+						return true;
+					};
+
+					/* decode the redeemscript of a multisignature transaction */
+					r.decodeRedeemScript = function(script){
+						var r = false;
+						try {
+							var s = coinjs.script(Crypto.util.hexToBytes(script));
+							if((s.chunks.length>=3) && s.chunks[s.chunks.length-1] == 174){//OP_CHECKMULTISIG
+								r = {};
+								r.signaturesRequired = s.chunks[0]-80;
+								var pubkeys = [];
+								for(var i=1;i<s.chunks.length-2;i++){
+									pubkeys.push(Crypto.util.bytesToHex(s.chunks[i]));
+								}
+								r.pubkeys = pubkeys;
+								var multi = coinjs.pubkeys2MultisigAddress(pubkeys, r.signaturesRequired);
+								r.address = multi['address'];
+								r.type = 'multisig__'; // using __ for now to differentiat from the other object .type == "multisig"
+							} else if((s.chunks.length==2) && (s.buffer[0] == 0 && s.buffer[1] == 20)){ // SEGWIT
+								r = {};
+								r.type = "segwit__";
+								var rs = Crypto.util.bytesToHex(s.buffer);
+								r.address = coinjs.pubkey2address(rs, coinjs.multisig);
+								r.redeemscript = rs;
+
+							} else if(s.chunks.length == 5 && s.chunks[1] == 177 && s.chunks[2] == 117 && s.chunks[4] == 172){
+								// ^ <unlocktime> OP_CHECKLOCKTIMEVERIFY OP_DROP <pubkey> OP_CHECKSIG ^
+								r = {}
+								r.pubkey = Crypto.util.bytesToHex(s.chunks[3]);
+								r.checklocktimeverify = coinjs.bytesToNum(s.chunks[0].slice());
+								r.address = coinjs.simpleHodlAddress(r.pubkey, r.checklocktimeverify).address;
+								r.type = "hodl__";
+							}
+						} catch(e) {
+							r = false;
+						}
+						return r;
+					}
+
+					/* create output script to spend */
+					r.spendToScript = function(address){
+						var addr = coinjs.addressDecode(address);
+						var s = coinjs.script();
+						if(addr.type == "bech32"){
+							s.writeOp(0);
+							s.writeBytes(Crypto.util.hexToBytes(addr.redeemscript));
+						} else if(addr.version==coinjs.multisig){ // multisig address
+							s.writeOp(169); //OP_HASH160
+							s.writeBytes(addr.bytes);
+							s.writeOp(135); //OP_EQUAL
+						} else { // regular address
+							s.writeOp(118); //OP_DUP
+							s.writeOp(169); //OP_HASH160
+							s.writeBytes(addr.bytes);
+							s.writeOp(136); //OP_EQUALVERIFY
+							s.writeOp(172); //OP_CHECKSIG
+						}
+						return s;
+					}
+
+					/* geneate a (script) pubkey hash of the address - used for when signing */
+					r.pubkeyHash = function(address) {
+						var addr = coinjs.addressDecode(address);
+						var s = coinjs.script();
+						s.writeOp(118);//OP_DUP
+						s.writeOp(169);//OP_HASH160
+						s.writeBytes(addr.bytes);
+						s.writeOp(136);//OP_EQUALVERIFY
+						s.writeOp(172);//OP_CHECKSIG
+						return s;
+					}
+
+					/* write to buffer */
+					r.writeOp = function(op){
+						this.buffer.push(op);
+						this.chunks.push(op);
+						return true;
+					}
+
+					/* write bytes to buffer */
+					r.writeBytes = function(data){
+						if (data.length < 76) {	//OP_PUSHDATA1
+							this.buffer.push(data.length);
+						} else if (data.length <= 0xff) {
+							this.buffer.push(76); //OP_PUSHDATA1
+							this.buffer.push(data.length);
+						} else if (data.length <= 0xffff) {
+							this.buffer.push(77); //OP_PUSHDATA2
+							this.buffer.push(data.length & 0xff);
+							this.buffer.push((data.length >>> 8) & 0xff);
+						} else {
+							this.buffer.push(78); //OP_PUSHDATA4
+							this.buffer.push(data.length & 0xff);
+							this.buffer.push((data.length >>> 8) & 0xff);
+							this.buffer.push((data.length >>> 16) & 0xff);
+							this.buffer.push((data.length >>> 24) & 0xff);
+						}
+						this.buffer = this.buffer.concat(data);
+						this.chunks.push(data);
+						return true;
+					}
+
+					r.parse();
+					return r;
+				}
+
+				/* start of transaction functions */
+
+				/* create a new transaction object */
+				coinjs.transaction = function() {
+
+					var r = {};
+					r.version = 1;
+					r.lock_time = 0;
+					r.ins = [];
+					r.outs = [];
+					r.witness = false;
+					r.timestamp = null;
+					r.block = null;
+
+					/* add an input to a transaction */
+					r.addinput = function(txid, index, script, sequence){
+						var o = {};
+						o.outpoint = {'hash':txid, 'index':index};
+						o.script = coinjs.script(script||[]);
+						o.sequence = sequence || ((r.lock_time==0) ? 4294967295 : 0);
+						return this.ins.push(o);
+					}
+
+					/* add an output to a transaction */
+					r.addoutput = function(address, value){
+						var o = {};
+						o.value = new BigInteger('' + amountFormat(value, true), 10);
+						var s = coinjs.script();
+						o.script = s.spendToScript(address);
+
+						return this.outs.push(o);
+					}
+
+					/* add two outputs for stealth addresses to a transaction */
+					r.addstealth = function(stealth, value){
+						var ephemeralKeyBigInt = BigInteger.fromByteArrayUnsigned(Crypto.util.hexToBytes(coinjs.newPrivkey()));
+						var curve = EllipticCurve.getSECCurveByName("secp256k1");
+						
+						var p = EllipticCurve.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F");
+						var a = BigInteger.ZERO;
+						var b = EllipticCurve.fromHex("7");
+						var calccurve = new EllipticCurve.CurveFp(p, a, b);
+						
+						var ephemeralPt = curve.getG().multiply(ephemeralKeyBigInt);
+						var scanPt = calccurve.decodePointHex(stealth.scankey);
+						var sharedPt = scanPt.multiply(ephemeralKeyBigInt);
+						var stealthindexKeyBigInt = BigInteger.fromByteArrayUnsigned(Crypto.SHA256(sharedPt.getEncoded(true), {asBytes: true}));
+						
+						var stealthindexPt = curve.getG().multiply(stealthindexKeyBigInt);
+						var spendPt = calccurve.decodePointHex(stealth.spendkey);
+						var addressPt = spendPt.add(stealthindexPt);
+						
+						var sendaddress = coinjs.pubkey2address(Crypto.util.bytesToHex(addressPt.getEncoded(true)));
+						
+						
+						var OPRETBytes = [6].concat(Crypto.util.randomBytes(4)).concat(ephemeralPt.getEncoded(true)); // ephemkey data
+						var q = coinjs.script();
+						q.writeOp(106); // OP_RETURN
+						q.writeBytes(OPRETBytes);
+						v = {};
+						v.value = 0;
+						v.script = q;
+						
+						this.outs.push(v);
+						
+						var o = {};
+						o.value = new BigInteger('' + Math.round((value*1) * 1e4), 10);
+						var s = coinjs.script();
+						o.script = s.spendToScript(sendaddress);
+						
+						return this.outs.push(o);
+					}
+
+					/* add data to a transaction */
+					r.adddata = function(data){
+						var r = false;
+						if(((data.match(/^[a-f0-9]+$/gi)) && data.length<160) && (data.length%2)==0) {
+							var s = coinjs.script();
+							s.writeOp(106); // OP_RETURN
+							s.writeBytes(Crypto.util.hexToBytes(data));
+							o = {};
+							o.value = 0;
+							o.script = s;
+							return this.outs.push(o);
+						}
+						return r;
+					}
+
+					/* list unspent transactions */
+					r.listUnspent = function(address, amount, callback) {
+						coinjs.ajax(
+							coinjs.host + "?method=blockchain.address.utxo&params[]=" + address + "&params[]=" + amount,
+							callback,
+							"GET"
+						);
+					}
+
+					/* add unspent to transaction */
+					r.addUnspent = function(address, amount, callback, script, segwit, sequence){
+						var self = this;
+						this.listUnspent(address, amount, function(data) {
+							var s = coinjs.script()
+							var value = 0
+							var total = 0
+							var x = {}
+
+							data = JSON.parse(data)
+							var unspent = data.result
+
+							for (i = 0; i < unspent.length; i++) {
+								var utxo = unspent[i];
+
+								var txhash = utxo.tx_hash;
+								var n = utxo.tx_pos;
+								var scr = script || utxo.script;
+
+								if(segwit) {
+									/* this is a small hack to include the value with the redeemscript to make the signing procedure smoother. 
+									It is not standard and removed during the signing procedure. */
+
+									s = coinjs.script();
+									s.writeBytes(Crypto.util.hexToBytes(script));
+									s.writeOp(0);
+									s.writeBytes(coinjs.numToBytes(utxo.value * 1, 8));
+									scr = Crypto.util.bytesToHex(s.buffer);
+								}
+
+								var seq = sequence || false;
+								self.addinput(txhash, n, scr, seq);
+								value += utxo.value * 1;
+								total++;
+							}
+
+							x.unspent = unspent;
+							x.value = value;
+							x.total = total;
+							return callback(x);
+						});
+					}
+
+					/* add unspent and sign */
+					r.addUnspentAndSign = function(wif, amount, callback){
+						var self = this;
+						var address = coinjs.wif2address(wif);
+						self.addUnspent(address['address'], amount, function(data){
+							self.sign(wif);
+							return callback(data);
+						});
+					}
+
+					/* broadcast a transaction */
+					r.broadcast = function(txhex){
+						var tx = txhex || this.serialize()
+						return txBroadcast(tx)
+					}
+
+					/* generate the transaction hash to sign from a transaction input */
+					r.transactionHash = function(index, sigHashType) {
+
+						var clone = coinjs.clone(this);
+						var shType = sigHashType || 1;
+
+						/* black out all other ins, except this one */
+						for (var i = 0; i < clone.ins.length; i++) {
+							if(index!=i){
+								clone.ins[i].script = coinjs.script();
+							}
+						}
+
+						var extract = this.extractScriptKey(index);
+						clone.ins[index].script = coinjs.script(extract['script']);
+
+						if((clone.ins) && clone.ins[index]){
+
+							/* SIGHASH : For more info on sig hashs see https://en.bitcoin.it/wiki/OP_CHECKSIG
+								and https://bitcoin.org/en/developer-guide#signature-hash-type */
+
+							if(shType == 1){
+								//SIGHASH_ALL 0x01
+
+							} else if(shType == 2){
+								//SIGHASH_NONE 0x02
+								clone.outs = [];
+								for (var i = 0; i < clone.ins.length; i++) {
+									if(index!=i){
+										clone.ins[i].sequence = 0;
+									}
+								}
+
+							} else if(shType == 3){
+
+								//SIGHASH_SINGLE 0x03
+								clone.outs.length = index + 1;
+
+								for(var i = 0; i < index; i++){
+									clone.outs[i].value = -1;
+									clone.outs[i].script.buffer = [];
+								}
+
+								for (var i = 0; i < clone.ins.length; i++) {
+									if(index!=i){
+										clone.ins[i].sequence = 0;
+									}
+								}
+
+							} else if (shType >= 128){
+								//SIGHASH_ANYONECANPAY 0x80
+								clone.ins = [clone.ins[index]];
+
+								if(shType==129){
+									// SIGHASH_ALL + SIGHASH_ANYONECANPAY
+
+								} else if(shType==130){
+									// SIGHASH_NONE + SIGHASH_ANYONECANPAY
+									clone.outs = [];
+
+								} else if(shType==131){
+															// SIGHASH_SINGLE + SIGHASH_ANYONECANPAY
+									clone.outs.length = index + 1;
+									for(var i = 0; i < index; i++){
+										clone.outs[i].value = -1;
+										clone.outs[i].script.buffer = [];
+									}
+								}
+							}
+
+							var buffer = Crypto.util.hexToBytes(clone.serialize());
+							buffer = buffer.concat(coinjs.numToBytes(parseInt(shType), 4));
+							var hash = Crypto.SHA256(buffer, {asBytes: true});
+							var r = Crypto.util.bytesToHex(Crypto.SHA256(hash, {asBytes: true}));
+							return r;
+						} else {
+							return false;
+						}
+					}
+
+					/* generate a segwit transaction hash to sign from a transaction input */
+					r.transactionHashSegWitV0 = function(index, sigHashType){
+						/* 
+						   Notice: coinb.in by default, deals with segwit transactions in a non-standard way.
+						   Segwit transactions require that input values are included in the transaction hash.
+						   To save wasting resources and potentially slowing down this service, we include the amount with the 
+						   redeem script to generate the transaction hash and remove it after its signed.
+						*/
+
+						// start redeem script check
+						var extract = this.extractScriptKey(index);
+						if(extract['type'] != 'segwit'){
+							return {'result':0, 'fail':'redeemscript', 'response':'redeemscript missing or not valid for segwit'};
+						}
+
+						if(extract['value'] == -1){
+							return {'result':0, 'fail':'value', 'response':'unable to generate a valid segwit hash without a value'};				
+						}
+
+						var scriptcode = Crypto.util.hexToBytes(extract['script']);
+
+						// end of redeem script check
+
+						/* P2WPKH */
+						if(scriptcode.length == 20){
+							scriptcode = [0x00,0x14].concat(scriptcode);
+						}
+
+						if(scriptcode.length == 22){
+							scriptcode = scriptcode.slice(1);
+							scriptcode.unshift(25, 118, 169);
+							scriptcode.push(136, 172);
+						}
+
+						var value = coinjs.numToBytes(extract['value'], 8);
+
+						// start
+
+						var zero = coinjs.numToBytes(0, 32);
+						var version = coinjs.numToBytes(parseInt(this.version), 4);
+
+						var bufferTmp = [];
+						if(!(sigHashType >= 80)){	// not sighash anyonecanpay 
+							for(var i = 0; i < this.ins.length; i++){
+								bufferTmp = bufferTmp.concat(Crypto.util.hexToBytes(this.ins[i].outpoint.hash).reverse());
+								bufferTmp = bufferTmp.concat(coinjs.numToBytes(this.ins[i].outpoint.index, 4));
+							}
+						}
+						var hashPrevouts = bufferTmp.length >= 1 ? Crypto.SHA256(Crypto.SHA256(bufferTmp, {asBytes: true}), {asBytes: true}) : zero; 
+
+						var bufferTmp = [];
+						if(!(sigHashType >= 80) && sigHashType != 2 && sigHashType != 3){ // not sighash anyonecanpay & single & none
+							for(var i = 0; i < this.ins.length; i++){
+								bufferTmp = bufferTmp.concat(coinjs.numToBytes(this.ins[i].sequence, 4));
+							}
+						}
+						var hashSequence = bufferTmp.length >= 1 ? Crypto.SHA256(Crypto.SHA256(bufferTmp, {asBytes: true}), {asBytes: true}) : zero; 
+
+						var outpoint = Crypto.util.hexToBytes(this.ins[index].outpoint.hash).reverse();
+						outpoint = outpoint.concat(coinjs.numToBytes(this.ins[index].outpoint.index, 4));
+
+						var nsequence = coinjs.numToBytes(this.ins[index].sequence, 4);
+						var hashOutputs = zero;
+						var bufferTmp = [];
+						if(sigHashType != 2 && sigHashType != 3){		// not sighash single & none
+							for(var i = 0; i < this.outs.length; i++ ){
+								bufferTmp = bufferTmp.concat(coinjs.numToBytes(this.outs[i].value, 8));
+								bufferTmp = bufferTmp.concat(coinjs.numToVarInt(this.outs[i].script.buffer.length));
+								bufferTmp = bufferTmp.concat(this.outs[i].script.buffer);
+							}
+							hashOutputs = Crypto.SHA256(Crypto.SHA256(bufferTmp, {asBytes: true}), {asBytes: true});
+
+						} else if ((sigHashType == 2) && index < this.outs.length){ // is sighash single
+							bufferTmp = bufferTmp.concat(coinjs.numToBytes(this.outs[index].value, 8));
+							bufferTmp = bufferTmp.concat(coinjs.numToVarInt(this.outs[i].script.buffer.length));
+							bufferTmp = bufferTmp.concat(this.outs[index].script.buffer);
+							hashOutputs = Crypto.SHA256(Crypto.SHA256(bufferTmp, {asBytes: true}), {asBytes: true});
+						}
+
+						var locktime = coinjs.numToBytes(this.lock_time, 4);
+
+						sigHashType |= coinjs.forkid;
+						var sighash = coinjs.numToBytes(sigHashType, 4);
+
+						var buffer = []; 
+						buffer = buffer.concat(version);
+						buffer = buffer.concat(hashPrevouts);
+						buffer = buffer.concat(hashSequence);
+						buffer = buffer.concat(outpoint);
+						buffer = buffer.concat(scriptcode);
+						buffer = buffer.concat(value);
+						buffer = buffer.concat(nsequence);
+						buffer = buffer.concat(hashOutputs);
+						buffer = buffer.concat(locktime);
+						buffer = buffer.concat(sighash);
+
+						var hash = Crypto.SHA256(buffer, {asBytes: true});
+						return {'result':1,'hash':Crypto.util.bytesToHex(Crypto.SHA256(hash, {asBytes: true})), 'response':'hash generated'};
+					}
+
+					/* extract the scriptSig, used in the transactionHash() function */
+					r.extractScriptKey = function(index) {
+						if(this.ins[index]){
+							if((this.ins[index].script.chunks.length==5) && this.ins[index].script.chunks[4]==172 && coinjs.isArray(this.ins[index].script.chunks[2])){ //OP_CHECKSIG
+								// regular scriptPubkey (not signed)
+								return {'type':'scriptpubkey', 'signed':'false', 'signatures':0, 'script': Crypto.util.bytesToHex(this.ins[index].script.buffer)};
+							} else if((this.ins[index].script.chunks.length==2) && this.ins[index].script.chunks[0][0]==48 && this.ins[index].script.chunks[1].length == 5 && this.ins[index].script.chunks[1][1]==177){//OP_CHECKLOCKTIMEVERIFY
+								// hodl script (signed)
+								return {'type':'hodl', 'signed':'true', 'signatures':1, 'script': Crypto.util.bytesToHex(this.ins[index].script.buffer)};
+							} else if((this.ins[index].script.chunks.length==2) && this.ins[index].script.chunks[0][0]==48){ 
+								// regular scriptPubkey (probably signed)
+								return {'type':'scriptpubkey', 'signed':'true', 'signatures':1, 'script': Crypto.util.bytesToHex(this.ins[index].script.buffer)};
+							} else if(this.ins[index].script.chunks.length == 5 && this.ins[index].script.chunks[1] == 177){//OP_CHECKLOCKTIMEVERIFY
+								// hodl script (not signed)
+								return {'type':'hodl', 'signed':'false', 'signatures': 0, 'script': Crypto.util.bytesToHex(this.ins[index].script.buffer)};
+							} else if((this.ins[index].script.chunks.length <= 3 && this.ins[index].script.chunks.length > 0) && ((this.ins[index].script.chunks[0].length == 22 && this.ins[index].script.chunks[0][0] == 0) || (this.ins[index].script.chunks[0].length == 20 && this.ins[index].script.chunks[1] == 0))){
+								var signed = ((this.witness[index]) && this.witness[index].length==2) ? 'true' : 'false';
+								var sigs = (signed == 'true') ? 1 : 0;
+								var value = -1; // no value found
+								if((this.ins[index].script.chunks[2]) && this.ins[index].script.chunks[2].length==8){
+									value = coinjs.bytesToNum(this.ins[index].script.chunks[2]);  // value found encoded in transaction (THIS IS NON STANDARD)
+								}
+								return {'type':'segwit', 'signed':signed, 'signatures': sigs, 'script': Crypto.util.bytesToHex(this.ins[index].script.chunks[0]), 'value': value};
+							} else if (this.ins[index].script.chunks[0]==0 && this.ins[index].script.chunks[this.ins[index].script.chunks.length-1][this.ins[index].script.chunks[this.ins[index].script.chunks.length-1].length-1]==174) { // OP_CHECKMULTISIG
+								// multisig script, with signature(s) included
+								return {'type':'multisig', 'signed':'true', 'signatures':this.ins[index].script.chunks.length-2, 'script': Crypto.util.bytesToHex(this.ins[index].script.chunks[this.ins[index].script.chunks.length-1])};
+							} else if (this.ins[index].script.chunks[0]>=80 && this.ins[index].script.chunks[this.ins[index].script.chunks.length-1]==174) { // OP_CHECKMULTISIG
+								// multisig script, without signature!
+								return {'type':'multisig', 'signed':'false', 'signatures':0, 'script': Crypto.util.bytesToHex(this.ins[index].script.buffer)};
+							} else if (this.ins[index].script.chunks.length==0) {
+								// empty
+								return {'type':'empty', 'signed':'false', 'signatures':0, 'script': ''};
+							} else {
+								// something else
+								return {'type':'unknown', 'signed':'false', 'signatures':0, 'script':Crypto.util.bytesToHex(this.ins[index].script.buffer)};
+							}
+						} else {
+							return false;
+						}
+					}
+
+					/* generate a signature from a transaction hash */
+					r.transactionSig = function(index, wif, sigHashType, txhash){
+
+						function serializeSig(r, s) {
+							var rBa = r.toByteArraySigned();
+							var sBa = s.toByteArraySigned();
+
+							var sequence = [];
+							sequence.push(0x02); // INTEGER
+							sequence.push(rBa.length);
+							sequence = sequence.concat(rBa);
+
+							sequence.push(0x02); // INTEGER
+							sequence.push(sBa.length);
+							sequence = sequence.concat(sBa);
+
+							sequence.unshift(sequence.length);
+							sequence.unshift(0x30); // SEQUENCE
+
+							return sequence;
+						}
+
+						var shType = sigHashType || 1;
+						shType |= coinjs.forkid;
+
+						var hash = txhash || Crypto.util.hexToBytes(this.transactionHash(index, shType));
+
+						if(hash){
+							var curve = EllipticCurve.getSECCurveByName("secp256k1");
+							var key = coinjs.wif2privkey(wif);
+							var priv = BigInteger.fromByteArrayUnsigned(Crypto.util.hexToBytes(key['privkey']));
+							var n = curve.getN();
+							var e = BigInteger.fromByteArrayUnsigned(hash);
+							var badrs = 0
+							do {
+								var k = this.deterministicK(wif, hash, badrs);
+								var G = curve.getG();
+								var Q = G.multiply(k);
+								var r = Q.getX().toBigInteger().mod(n);
+								var s = k.modInverse(n).multiply(e.add(priv.multiply(r))).mod(n);
+								badrs++
+							} while (r.compareTo(BigInteger.ZERO) <= 0 || s.compareTo(BigInteger.ZERO) <= 0);
+
+							// Force lower s values per BIP62
+							var halfn = n.shiftRight(1);
+							if (s.compareTo(halfn) > 0) {
+								s = n.subtract(s);
+							};
+
+							var sig = serializeSig(r, s);
+							sig.push(parseInt(shType, 10));
+
+							return Crypto.util.bytesToHex(sig);
+						} else {
+							return false;
+						}
+					}
+
+					// https://tools.ietf.org/html/rfc6979#section-3.2
+					r.deterministicK = function(wif, hash, badrs) {
+						// if r or s were invalid when this function was used in signing,
+						// we do not want to actually compute r, s here for efficiency, so,
+						// we can increment badrs. explained at end of RFC 6979 section 3.2
+
+						// wif is b58check encoded wif privkey.
+						// hash is byte array of transaction digest.
+						// badrs is used only if the k resulted in bad r or s.
+
+						// some necessary things out of the way for clarity.
+						badrs = badrs || 0;
+						var key = coinjs.wif2privkey(wif);
+						var x = Crypto.util.hexToBytes(key['privkey'])
+						var curve = EllipticCurve.getSECCurveByName("secp256k1");
+						var N = curve.getN();
+
+						// Step: a
+						// hash is a byteArray of the message digest. so h1 == hash in our case
+
+						// Step: b
+						var v = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+						// Step: c
+						var k = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+						// Step: d
+						k = Crypto.HMAC(Crypto.SHA256, v.concat([0]).concat(x).concat(hash), k, { asBytes: true });
+
+						// Step: e
+						v = Crypto.HMAC(Crypto.SHA256, v, k, { asBytes: true });
+
+						// Step: f
+						k = Crypto.HMAC(Crypto.SHA256, v.concat([1]).concat(x).concat(hash), k, { asBytes: true });
+
+						// Step: g
+						v = Crypto.HMAC(Crypto.SHA256, v, k, { asBytes: true });
+
+						// Step: h1
+						var T = [];
+
+						// Step: h2 (since we know tlen = qlen, just copy v to T.)
+						v = Crypto.HMAC(Crypto.SHA256, v, k, { asBytes: true });
+						T = v;
+
+						// Step: h3
+						var KBigInt = BigInteger.fromByteArrayUnsigned(T);
+
+						// loop if KBigInt is not in the range of [1, N-1] or if badrs needs incrementing.
+						var i = 0
+						while (KBigInt.compareTo(N) >= 0 || KBigInt.compareTo(BigInteger.ZERO) <= 0 || i < badrs) {
+							k = Crypto.HMAC(Crypto.SHA256, v.concat([0]), k, { asBytes: true });
+							v = Crypto.HMAC(Crypto.SHA256, v, k, { asBytes: true });
+							v = Crypto.HMAC(Crypto.SHA256, v, k, { asBytes: true });
+							T = v;
+							KBigInt = BigInteger.fromByteArrayUnsigned(T);
+							i++
+						};
+
+						return KBigInt;
+					};
+
+					/* sign a "standard" input */
+					r.signinput = function(index, wif, sigHashType){
+						var key = coinjs.wif2pubkey(wif);
+						var shType = sigHashType || 1;
+						var signature = this.transactionSig(index, wif, shType);
+						var s = coinjs.script();
+						s.writeBytes(Crypto.util.hexToBytes(signature));
+						s.writeBytes(Crypto.util.hexToBytes(key['pubkey']));
+						this.ins[index].script = s;
+						return true;
+					}
+
+					/* signs a time locked / hodl input */
+					r.signhodl = function(index, wif, sigHashType){
+						var shType = sigHashType || 1;
+						var signature = this.transactionSig(index, wif, shType);
+						var redeemScript = this.ins[index].script.buffer
+						var s = coinjs.script();
+						s.writeBytes(Crypto.util.hexToBytes(signature));
+						s.writeBytes(redeemScript);
+						this.ins[index].script = s;
+						return true;
+					}
+					
+					/* sign a multisig input */
+					r.signmultisig = function(index, wif, sigHashType){
+
+						function scriptListPubkey(redeemScript){
+							var r = {};
+							for(var i=1;i<redeemScript.chunks.length-2;i++){
+								r[i] = Crypto.util.hexToBytes(coinjs.pubkeydecompress(Crypto.util.bytesToHex(redeemScript.chunks[i])));
+							}
+							return r;
+						}
+				
+						function scriptListSigs(scriptSig){
+							var r = {};
+							var c = 0;
+							if (scriptSig.chunks[0]==0 && scriptSig.chunks[scriptSig.chunks.length-1][scriptSig.chunks[scriptSig.chunks.length-1].length-1]==174){
+								for(var i=1;i<scriptSig.chunks.length-1;i++){				
+									if (scriptSig.chunks[i] != 0){
+										c++;
+										r[c] = scriptSig.chunks[i];
+									}
+								}
+							}
+							return r;
+						}
+
+						var redeemScript = (this.ins[index].script.chunks[this.ins[index].script.chunks.length-1]==174) ? this.ins[index].script.buffer : this.ins[index].script.chunks[this.ins[index].script.chunks.length-1];
+
+						var pubkeyList = scriptListPubkey(coinjs.script(redeemScript));
+						var sigsList = scriptListSigs(this.ins[index].script);
+
+						var shType = sigHashType || 1;
+						var sighash = Crypto.util.hexToBytes(this.transactionHash(index, shType));
+						var signature = Crypto.util.hexToBytes(this.transactionSig(index, wif, shType));
+
+						sigsList[coinjs.countObject(sigsList)+1] = signature;
+
+						var s = coinjs.script();
+
+						s.writeOp(0);
+
+						for(x in pubkeyList){
+							for(y in sigsList){
+								this.ins[index].script.buffer = redeemScript;
+								sighash = Crypto.util.hexToBytes(this.transactionHash(index, sigsList[y].slice(-1)[0]*1));
+								if(coinjs.verifySignature(sighash, sigsList[y], pubkeyList[x])){
+									s.writeBytes(sigsList[y]);
+								}
+							}
+						}
+
+						s.writeBytes(redeemScript);
+						this.ins[index].script = s;
+						return true;
+					}
+
+					/* sign segwit input */
+					r.signsegwit = function(index, wif, sigHashType){
+						var shType = sigHashType || 1;
+
+						var wif2 = coinjs.wif2pubkey(wif);
+						var segwit = coinjs.segwitAddress(wif2['pubkey']);
+						var bech32 = coinjs.bech32Address(wif2['pubkey']);
+
+						if((segwit['redeemscript'] == Crypto.util.bytesToHex(this.ins[index].script.chunks[0])) || (bech32['redeemscript'] == Crypto.util.bytesToHex(this.ins[index].script.chunks[0]))){
+							var txhash = this.transactionHashSegWitV0(index, shType);
+
+							if(txhash.result == 1){
+
+								var segwitHash = Crypto.util.hexToBytes(txhash.hash);
+								var signature = this.transactionSig(index, wif, shType, segwitHash);
+
+								// remove any non standard data we store, i.e. input value
+								var script = coinjs.script();
+								script.writeBytes(this.ins[index].script.chunks[0]);	
+								this.ins[index].script = script;
+
+								if(!coinjs.isArray(this.witness)){
+									this.witness = [];
+								}
+
+								this.witness.push([signature, wif2['pubkey']]);
+
+								/* attempt to reorder witness data as best as we can. 
+								   data can't be easily validated at this stage as 
+								   we dont have access to the inputs value and 
+								   making a web call will be too slow. */
+
+								var witness_order = [];
+								var witness_used = [];
+								for(var i = 0; i < this.ins.length; i++){
+									for(var y = 0; y < this.witness.length; y++){
+										if(!witness_used.includes(y)){
+											var sw = coinjs.segwitAddress(this.witness[y][1]);
+											var b32 = coinjs.bech32Address(this.witness[y][1]);
+											var rs = '';
+
+											if(this.ins[i].script.chunks.length>=1){
+												rs = Crypto.util.bytesToHex(this.ins[i].script.chunks[0]);
+											} else if (this.ins[i].script.chunks.length==0){
+												rs = b32['redeemscript'];
+											}
+
+											if((sw['redeemscript'] == rs) || (b32['redeemscript'] == rs)){
+												witness_order.push(this.witness[y]);
+												witness_used.push(y);
+
+												// bech32, empty redeemscript
+												if(b32['redeemscript'] == rs){
+													this.ins[index].script = coinjs.script();
+												}
+												break;
+											}
+										}
+									}
+								}
+
+								this.witness = witness_order;
+							}
+						}
+						return true;
+					}
+
+					/* sign inputs */
+					r.sign = function(wif, sigHashType){
+						var shType = sigHashType || 1;
+						for (var i = 0; i < this.ins.length; i++) {
+							var d = this.extractScriptKey(i);
+
+							var w2a = coinjs.wif2address(wif);
+							var script = coinjs.script();
+							var pubkeyHash = script.pubkeyHash(w2a['address']);
+
+							if(((d['type'] == 'scriptpubkey' && d['script']==Crypto.util.bytesToHex(pubkeyHash.buffer)) || d['type'] == 'empty') && d['signed'] == "false"){
+								this.signinput(i, wif, shType);
+
+							} else if (d['type'] == 'hodl' && d['signed'] == "false") {
+								this.signhodl(i, wif, shType);
+
+							} else if (d['type'] == 'multisig') {
+								this.signmultisig(i, wif, shType);
+
+							} else if (d['type'] == 'segwit') {
+								this.signsegwit(i, wif, shType);
+
+							} else {
+								// could not sign
+							}
+						}
+						return this.serialize();
+					}
+
+					/* serialize a transaction */
+					r.serialize = function(){
+						var buffer = [];
+						buffer = buffer.concat(coinjs.numToBytes(parseInt(this.version),4));
+
+						if(coinjs.isArray(this.witness)){
+							buffer = buffer.concat([0x00, 0x01]);
+						}
+
+						buffer = buffer.concat(coinjs.numToVarInt(this.ins.length));
+						for (var i = 0; i < this.ins.length; i++) {
+							var txin = this.ins[i];
+							buffer = buffer.concat(Crypto.util.hexToBytes(txin.outpoint.hash).reverse());
+							buffer = buffer.concat(coinjs.numToBytes(parseInt(txin.outpoint.index),4));
+							var scriptBytes = txin.script.buffer;
+							buffer = buffer.concat(coinjs.numToVarInt(scriptBytes.length));
+							buffer = buffer.concat(scriptBytes);
+							buffer = buffer.concat(coinjs.numToBytes(parseInt(txin.sequence),4));
+						}
+						buffer = buffer.concat(coinjs.numToVarInt(this.outs.length));
+
+						for (var i = 0; i < this.outs.length; i++) {
+							var txout = this.outs[i];
+			 				buffer = buffer.concat(coinjs.numToBytes(txout.value,8));
+							var scriptBytes = txout.script.buffer;
+							buffer = buffer.concat(coinjs.numToVarInt(scriptBytes.length));
+							buffer = buffer.concat(scriptBytes);
+						}
+
+						if((coinjs.isArray(this.witness)) && this.witness.length>=1){
+							for(var i = 0; i < this.witness.length; i++){
+				 				buffer = buffer.concat(coinjs.numToVarInt(this.witness[i].length));
+								for(var x = 0; x < this.witness[i].length; x++){
+					 				buffer = buffer.concat(coinjs.numToVarInt(Crypto.util.hexToBytes(this.witness[i][x]).length));
+									buffer = buffer.concat(Crypto.util.hexToBytes(this.witness[i][x]));
+								}
+							}
+						}
+
+						buffer = buffer.concat(coinjs.numToBytes(parseInt(this.lock_time),4));
+						return Crypto.util.bytesToHex(buffer);
+					}
+
+					/* deserialize a transaction */
+					r.deserialize = function(buffer){
+						if (typeof buffer == "string") {
+							buffer = Crypto.util.hexToBytes(buffer)
+						}
+
+						var pos = 0;
+						var witness = false;
+
+						var readAsInt = function(bytes) {
+							if (bytes == 0) return 0;
+							pos++;
+							return buffer[pos-1] + readAsInt(bytes-1) * 256;
+						}
+
+						var readVarInt = function() {
+							pos++;
+							if (buffer[pos-1] < 253) {
+								return buffer[pos-1];
+							}
+							return readAsInt(buffer[pos-1] - 251);
+						}
+
+						var readBytes = function(bytes) {
+							pos += bytes;
+							return buffer.slice(pos - bytes, pos);
+						}
+
+						var readVarString = function() {
+							var size = readVarInt();
+							return readBytes(size);
+						}
+
+						var obj = new coinjs.transaction();
+						obj.version = readAsInt(4);
+
+						if(buffer[pos] == 0x00 && buffer[pos+1] == 0x01){
+							// segwit transaction
+							witness = true;
+							obj.witness = [];
+							pos += 2;
+						}
+
+						var ins = readVarInt();
+						for (var i = 0; i < ins; i++) {
+							obj.ins.push({
+								outpoint: {
+									hash: Crypto.util.bytesToHex(readBytes(32).reverse()),
+			 						index: readAsInt(4)
+								},
+								script: coinjs.script(readVarString()),
+								sequence: readAsInt(4)
+							});
+						}
+
+						var outs = readVarInt();
+						for (var i = 0; i < outs; i++) {
+							obj.outs.push({
+								value: coinjs.bytesToNum(readBytes(8)),
+								script: coinjs.script(readVarString())
+							});
+						}
+
+						if(witness == true){
+							for (i = 0; i < ins; ++i) {
+								var count = readVarInt();
+								var vector = [];
+								for(var y = 0; y < count; y++){
+									var slice = readVarInt();
+									pos += slice;
+									if(!coinjs.isArray(obj.witness[i])){
+										obj.witness[i] = [];
+									}
+									obj.witness[i].push(Crypto.util.bytesToHex(buffer.slice(pos - slice, pos)));
+								}
+							}
+						}
+
+			 			obj.lock_time = readAsInt(4);
+						return obj;
+					}
+
+					r.size = function(){
+						return ((this.serialize()).length/2).toFixed(0);
+					}
+
+					return r;
+				}
+
+				/* start of signature vertification functions */
+
+				coinjs.verifySignature = function (hash, sig, pubkey) {
+
+					function parseSig (sig) {
+						var cursor;
+						if (sig[0] != 0x30)
+							throw new Error("Signature not a valid DERSequence");
+
+						cursor = 2;
+						if (sig[cursor] != 0x02)
+							throw new Error("First element in signature must be a DERInteger"); ;
+
+						var rBa = sig.slice(cursor + 2, cursor + 2 + sig[cursor + 1]);
+
+						cursor += 2 + sig[cursor + 1];
+						if (sig[cursor] != 0x02)
+							throw new Error("Second element in signature must be a DERInteger");
+
+						var sBa = sig.slice(cursor + 2, cursor + 2 + sig[cursor + 1]);
+
+						cursor += 2 + sig[cursor + 1];
+
+						var r = BigInteger.fromByteArrayUnsigned(rBa);
+						var s = BigInteger.fromByteArrayUnsigned(sBa);
+
+						return { r: r, s: s };
+					}
+
+					var r, s;
+
+					if (coinjs.isArray(sig)) {
+						var obj = parseSig(sig);
+						r = obj.r;
+						s = obj.s;
+					} else if ("object" === typeof sig && sig.r && sig.s) {
+						r = sig.r;
+						s = sig.s;
+					} else {
+						throw "Invalid value for signature";
+					}
+
+					var Q;
+					if (coinjs.isArray(pubkey)) {
+						var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
+						Q = EllipticCurve.PointFp.decodeFrom(ecparams.getCurve(), pubkey);
+					} else {
+						throw "Invalid format for pubkey value, must be byte array";
+					}
+					var e = BigInteger.fromByteArrayUnsigned(hash);
+
+					return coinjs.verifySignatureRaw(e, r, s, Q);
+				}
+
+				coinjs.verifySignatureRaw = function (e, r, s, Q) {
+					var ecparams = EllipticCurve.getSECCurveByName("secp256k1");
+					var n = ecparams.getN();
+					var G = ecparams.getG();
+
+					if (r.compareTo(BigInteger.ONE) < 0 || r.compareTo(n) >= 0)
+						return false;
+
+					if (s.compareTo(BigInteger.ONE) < 0 || s.compareTo(n) >= 0)
+						return false;
+
+					var c = s.modInverse(n);
+
+					var u1 = e.multiply(c).mod(n);
+					var u2 = r.multiply(c).mod(n);
+
+					var point = G.multiply(u1).add(Q.multiply(u2));
+
+					var v = point.getX().toBigInteger().mod(n);
+
+					return v.equals(r);
+				}
+
+				/* start of privates functions */
+
+				/* base58 encode function */
+				coinjs.base58encode = function(buffer) {
+					var alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+					var base = BigInteger.valueOf(58);
+
+					var bi = BigInteger.fromByteArrayUnsigned(buffer);
+					var chars = [];
+
+					while (bi.compareTo(base) >= 0) {
+						var mod = bi.mod(base);
+						chars.unshift(alphabet[mod.intValue()]);
+						bi = bi.subtract(mod).divide(base);
+					}
+
+					chars.unshift(alphabet[bi.intValue()]);
+					for (var i = 0; i < buffer.length; i++) {
+						if (buffer[i] == 0x00) {
+							chars.unshift(alphabet[0]);
+						} else break;
+					}
+					return chars.join('');
+				}
+
+				/* base58 decode function */
+				coinjs.base58decode = function(buffer){
+					var alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+					var base = BigInteger.valueOf(58);
+					var validRegex = /^[1-9A-HJ-NP-Za-km-z]+$/;
+
+					var bi = BigInteger.valueOf(0);
+					var leadingZerosNum = 0;
+					for (var i = buffer.length - 1; i >= 0; i--) {
+						var alphaIndex = alphabet.indexOf(buffer[i]);
+						if (alphaIndex < 0) {
+							throw "Invalid character";
+						}
+						bi = bi.add(BigInteger.valueOf(alphaIndex).multiply(base.pow(buffer.length - 1 - i)));
+
+						if (buffer[i] == "1") leadingZerosNum++;
+						else leadingZerosNum = 0;
+					}
+
+					var bytes = bi.toByteArrayUnsigned();
+					while (leadingZerosNum-- > 0) bytes.unshift(0);
+					return bytes;		
+				}
+
+				/* raw ajax function to avoid needing bigger frame works like jquery, mootools etc */
+				coinjs.ajax = function(u, f, m, a){
+					var x = false;
+					try{
+						x = new ActiveXObject('Msxml2.XMLHTTP')
+					} catch(e) {
+						try {
+							x = new ActiveXObject('Microsoft.XMLHTTP')
+						} catch(e) {
+							x = new XMLHttpRequest()
+						}
+					}
+
+					if(x==false) {
+						return false;
+					}
+
+					x.open(m, u, true);
+					x.onreadystatechange=function(){
+						if((x.readyState==4) && f)
+							f(x.responseText);
+					};
+
+					if(m == 'POST'){
+						x.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+					}
+
+					x.send(a);
+				}
+
+				/* clone an object */
+				coinjs.clone = function(obj) {
+					if(obj == null || typeof(obj) != 'object') return obj;
+					var temp = new obj.constructor();
+
+					for(var key in obj) {
+						if(obj.hasOwnProperty(key)) {
+							temp[key] = coinjs.clone(obj[key]);
+						}
+					}
+			 		return temp;
+				}
+
+				coinjs.numToBytes = function(num,bytes) {
+					if (typeof bytes === "undefined") bytes = 8;
+					if (bytes == 0) { 
+						return [];
+					} else if (num == -1){
+						return Crypto.util.hexToBytes("ffffffffffffffff");
+					} else {
+						return [num % 256].concat(coinjs.numToBytes(Math.floor(num / 256),bytes-1));
+					}
+				}
+
+				coinjs.numToByteArray = function(num) {
+					if (num <= 256) { 
+						return [num];
+					} else {
+						return [num % 256].concat(coinjs.numToByteArray(Math.floor(num / 256)));
+					}
+				}
+
+				coinjs.numToVarInt = function(num) {
+					if (num < 253) {
+						return [num];
+					} else if (num < 65536) {
+						return [253].concat(coinjs.numToBytes(num,2));
+					} else if (num < 4294967296) {
+						return [254].concat(coinjs.numToBytes(num,4));
+					} else {
+						return [255].concat(coinjs.numToBytes(num,8));
+					}
+				}
+
+				coinjs.bytesToNum = function(bytes) {
+					if (bytes.length == 0) return 0;
+					else return bytes[0] + 256 * coinjs.bytesToNum(bytes.slice(1));
+				}
+
+				coinjs.uint = function(f, size) {
+					if (f.length < size)
+						throw new Error("not enough data");
+					var n = 0;
+					for (var i = 0; i < size; i++) {
+						n *= 256;
+						n += f[i];
+					}
+					return n;
+				}
+
+				coinjs.isArray = function(o){
+					return Object.prototype.toString.call(o) === '[object Array]';
+				}
+
+				coinjs.countObject = function(obj){
+					var count = 0;
+					var i;
+					for (i in obj) {
+						if (obj.hasOwnProperty(i)) {
+							count++;
+						}
+					}
+					return count;
+				}
+
+				coinjs.random = function(length) {
+					var r = "";
+					var l = length || 25;
+					var chars = "!$%^&*()_+{}:@~?><|\./;'#][=-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+					for(x=0;x<l;x++) {
+						r += chars.charAt(Math.floor(Math.random() * 62));
+					}
+					return r;
+				}
+
+			}
+		</script>
+
+		<!-- All magic is here :D -->
+		<script>
+			/* Wallet functions */
+
+			// Check wallet balance
+			function walletBalance() {
+				$(".wallet-balance").text("Loading...")
+				coinjs.addressBalance($("#wallet-address").html(), function(data) {
+					data = JSON.parse(data)
+					if(data.error == undefined) {
+						globalData.balance = data.result.confirmed
+						$(".wallet-balance").text(amountFormat(globalData.balance) + " " + getApi()["ticker"])
+					} else {
+						showMessage("We couldn't load wallet balance")
+						$(".wallet-balance").text("0.00 " + getApi()["ticker"])
+					}
+				});
+			}
+
+			function walletTransactions() {
+				addressHistory($("#wallet-address").html(), 0).then(function(data) {
+					if (data.error == false) {
+						data.data.history.forEach(function(tx, index) {
+							if ($("#history-block .tx-list").find(`[data-address-history-txid="${tx.data.txid}"]`).length == 0) {
+								var content = `
+								<a href="${blockExplorer.tx(tx.data.txid)}" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start" data-address-history-txid="${tx.data.txid}">
+									<div class="row">
+										<div class="col-md-9 col-sm-12 col-xs-12">
+											<span class="text-muted mr-1 d-none">
+												<span class="entypo up text-danger"></span>
+											</span>
+											<span class="text-primary">${tx.data.txid}</span>
+											<div class="d-none">
+												Transaction details here
+											</div>
+										</div>
+										<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
+											<small class="text-muted">
+												#${tx.data.height}
+											</small>
+										</div>
+									</div>
+								</a>`
+
+								$("#history-block .tx-list").append(content)
+								$("#explorer-link").attr("href", blockExplorer.address($("#wallet-address").html()))
+
+								$("#empty-history").addClass("d-none")
+							}
+						})
+					}
+				});
+			}
+
+			function walletHistoryClear() {
+				$("#history-block .tx-list").empty()
+				$("#empty-history").removeClass("d-none")
+			}
+
+			// Set title
+			function setHomeTitle() {
+				if (globalData.keys.address) {
+					setTitle("Address " + globalData.keys.address)
 				} else {
-					$("#load-more").addClass("d-none")
+					setTitle("Open Wallet")
 				}
 			}
 
-			// Decode base58 encoded string to byte array
-			function bs58Decode(string) {
-				bs58Alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-				var bs58AlphabetMap = {}
-				var base = bs58Alphabet.length
-				var leader = bs58Alphabet.charAt(0)
-
-				for (var i = 0; i < bs58Alphabet.length; i++) {
-					bs58AlphabetMap[bs58Alphabet.charAt(i)] = i
-				}
-
-				if (string.length === 0) return []
-
-				var bytes = [0]
-				for (var i = 0; i < string.length; i++) {
-					var value = bs58AlphabetMap[string[i]]
-					if (value === undefined) throw new Error('Non-base' + base + ' character')
-
-					var carry = bytes[0] * base + value
-					bytes[0] = carry & 0xff
-					carry >>= 8
-
-					for (var j = 1; j < bytes.length; ++j) {
-						carry += bytes[j] * base
-						bytes[j] = carry & 0xff
-						carry >>= 8
+			// Check balance
+			function checkBalanceLoop() {
+				clearTimeout(walletTimer);
+				walletTimer = setTimeout(function() {
+					if($(".wallet-balance").text() != "Loading...") {
+						walletBalance();
 					}
-
-					while (carry > 0) {
-						bytes.push(carry & 0xff)
-						carry >>= 8
-					}
-				}
-
-				for (var k = 0; string[k] === leader && k < string.length - 1; ++k) {
-					bytes.push(0)
-				}
-
-				return bytes.reverse()
-			};
-
-			// Convert byte array to hex sting
-			function hexString(byteArray) {
-				return Array.from(byteArray, function(byte) {
-					return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-				}).join('')
+					checkBalanceLoop();
+					walletTransactions()
+				}, 45000);
 			}
 
-			// Convert base58 to hash160
-			function base58ToHash160(string) {
-				var result = hexString(bs58Decode(string)) 
-				return result.substring(2, result.length - 8)
+			// Open wallet by key
+			function openWallet(keys, segwit = true) {
+				globalData.address = keys.address
+				var wif = keys.wif
+				var pubkey = keys.pubkey
+				var sw = coinjs.segwitAddress(pubkey)
+				globalData.segwit = segwit
+
+				if (segwit) {
+					globalData.address = sw.address
+					$("#wallet-keys-script").removeClass("d-none")
+					$("#address-type-btn").text("SegWit")
+				} else {
+					$("#wallet-keys-script").addClass("d-none")
+					$("#address-type-btn").text("Legacy")
+				}
+
+				$("#wallet-keys-pubkey input").val(pubkey)
+				$("#wallet-keys-privkey input").val(wif)
+				$("#wallet-keys-script input").val(sw.redeemscript)
+				
+				$("#wallet-address").html(globalData.address)
+				$("#open-block").addClass("d-none")
+				$("#wallet-block").removeClass("d-none")
+				$("#history-link").attr("href", "" + blockExplorer.address(globalData.address))
+				$("#send-fee").attr("placeholder", "Fee (recommended " + globalData.rfee + " " + getApi()["ticker"] +")")
+				showQrAddress("microbitcoin:" + globalData.address)
+
+				// Init wallet stuffs
+				walletHistoryClear()
+				walletBalance()
+				walletTransactions()
+				checkBalanceLoop()
+				setHomeTitle()
+			}
+
+			function showConfirmation(amount) {
+				$("#confirm-amount").text(amount + " " + getApi()["ticker"])
+				$('#send-modal').modal('toggle')
+				$('#send-title').text(messages.title["sure"])
+				$("#send-cancel").removeClass("disabled")
+				$("#send-confirm").removeClass("disabled")
+				$("#confirm-screen").removeClass("d-none")
+				$("#status-screen").addClass("d-none")
+				$("#status-screen span").html("")
+
+				$.each($("#send-outputs .send-outputs-item"), function(key, item) {
+					globalData.tx.outputs.push({
+						"address": $("[name='send-address']", item).val().trim(),
+						"amount": $("[name='send-ammount']", item).val() * 1
+					})
+				})
+
+				globalData.tx.fee = amountFormat(($("#send-fee").val() != "") ? $("#send-fee").val() : globalData.rfee, true)
+				globalData.tx.amount = amountFormat(amount, true)
+			}
+
+			function sendTx() {
+				var tx = coinjs.transaction()
+				var txFee = globalData.tx.fee
+				var script = false
+				var sequence = 0xffffffff - 2 // RBF
+				var decimals = getApi()["decimals"]
+				var outputs = globalData.tx.outputs
+				var amount = globalData.tx.amount
+				var address = globalData.address
+
+				$("#send-cancel").addClass("disabled")
+				$("#send-confirm").addClass("disabled")
+				$("#confirm-screen").addClass("d-none")
+				$("#status-screen").removeClass("d-none")
+				$("#send-title").text(messages.title["processing"])
+				$("#status-screen .extra-info").empty()
+
+				$("#status-screen span").html(messages.tx["generating"])
+				if (globalData.segwit) { script = coinjs.segwitAddress(globalData.keys.pubkey)["redeemscript"] }
+				for (var i = 0, size = outputs.length; i < size; i++) {
+					tx.addoutput(outputs[i].address, outputs[i].amount)
+				}
+
+				tx.addUnspent(address, amount, function(data) {
+					$("#status-screen span").html(messages.tx["loading-utxo"])
+					var value = data.value
+					if(value >= amount) {
+						var change = value - amount
+						if ((change * 1) > 0) {
+							tx.addoutput(address, amountFormat(change));
+						}
+
+						// clone the transaction with out using coinjs.clone() function as it gives us trouble
+						var txClone = coinjs.transaction()
+						var txUnspent = txClone.deserialize(tx.serialize())
+
+						// then sign
+						var signed = txUnspent.sign(globalData.keys.wif)
+
+						txClone.broadcast(signed).then(function(data) {
+							if (!data.error) {
+								$("#status-screen span").html(`
+									<a href="` + blockExplorer.tx(data.data.txhash) + `" target="_blank">` + data.data.txhash + `</a> 
+								`)
+								$('#send-title').text(messages.title["success"])
+							} else {
+								$("#status-screen span").html(messages.error["broadcast-failed"])
+								$('#send-title').text(messages.title["failed"])
+								$("#status-screen .extra-info").html(`
+									<div class="mt-3">
+										<textarea class="form-control" readonly cols="30" rows="10">${data.error.message}</textarea>
+									</div>
+								`)
+							}
+							resetTxForm()
+						})
+
+						walletTransactions()
+					} else {
+						showMessage(messages.error["not-enough-funds"])
+					}
+
+				}, script, script, sequence);
+			}
+
+			// Close wallet
+			function closeWallet() {
+				$("#open-block").removeClass("d-none")
+				$("#wallet-block").addClass("d-none")
+				globalData.clear()
+				setHomeTitle()
+			}
+
+			// Create new wallet
+			$("#footer-create").click(function(){
+				var coin = coinjs.newKeys(null);
+				$("#create-keys-address input").val(coin.address)
+				$("#create-keys-pubkey input").val(coin.pubkey)
+				$("#create-keys-privkey input").val(coin.wif)
+			})
+
+			// Broadcast raw transaction
+			$("#footer-broadcast").click(function(){
+				var rawtx = $("#transaction-broadcast-raw")
+				txBroadcast(rawtx.val()).then(function(data) {
+					if (!data.error) {
+						showMessage(`
+							${messages.tx["success"]}<a href="` + blockExplorer.tx(data.data.txhash) + `" target="_blank">` + data.data.txhash + `</a>
+						`)
+					} else {
+						showMessage(messages.error["broadcast-failed"])
+					}
+				})
+				rawtx.val("")
+			})
+
+			// Reset sending form
+			function resetTxForm() {
+				$(".send-additional-output").remove()
+				$("#wallet-send input").val("")
+				globalData.resetTx()
 			}
 
 			// All starts here
@@ -1291,14 +3020,17 @@
 				displayNetworks()
 				routePage()
 
-				$("#search-form").submit(function(e) {
-					search($("#search-field").val())
-					$("#search-field").val("")
-					e.preventDefault()
-				})
+				$(".tab-link").click(function(e) {
+					var tabFamily = $(this).data("tab-family")
+					var tabName = $(this).data("tab-name")
 
-				$("#supply").click(function() {
-					displayHome()
+					$("#" + tabFamily + " .tab-item").addClass("d-none")
+					$("#" + tabFamily + " .card-header .card-header-tabs .nav-link").removeClass("active")
+				
+					$("#" + tabFamily + " [data-tab=" + tabName + "]").removeClass("d-none")
+					$(this).addClass("active")
+					
+					e.preventDefault()
 				})
 
 				$(window).on('hashchange', routePage)
@@ -1306,10 +3038,211 @@
 					$(window).trigger('hashchange')
 				}
 
-				window.setInterval(function() {
-					displayHome()
-				}, 30000);
+				$("#send-tx").click(function() {
+					var error = false
+					var txFee = ($("#send-fee").val() != "") ? $("#send-fee").val() : globalData.rfee
+					var total = 0
+
+					if ((isNaN(txFee)) || txFee <= 0) {
+						showMessage(messages.error["not-valid-fee"])
+						error = true
+					} else {
+						if (txFee < getApi()["fee"]) {
+							showMessage(messages.error.toSmallFee(getApi()["fee"], getApi()["ticker"]))
+							error = true
+						}
+					}
+
+
+					$.each($("#send-outputs .send-outputs-item"), function(key, item) {
+						var address = $("[name='send-address']", item).val().trim()
+						var amount = $("[name='send-ammount']", item).val()
+
+						if ((isNaN(amount)) || amount <= 0) {
+							showMessage(messages.error["not-valid-amount"])
+							error = true
+						}
+
+						if (coinjs.addressDecode(address) == false) {
+							showMessage(messages.error["not-valid-address"])
+							error = true
+						}
+
+						total += amount * 1
+					})
+
+					total += txFee * 1
+					total = parseFloat(total.toFixed(getApi()["decimals"]))
+
+					if (!error) {
+						if (total <= amountFormat(globalData.balance)) {
+							showConfirmation(total)
+						} else {
+							showMessage(messages.error["not-enough-funds"])
+						}
+					}
+				})
+
+				// Open wallet by WIF key
+				$("#open-key-form").submit(function(e){
+					var wif = $("#passphrase").val().trim()
+					var wifLength = wif.length
+					if ([51, 52].includes(wifLength) && coinjs.wif2privkey(wif).privkey != "") {
+						globalData.keys = coinjs.getKeys(wif)
+						$("#passphrase").val("")
+						openWallet(globalData.keys, false)
+					} else {
+						showMessage(messages.error["bad-priv-key"])
+					}
+
+					e.preventDefault()
+				})
+
+				// Open wallet using email and password
+				$("#open-regular-form").submit(function(e){
+					var email = $("#open-email").val().toLowerCase()
+					var pass = $("#open-password").val()
+					var passConfirm = $("#open-password-confirm").val()
+					if (email.match(/[\s\w\d]+@[\s\w\d]+/g)) {
+						if (pass.length>=10){
+							if (pass == passConfirm) {
+								var pass = pass
+								var s = email
+								s += '|'+pass+'|'
+								s += s.length+'|!@'+((pass.length*7)+email.length)*7
+								var regchars = (pass.match(/[a-z]+/g)) ? pass.match(/[a-z]+/g).length : 1
+								var regupchars = (pass.match(/[A-Z]+/g)) ? pass.match(/[A-Z]+/g).length : 1
+								var regnums = (pass.match(/[0-9]+/g)) ? pass.match(/[0-9]+/g).length : 1
+								s += ((regnums+regchars)+regupchars)*pass.length+'3571'
+								s += (s+''+s)
+
+								for (i = 0; i <= 50; i++){
+									s = Crypto.SHA256(s);
+								}
+
+								$("#open-email").val("")
+								$("#open-password").val("")
+								$("#open-password-confirm").val("")
+
+								globalData.keys = coinjs.newKeys(s)
+								openWallet(globalData.keys)
+							} else {
+								showMessage(messages.error["pass-not-match"])
+							}
+						} else {
+							showMessage(messages.error["pass-too-short"])
+						}
+					} else {
+						showMessage(messages.error["bad-email"])
+					}
+
+					e.preventDefault()
+				})
+
+				// Check wallet balance on balance label click
+				$(".wallet-balance").click(function(e){
+					walletBalance()
+					e.preventDefault()
+				})
+
+				// Confirm transaction sendign (are you sure?)
+				$("#send-confirm").click(function(e){
+					sendTx()
+					e.preventDefault()
+				})
+
+				// Toggle private key visibility
+				$(".toggle-priv-key").click(function(){
+					if ($(this).text() == "Show") {
+						$(this).parent().parent().find(".keys-privkey").attr("type", "text")
+						$(this).text("Hide")
+					} else {
+						$(this).parent().parent().find(".keys-privkey").attr("type", "password")
+						$(this).text("Show")
+					}
+				})
+
+				// Add transaction output
+				$("#add-output").click(function(e){
+					$("#send-outputs").append(`
+						<div class="send-additional-output send-outputs-item input-group mb-2">
+							<input name="send-address" class="form-control" placeholder="Enter address" type="text">
+							<input name="send-ammount" class="form-control" placeholder="Amount" type="text">
+							<div class="input-group-append">
+								<button class="btn btn-danger remove-additional-output" type="submit">
+									<span class="entypo minus"></span>
+								</button>
+							</div>
+						</div>
+					`)
+					$(".remove-additional-output").click(function(e){
+						$(this).closest(".send-additional-output").remove()
+						e.preventDefault()
+					})
+					e.preventDefault()
+				})
+
+				// Reset send form
+				$("#send-reset").click(function(e) {
+					resetTxForm()
+					e.preventDefault()
+				})
+
+				// Footer button which close wallet
+				$("#footer-close").click(function(e) {
+					closeWallet()
+					e.preventDefault()
+				})
+
+				// Change address type (legacy/segwit)
+				$(".address-type-switch").click(function(e) {
+					openWallet(globalData.keys, $(this).data("address-type") == "segwit")
+					e.preventDefault()
+				})
+
+				// Set wallet recomended fee
+				estimateFee().then(function(data) {
+					if (data.error == false) {
+						globalData.rfee = amountFormat(data.data.feerate)
+					} else {
+						globalData.rfee = getApi()["fee"]
+					}
+				})
+
+				// Capture mouse movement to add entropy
+				var IE = document.all?true:false // Boolean, is browser IE?
+				if (!IE) document.captureEvents(Event.MOUSEMOVE)
+				document.onmousemove = getMouseXY;
+				function getMouseXY(e) {
+					var tempX = 0;
+					var tempY = 0;
+					if (IE) { // If browser is IE
+						tempX = event.clientX + document.body.scrollLeft;
+						tempY = event.clientY + document.body.scrollTop;
+					} else {
+						tempX = e.pageX;
+						tempY = e.pageY;
+					};
+
+					if (tempX < 0){tempX = 0};
+					if (tempY < 0){tempY = 0};
+					var xEnt = Crypto.util.bytesToHex([tempX]).slice(-2);
+					var yEnt = Crypto.util.bytesToHex([tempY]).slice(-2);
+					var addEnt = xEnt.concat(yEnt);
+
+					if ($("#entropybucket").html().indexOf(xEnt) == -1 && $("#entropybucket").html().indexOf(yEnt) == -1) {
+						$("#entropybucket").html(addEnt + $("#entropybucket").html());
+					};
+
+					if ($("#entropybucket").html().length > 128) {
+						$("#entropybucket").html($("#entropybucket").html().slice(0, 128))
+					};
+
+					return true;
+				}
 			})
 		</script>
+
+		<div class="d-none" id="entropybucket"></div>
 	</body>
 </html>
