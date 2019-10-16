@@ -764,7 +764,7 @@
 									<tr>
 										<td>Previous Block</td>
 										<td>
-											<a class=${"previousblockhash" in data ? "" : "d-none"} href="#/block/${data.previousblockhash}">${data.previousblockhash}</a>
+											<a class="${"previousblockhash" in data ? "" : "d-none"}" href="#/block/${data.previousblockhash}">${data.previousblockhash}</a>
 											<span class=${"previousblockhash" in data ? "d-none" : ""}>
 												<b>Genesis Block</b>
 											</span>
@@ -917,8 +917,8 @@
 										<td>${amountFormat(data.received)} <b>${getApi()["ticker"]}</b></td>
 									</tr>
 									<tr>
-										<td>Unconfirmed Balance</td>
-										<td>${amountFormat(data.immature)} <b>${getApi()["ticker"]}</b></td>
+										<td>Locked Balance</td>
+										<td>${amountFormat(data.locked)} <b>${getApi()["ticker"]}</b></td>
 									</tr>
 									<tr>
 										<td>Balance</td>
@@ -1028,7 +1028,7 @@
 						<li class="list-group-item">
 							<b>Total fee:</b>
 							<small class="float-right text-muted">
-								${status.fee.toFixed(getApi()["decimals"])} <b>${getApi()["ticker"]}</b>
+								${amountFormat(status.fee)} <b>${getApi()["ticker"]}</b>
 							</small>
 						</li>`
 
