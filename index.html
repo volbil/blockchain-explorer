@@ -58,6 +58,9 @@
 				padding: 3px;
 				border-radius: 5px;
 			}
+			.modal-dialog {
+				max-width: 530px;
+			}
 		</style>
 		<title>Blockchain Explorer</title>
 		<meta name="description" content="MicroBitcoin Blockchain Explorer">
@@ -260,119 +263,153 @@
 
 		<!-- All magic is here :D -->
 		<script>
-
 			// Config
 			var networksConfigs = {
-				"MBC": {
-					"name": "Main Network (MBC)",
-					"api": "https://api.mbc.wiki",
-					"ticker": "MBC",
-					"decimals": 4
+				'MBC': {
+					'name': 'Main Network (MBC)',
+					'api': 'https://api.mbc.wiki',
+					'ticker': 'MBC',
+					'decimals': 4,
+					'hrp': 'mbc'
 				},
-				"TMBC": {
-					"name": "Test Network (TMBC)",
-					"api": "https://api.mbc.wiki/test/",
-					"ticker": "TMBC",
-					"decimals": 4
+				'TMBC': {
+					'name': 'Test Network (TMBC)',
+					'api': 'https://api.mbc.wiki/test/',
+					'ticker': 'TMBC',
+					'decimals': 4,
+					'hrp': 'tmbc'
 				}
 			}
 
 			// Error messages
 			var errorMessages = {
-				"blocks-load-error": "There was an error while trying to load the blocks!",
-				"blocks-not-found": "Block not found!",
-				"tx-not-found": "Transaction not found!",
-				"nan-error": "The height of the block should be a non-negative integer!",
-				"no-block-specified": "You must specify blocks!",
-				"no-tx-specified": "You must specify transaction!",
-				"not-valid-address": "You must specify valid address!",
-				"search-error": "We can't process your request :(",
-				"circulating-supply-load-error": "There was an error while trying to load the circulating supply :("
+				'blocks-load-error': 'There was an error while trying to load the blocks!',
+				'blocks-not-found': 'Block not found!',
+				'tx-not-found': 'Transaction not found!',
+				'nan-error': 'The height of the block should be a non-negative integer!',
+				'no-block-specified': 'You must specify blocks!',
+				'no-tx-specified': 'You must specify transaction!',
+				'not-valid-address': 'You must specify valid address!',
+				'search-error': 'We can\'t process your request :(',
+				'circulating-supply-load-error': 'There was an error while trying to load the circulating supply :('
 			}
 
 			function showCharts(data) {
-				$("#charts").removeClass("d-none")
+				$('#charts').removeClass('d-none')
 				Highcharts.chart('network-chart', {
-					chart: {
-						type: 'spline',
-						height: 240
+					'chart': {
+						'type': 'spline',
+						'height': 240
 					},
-					title: {
-						text: ''
+					'title': {
+						'text': ''
 					},
-					xAxis: [{
-						categories: [].concat(data["blocks"]).reverse(),
-						crosshair: true,
-						labels: {
-							enabled: true,
-							step: 1
-							}
-						}],
-					yAxis: [{ labels: { enabled: false}, title: { text: null }},
-							{ labels: { enabled: false}, title: { text: null }},
-							{ labels: { enabled: false}, title: { text: null }, opposite: true },
-							{ labels: { enabled: false}, title: { text: null }},
-							{ labels: { enabled: false}, title: { text: null }}
-							],		
-					tooltip: {
-						shared: true,
+					'xAxis': [{
+						'categories': [].concat(data["blocks"]).reverse(),
+						'crosshair': true,
+						'labels': {
+							'enabled': true,
+							'step': 1
+						}
+					}],
+					'yAxis': [{
+						'labels': {
+							'enabled': false
+						},
+						'title': {
+							'text': null
+						}
+					}, {
+						'labels': {
+							'enabled': false
+						},
+						'title': {
+							'text': null
+						}
+					}, {
+						'labels': {
+							'enabled': false
+						},
+						'title': {
+							'text': null
+						},
+						'opposite': true
+					}, {
+						'labels': {
+							'enabled': false
+						},
+						'title': {
+							'text': null
+						}
+					}, {
+						'labels': {
+							'enabled': false
+						},
+						'title': {
+							'text': null
+						}
+					}],
+					'tooltip': {
+						'shared': true,
 						formatter: function() {
-							var s = '<b>'+ this.x +'</b>';
+							var s = '<b>' + this.x + '</b>';
 
 							$.each(this.points, function(i, point) {
 								text = point.y
-								if (i == 3) { text = convertHashes(point.y) }
-								
+								if (i == 3) {
+									text = convertHashes(point.y)
+								}
+
 								s += '<br/><span style="color:' + point.color + '">\u25CF</span>: ' + point.series.name + ': ' + text;
 							});
 
 							return s;
 						},
 					},
-					plotOptions: {
-						series: {
-							label: {
-								connectorAllowed: true
+					'plotOptions': {
+						'series': {
+							'label': {
+								'connectorAllowed': true
 							},
-							marker: {
-								enabled: false,
-								size: 2
+							'marker': {
+								'enabled': false,
+								'size': 2
 							}
 						}
 					},
-					series: [{
-							name: 'Difficulty',
-							data: [].concat(data["diffs"]).reverse(),
-							yAxis: 1,
-							color: '#7cb5ec',
-							type: 'areaspline',
-							fillOpacity: 0.3
-							}, {
-							name: 'Transactions',
-							data: [].concat(data["txs"]).reverse(),
-							yAxis: 2,
-							color: '#90ed7d'
-							}, {
-							name: 'Size',
-							data: [].concat(data["sizes"]).reverse(),
-							yAxis: 3,
-							color: '#f7a35c'
-							}, {
-							name: 'Network hashrate',
-							data: [].concat(data["nethash"]).reverse(),
-							yAxis: 4,
-							color: '#ff2a65'
-							}],
-					responsive: {
-						rules: [{
-							condition: {
-								maxWidth: 500,
+					'series': [{
+						'name': 'Difficulty',
+						'data': [].concat(data["diffs"]).reverse(),
+						'yAxis': 1,
+						'color': '#7cb5ec',
+						'type': 'areaspline',
+						'fillOpacity': 0.3
+					}, {
+						'name': 'Transactions',
+						'data': [].concat(data["txs"]).reverse(),
+						'yAxis': 2,
+						'color': '#90ed7d'
+					}, {
+						'name': 'Size',
+						'data': [].concat(data["sizes"]).reverse(),
+						'yAxis': 3,
+						'color': '#f7a35c'
+					}, {
+						'name': 'Network hashrate',
+						'data': [].concat(data["nethash"]).reverse(),
+						'yAxis': 4,
+						'color': '#ff2a65'
+					}],
+					'responsive': {
+						'rules': [{
+							'condition': {
+								'maxWidth': 500,
 							},
-							chartOptions: {
-								legend: {
-									layout: 'horizontal',
-									align: 'center',
-									verticalAlign: 'bottom'
+							'chartOptions': {
+								'legend': {
+									'layout': 'horizontal',
+									'align': 'center',
+									'verticalAlign': 'bottom'
 								}
 							}
 						}]
@@ -404,34 +441,34 @@
 
 			// Display doc links
 			function displayDocs() {
-				$("a.api-link").each(function() {
-					docsLink = getApi()["api"] + docs[$(this).attr("data-docs-link")];
-					$(this).attr("href", docsLink)
+				$('a.api-link').each(function() {
+					docsLink = getApi()['api'] + docs[$(this).attr('data-docs-link')];
+					$(this).attr('href', docsLink)
 					$(this).text(docsLink)
 				});
 			}
 
 			// Get current network config
 			function getApi() {
-				var network = readCookie("network")
+				var network = readCookie('network')
 				if (network == null || networksConfigs[network] == undefined) {
-					setCookie("network", Object.keys(networksConfigs)[0], 60)
-					network = readCookie("network")
+					setCookie('network', Object.keys(networksConfigs)[0], 60)
+					network = readCookie('network')
 				}
 
 				return networksConfigs[network]
 			}
 
 			// Switch network
-			function switchApi(network, page = "") {
+			function switchApi(network, page = '') {
 				network = network.toUpperCase()
 				if (networksConfigs[network] != undefined & networksConfigs[network] != getApi()) {
 					setCookie("network", network, 60)
-					$("#blocks-table tbody").empty()
-					$("#block-info-hash").empty()
-					$("#data-address").empty()
-					$("#tx-info-hash").empty()
-					$("#charts").addClass("d-none")
+					$('#blocks-table tbody').empty()
+					$('#block-info-hash').empty()
+					$('#data-address').empty()
+					$('#tx-info-hash').empty()
+					$('#charts').addClass('d-none')
 					displayNetworks()
 					displayHome()
 				}
@@ -441,26 +478,26 @@
 			// Display networks list
 			function displayNetworks() {
 				network = getApi()
-				$("#network-versions").text(network["name"])
-				$("#network-list .dropdown-menu").empty()
+				$('#network-versions').text(network['name'])
+				$('#network-list .dropdown-menu').empty()
 
 				for (var key in networksConfigs) {
-					$("#network-list .dropdown-menu").append(`<a class="dropdown-item ${networksConfigs[key]["name"] == network["name"] ? "active" : ""}" href="#/network/${key}">${networksConfigs[key]["name"]}</a>`)
+					$('#network-list .dropdown-menu').append(`<a class="dropdown-item ${networksConfigs[key]['name'] == network['name'] ? 'active' : ''}" href="#/network/${key}">${networksConfigs[key]['name']}</a>`)
 				}
 			}
 
 			// SPA router function
 			function routePage() {
 				var urlParams = readParams()
-				if (window.location.hash == "") {
-					window.location.hash = "#/"
+				if (window.location.hash == '') {
+					window.location.hash = '#/'
 				}
 
-				if (urlParams[0] == "#") {
-					var pageName = urlParams[1] != "" ? urlParams[1] : "homepage"
-					var templateName = "#" + pageName
+				if (urlParams[0] == '#') {
+					var pageName = urlParams[1] != '' ? urlParams[1] : 'homepage'
+					var templateName = '#' + pageName
 					
-					if ($(".router-page:visible").attr("id") != urlParams[1]) {
+					if ($('.router-page:visible').attr('id') != urlParams[1]) {
 						$('div.router-page').hide()
 						if ($(templateName).length) {
 							$(templateName).show()
@@ -472,31 +509,31 @@
 						case 'block':
 							var block_hash = urlParams[2]
 							var api = urlParams[3]
-							var data_block_hash = $("#block-info-hash").attr("data-block-info-hash")
+							var data_block_hash = $('#block-info-hash').attr('data-block-info-hash')
 							if (block_hash != undefined && block_hash.length == 64) {
 								if (api != undefined) {
-									page = urlParams[1] + "/" + urlParams[2]
+									page = urlParams[1] + '/' + urlParams[2]
 									switchApi(api, page)
 								} else {
 									if (data_block_hash != urlParams[2]) {
-										$("#block-info-tx-total").addClass("d-none")
-										$("#block-info-table").empty()
+										$('#block-info-tx-total').addClass('d-none')
+										$('#block-info-table').empty()
 										blockInfo(block_hash).then(function(block) {
-											if (block["error"] == undefined) {
-												setTitle("Block #" + block.result.height)
+											if (block['error'] == undefined) {
+												setTitle('Block #' + block.result.height)
 												displayBlockInfo(block.result)
 											} else {
-												showError(errorMessages["blocks-not-found"])
+												showError(errorMessages['blocks-not-found'])
 												switchPage()
 											}
 										})
 									} else {
-										setTitle("Block #" + block_hash)
+										setTitle('Block #' + block_hash)
 									}
 								}
 
 							} else {
-								showError(errorMessages["no-block-specified"])
+								showError(errorMessages['no-block-specified'])
 								switchPage()
 							}
 
@@ -506,31 +543,31 @@
 						case 'transaction':
 							var tx_hash = urlParams[2]
 							var api = urlParams[3]
-							var data_tx_hash = $("#tx-info-hash").attr("data-tx-info-hash")
+							var data_tx_hash = $('#tx-info-hash').attr('data-tx-info-hash')
 							if (tx_hash != undefined) {
 								if (api != undefined) {
-									page = urlParams[1] + "/" + urlParams[2]
+									page = urlParams[1] + '/' + urlParams[2]
 									switchApi(api, page)
 								} else {
 									if (data_tx_hash != urlParams[2]) {
-										$("#tx-info-vout-total").addClass("d-none")
-										$("#tx-info-vin-total").addClass("d-none")
-										$("#tx-info-table").empty()
+										$('#tx-info-vout-total').addClass('d-none')
+										$('#tx-info-vin-total').addClass('d-none')
+										$('#tx-info-table').empty()
 										transactionInfo(tx_hash).then(function(tx) {
-											if (tx["error"] == undefined) {
-												setTitle("Transaction " + tx_hash)
+											if (tx['error'] == undefined) {
+												setTitle('Transaction ' + tx_hash)
 												displayTransactionInfo(tx.result)
 											} else {
-												showError(errorMessages["tx-not-found"])
+												showError(errorMessages['tx-not-found'])
 												switchPage()
 											}
 										})
 									} else {
-										setTitle("Transaction " + data_tx_hash)
+										setTitle('Transaction ' + data_tx_hash)
 									}
 								}
 							} else {
-								showError(errorMessages["no-tx-specified"])
+								showError(errorMessages['no-tx-specified'])
 								switchPage()
 							}
 
@@ -539,30 +576,30 @@
 						case 'address':
 							var address = urlParams[2]
 							var api = urlParams[3]
-							var data_address = $("#data-address").attr("data-address")
+							var data_address = $('#data-address').attr('data-address')
 							if (address != undefined) {
 								if (api != undefined) {
-									page = urlParams[1] + "/" + urlParams[2]
+									page = urlParams[1] + '/' + urlParams[2]
 									switchApi(api, page)
 								} else {
 									if (data_address != urlParams[2]) {
-										$("#address-history").addClass("d-none")
-										$("#address-info-table").empty()
+										$('#address-history').addClass('d-none')
+										$('#address-info-table').empty()
 										addressBalance(address).then(function(data) {
-											if (data["error"] == undefined) {
-												setTitle("Address " + address)
+											if (data['error'] == undefined) {
+												setTitle('Address ' + address)
 												displayAddressInfo(data.result, address)
 											} else {
-												showError(errorMessages["not-valid-address"])
+												showError(errorMessages['not-valid-address'])
 												switchPage()
 											}
 										})
 									} else {
-										setTitle("Address " + data_address)
+										setTitle('Address ' + data_address)
 									}
 								}
 							} else {
-								showError(errorMessages["not-valid-address"])
+								showError(errorMessages['not-valid-address'])
 								switchPage()
 							}
 
@@ -573,16 +610,16 @@
 							block_height = urlParams[2]
 							if (block_height != undefined && isNumeric(block_height)) {
 								blockHeight(urlParams[2]).then(function(block) {
-									setTitle("Loading")
-									if (block["error"] == undefined) {
-										switchPage("block", [block["result"]["hash"]])
+									setTitle('Loading')
+									if (block['error'] == undefined) {
+										switchPage('block', [block['result']['hash']])
 									} else {
-										showError(errorMessages["blocks-load-error"])
+										showError(errorMessages['blocks-load-error'])
 										switchPage()
 									}
 								})
 							} else {
-								showError(errorMessages["nan-error"])
+								showError(errorMessages['nan-error'])
 								switchPage()
 							}
 
@@ -590,7 +627,7 @@
 
 						// Home page ¯\_(ツ)_/¯
 						case 'homepage':
-							setTitle("Latest Blocks")
+							setTitle('Latest Blocks')
 							displayHome()
 
 							break
@@ -613,9 +650,9 @@
 			}
 
 			// Switch router page
-			function switchPage(url = "", params = []) {
-				params = params.length > 0 ? "/" + params.join("/") : ""
-				window.location.hash = "#" + "/" + url + params;
+			function switchPage(url = '', params = []) {
+				params = params.length > 0 ? '/' + params.join('/') : ''
+				window.location.hash = '#' + '/' + url + params;
 			}
 
 			// Read URL params
@@ -631,7 +668,7 @@
 			// Bocks request
 			function getBlocks(start, offset = 30) {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/range/" + start + "?offset=" + offset,
+					'url': getApi()['api'] + '/range/' + start + '?offset=' + offset,
 				})).then(function(data) {
 					return data
 				})
@@ -640,7 +677,7 @@
 			// Block info
 			function blockInfo(hash, offset = 0) {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/block/" + hash + "?offset=" + offset,
+					'url': getApi()['api'] + '/block/' + hash + '?offset=' + offset,
 				})).then(function(data) {
 					return data
 				})
@@ -649,7 +686,7 @@
 			// Get transaction info
 			function transactionInfo(hash) {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/transaction/" + hash,
+					'url': getApi()['api'] + '/transaction/' + hash,
 				})).then(function(data) {
 					return data
 				})
@@ -658,7 +695,7 @@
 			// Get address balance
 			function addressBalance(address) {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/balance/" + address,
+					'url': getApi()['api'] + '/balance/' + address,
 				})).then(function(data) {
 					return data
 				})
@@ -667,7 +704,7 @@
 			// Get address history
 			function addressHistory(address, offset = 0) {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/history/" + address + "?offset=" + offset,
+					'url': getApi()['api'] + '/history/' + address + '?offset=' + offset,
 				})).then(function(data) {
 					return data
 				})
@@ -676,7 +713,7 @@
 			// Get current network info
 			function networkInfo() {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/info",
+					'url': getApi()['api'] + '/info',
 				})).then(function(data) {
 					return data
 				})
@@ -685,7 +722,7 @@
 			// Get circulating supply
 			function networkSupply() {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/supply",
+					'url': getApi()['api'] + '/supply',
 				})).then(function(data) {
 					return data
 				})
@@ -694,7 +731,7 @@
 			// Get block by height
 			function blockHeight(height) {
 				return Promise.resolve($.ajax({
-					url: getApi()["api"] + "/height/" + height,
+					'url': getApi()['api'] + '/height/' + height,
 				})).then(function(data) {
 					return data
 				})
@@ -721,25 +758,25 @@
 									</a>
 								</td>
 								<td>
-									${block.txcount != undefined ? block.txcount : "1"}
+									${block.txcount != undefined ? block.txcount : '1'}
 								</td>
 							</tr>`
 
 						if (prepend) {
-							$("#blocks-table tbody").prepend(content)
+							$('#blocks-table tbody').prepend(content)
 						} else {
-							$("#blocks-table tbody").append(content)
+							$('#blocks-table tbody').append(content)
 						}
 					}	
 
 					if (block.height == 0) {
-						$("#more").addClass("d-none")
+						$('#more').addClass('d-none')
 					}
 				});
 			}
 
 			function displayBlockInfo(data) {
-				$("#block-transactions").empty()
+				$('#block-transactions').empty()
 				content = `
 					<div class="card mb-3">
 						<div class="table-responsive">
@@ -764,8 +801,8 @@
 									<tr>
 										<td>Previous Block</td>
 										<td>
-											<a class="${"previousblockhash" in data ? "" : "d-none"}" href="#/block/${data.previousblockhash}">${data.previousblockhash}</a>
-											<span class=${"previousblockhash" in data ? "d-none" : ""}>
+											<a class="${'previousblockhash' in data ? '' : ''}" href="#/block/${data.previousblockhash}">${data.previousblockhash}</a>
+											<span class=${'previousblockhash' in data ? 'd-none' : ''}>
 												<b>Genesis Block</b>
 											</span>
 										</td>
@@ -773,7 +810,13 @@
 									<tr>
 										<td>Next Block</td>
 										<td>
-											<a href="#/block/${data.nextblockhash}">${data.nextblockhash}</a>
+											${data.nextblockhash != undefined ? `
+												<a href="#/block/${data.nextblockhash}">
+													${data.nextblockhash}
+												</a>
+											` : `
+												<b>This is latest block</b>
+											`}
 										</td>
 									</tr>
 									<tr>
@@ -815,17 +858,17 @@
 						</div>
 					</div>`
 
-				$("#block-info-table").html(content)
+				$('#block-info-table').html(content)
 
-				displayTransactions($("#block-transactions"), data.tx)
+				displayTransactions($('#block-transactions'), data.tx)
 
-				if (data.txcount > $("#block-transactions").children().length) {
-					$("#more-block-transactions").removeClass("d-none")
+				if (data.txcount > $('#block-transactions').children().length) {
+					$('#more-block-transactions').removeClass('d-none')
 				} else {
-					$("#more-block-transactions").addClass("d-none")
+					$('#more-block-transactions').addClass('d-none')
 				}
 
-				$("#block-info-tx-total").removeClass("d-none")
+				$('#block-info-tx-total').removeClass('d-none')
 			}
 
 			function displayTransactionInfo(data) {
@@ -843,7 +886,7 @@
 											<td>Timestamp</td>
 											<td>${timeFormat(data.time)} (<b>${data.time}</b>)</td>
 										</tr>
-									` : ""}
+									` : ''}
 									<tr>
 										<td>Height</td>
 										<td>
@@ -856,7 +899,7 @@
 									</tr>
 									<tr>
 										<td>Amount Transferred</td>
-										<td>${amountFormat(data.amount)} <b>${getApi()["ticker"]}</b></td>
+										<td>${amountFormat(data.amount)} <b>${getApi()['ticker']}</b></td>
 									</tr>
 									<tr>
 										<td>Size</td>
@@ -866,7 +909,7 @@
 										<td>Version</td>
 										<td>${data.version}</td>
 									</tr>
-									<tr class="${data.locktime == 0 ? "d-none" : ""}">
+									<tr class="${data.locktime == 0 ? 'd-none' : ''}">
 										<td>Locktime</td>
 										<td>${data.locktime}</td>
 									</tr>
@@ -875,15 +918,17 @@
 						</div>
 					</div>`
 
-				$("#tx-info-table").html(content)
-				$("#tx-info-vout-total .card-header b").text(data.vout.length)
-				$("#tx-info-vin-total .card-header b").text(data.vin.length)
-				$("#tx-vout-list").empty()
-				$("#tx-vin-list").empty()
+				$('#tx-info-table').html(content)
+				$('#tx-info-vout-total .card-header b').text(data.vout.length)
+				$('#tx-info-vin-total .card-header b').text(data.vin.length)
+				$('#tx-vout-list').empty()
+				$('#tx-vin-list').empty()
+
 				displayTxVout(data.vout)
 				displayTxVin(data.vin)
-				$("#tx-info-vout-total").removeClass("d-none")
-				$("#tx-info-vin-total").removeClass("d-none")
+
+				$('#tx-info-vout-total').removeClass('d-none')
+				$('#tx-info-vin-total').removeClass('d-none')
 			}
 
 			function showQrModal(e, text) {
@@ -895,7 +940,7 @@
 			}
 
 			function displayAddressInfo(data, address) {
-				$("#address-transactions").empty()
+				$('#address-transactions').empty()
 				content = `
 					<div class="card mb-3">
 						<div class="table-responsive">
@@ -910,52 +955,52 @@
 									</tr>
 									<tr>
 										<td>Hash160</td>
-										<td>${base58ToHash160(address)}</td>
+										<td>${hash160(address)}</td>
 									</tr>
 									<tr>
 										<td>Received</td>
-										<td>${amountFormat(data.received)} <b>${getApi()["ticker"]}</b></td>
-									</tr>
-									<tr>
-										<td>Locked Balance</td>
-										<td>${amountFormat(data.locked)} <b>${getApi()["ticker"]}</b></td>
+										<td>${amountFormat(data.received)} <b>${getApi()['ticker']}</b></td>
 									</tr>
 									<tr>
 										<td>Balance</td>
-										<td>${amountFormat(data.balance)} <b>${getApi()["ticker"]}</b></td>
+										<td>${amountFormat(data.balance)} <b>${getApi()['ticker']}</b></td>
+									</tr>
+									<tr>
+										<td>Locked Balance</td>
+										<td>${amountFormat(data.locked)} <b>${getApi()['ticker']}</b></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>`
 
-				$("#address-info-table").html(content)
+				$('#address-info-table').html(content)
 
 				addressHistory(address).then(function(data) {
 					if (data.error == undefined) {
 						if (data.result.txcount > 10 && data.result.tx.length >= 10) {
-							$("#more-address-transactions").removeClass("d-none")
+							$('#more-address-transactions').removeClass('d-none')
 						} else {
-							$("#more-address-transactions").addClass("d-none")
+							$('#more-address-transactions').addClass('d-none')
 						}
 
-						$("#address-info .address-tx-count").text(data.result.txcount)
-						displayTransactions($("#address-transactions"), data.result.tx)
+						$('#address-info .address-tx-count').text(data.result.txcount)
+						displayTransactions($('#address-transactions'), data.result.tx)
 					}
 				})
 			}
 
 			function parseTransactionDetails(data) {
 				var status = {
-					"coinbase": false,
-					"input": 0,
-					"output": 0,
-					"fee": 0,
-					"from": "",
-					"to": "",
-					"badge": {
-						"text": "",
-						"class": ""
+					'coinbase': false,
+					'input': 0,
+					'output': 0,
+					'fee': 0,
+					'from': '',
+					'to': '',
+					'badge': {
+						'text': '',
+						'class': ''
 					}
 				}
 
@@ -983,7 +1028,8 @@
 				})
 
 				for (address in inputs) {
-					var transfer_amount = amountFormat(inputs[address]) + " <b>" + getApi()["ticker"] + "</b>"
+					var transfer_amount = amountFormat(inputs[address]) + ' <b>' + getApi()['ticker'] + '</b>'
+
 					content = `
 						<a class="list-group-item list-group-item-action" href="#/address/${address}">
 							<span class="entypo up text-danger"></span>
@@ -1011,7 +1057,8 @@
 				})
 
 				for (address in outputs) {
-					var transfer_amount = amountFormat(outputs[address]) + " <b>" + getApi()["ticker"] + "</b>"
+					var transfer_amount = amountFormat(outputs[address]) + ' <b>' + getApi()['ticker'] + '</b>'
+
 					content = `
 						<a class="list-group-item list-group-item-action" href="#/address/${address}">
 							<span class="entypo down text-success"></span>
@@ -1028,7 +1075,7 @@
 						<li class="list-group-item">
 							<b>Total fee:</b>
 							<small class="float-right text-muted">
-								${amountFormat(status.fee)} <b>${getApi()["ticker"]}</b>
+								${amountFormat(status.fee)} <b>${getApi()['ticker']}</b>
 							</small>
 						</li>`
 
@@ -1036,38 +1083,38 @@
 				}
 
 				if (status.coinbase) {
-					status.badge.text = "Coinbase"
-					status.badge.class = "badge-primary"
+					status.badge.text = 'Coinbase'
+					status.badge.class = 'badge-primary'
 				}
 
 				return status
 			}
 
 			function loadTransactions(holder) {
-				holder.find("[data-transaction][data-transaction-loaded=false]").each(function() {
+				holder.find('[data-transaction][data-transaction-loaded=false]').each(function() {
 					var tx = $(this)
 					transactionInfo(tx.attr('data-transaction'), true).then(function(data) {
 						if (data.error == undefined) {
-							tx.find(".transaction-time").text(timeFormat(data.result.time)).removeClass("d-none")
+							tx.find('.transaction-time').text(timeFormat(data.result.time)).removeClass('d-none')
 
 							var status = parseTransactionDetails(data.result)
 
 							if (status.hide) {
-								tx.addClass("d-none")
+								tx.addClass('d-none')
 							} else {
-								tx.find("hr").removeClass("d-none")
-								tx.find(".transaction-from").removeClass("d-none")
-								tx.find(".transaction-to").removeClass("d-none")
+								tx.find('hr').removeClass('d-none')
+								tx.find('.transaction-from').removeClass('d-none')
+								tx.find('.transaction-to').removeClass('d-none')
 
-								tx.find(".transaction-badge .badge").text(status.badge.text).removeClass("d-none")
-								tx.find(".transaction-badge .badge").addClass(status.badge.class)
-								tx.find(".transaction-badge").removeClass("d-none")
+								tx.find('.transaction-badge .badge').text(status.badge.text).removeClass('d-none')
+								tx.find('.transaction-badge .badge').addClass(status.badge.class)
+								tx.find('.transaction-badge').removeClass('d-none')
 
-								tx.find(".transaction-from ul").append(status.from)
-								tx.find(".transaction-to ul").append(status.to)
+								tx.find('.transaction-from ul').append(status.from)
+								tx.find('.transaction-to ul').append(status.to)
 							}
 
-							tx.attr("data-transaction-loaded", true)
+							tx.attr('data-transaction-loaded', true)
 						}
 					})
 				})
@@ -1113,9 +1160,9 @@
 				})
 
 				if (data.length > 0) {
-					$("#more-block-transactions").removeClass("d-none")
+					$('#more-block-transactions').removeClass('d-none')
 				} else {
-					$("#more-block-transactions").addClass("d-none")
+					$('#more-block-transactions').addClass('d-none')
 				}
 
 				loadTransactions(holder)
@@ -1123,8 +1170,8 @@
 
 			function displayTxVout(vout_list) {
 				vout_list.forEach(function(vout, index) {
-					if ($("#tx-vout-list").find(`[data-tx-vout-index="${index}"]`).length == 0) {
-						if (vout.scriptPubKey.type != "nulldata") {
+					if ($('#tx-vout-list').find(`[data-tx-vout-index="${index}"]`).length == 0) {
+						if (vout.scriptPubKey.type != 'nulldata') {
 							var content = `
 								<a href="#/address/${vout.scriptPubKey.addresses[0]}" data-tx-vout-index="${vout.vout_index}" class="list-group-item list-group-item-action flex-column align-items-start">
 									<div class="row">
@@ -1136,13 +1183,13 @@
 										</div>
 										<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
 											<small class="text-muted">
-												${amountFormat(vout.value)} <b>${getApi()["ticker"]}</b>
+												${amountFormat(vout.value)} <b>${getApi()['ticker']}</b>
 											</small>
 										</div>
 									</div>
 								</a>`
 
-							$("#tx-vout-list").append(content)
+							$('#tx-vout-list').append(content)
 						} else {
 							var content = `
 								<li class="list-group-item">
@@ -1150,19 +1197,19 @@
 								</li>
 							`
 
-							$("#tx-vout-list").append(content)
+							$('#tx-vout-list').append(content)
 						}
 					}
 				})
 			}
 
 			function displayTxVin(vin_list) {
-				var total = $("#tx-info-vin-total .card-header b").text()
+				var total = $('#tx-info-vin-total .card-header b').text()
 				vin_list.forEach(function(vin, index) {
-					if (vin["coinbase"] != undefined) {
-						$("#tx-vin-list").append(`Newly Generated Coins (<b>Coinbase Transaction</b>)`)
+					if (vin['coinbase'] != undefined) {
+						$('#tx-vin-list').append('Newly Generated Coins (<b>Coinbase Transaction</b>)')
 					} else {
-						if ($("#tx-vin-list").find(`[data-tx-vin-index="${index}"]`).length == 0) {
+						if ($('#tx-vin-list').find(`[data-tx-vin-index="${index}"]`).length == 0) {
 							var content = `
 							<div class="list-group-item flex-column align-items-start" data-tx-vin-index="${vin.vin_index}">
 								<div class="row">
@@ -1173,26 +1220,26 @@
 										<a href="#/address/${vin.scriptPubKey.addresses[0]}">
 											${vin.scriptPubKey.addresses[0]}
 										</a>
-										(<a href="#/tx/${vin["txid"]}">Output</a>)
+										(<a href="#/tx/${vin['txid']}">Output</a>)
 									</div>
 									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
 										<small class="text-muted">
-											${amountFormat(vin.value)} <b>${getApi()["ticker"]}</b>
+											${amountFormat(vin.value)} <b>${getApi()['ticker']}</b>
 										</small>
 									</div>
 								</div>
 							</div>`
 
-							$("#tx-vin-list").append(content)
+							$('#tx-vin-list').append(content)
 						}
 					}
 				})
 			}
 
 			function displayHistory(address, history_list) {
-				var total = $("#address-history .card-header b").text()
+				var total = $('#address-history .card-header b').text()
 				history_list.forEach(function(tx_info, index) {
-					if ($("#address-history-list").find(`[data-address-history-index="${tx_info.tx_index}"]`).length == 0) {
+					if ($('#address-history-list').find(`[data-address-history-index="${tx_info.tx_index}"]`).length == 0) {
 						var content = `
 							<a href="#/tx/${tx_info.data.txid}" data-address-history-index="${tx_info.tx_index}" class="list-group-item list-group-item-action flex-column align-items-start">
 								<div class="row">
@@ -1204,59 +1251,59 @@
 									</div>
 									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
 										<small class="text-muted">
-											${tx_info.data.height > 0 ? "#" + tx_info.data.height : "Mempool"}
+											${tx_info.data.height > 0 ? '#' + tx_info.data.height : 'Mempool'}
 										</small>
 									</div>
 								</div>
 							</a>`
 
-						$("#address-history-list").append(content)
+						$('#address-history-list').append(content)
 					}
 				})
 			}
 
 			function displayHome() {
-				$("#supply span").text("Loading...")
+				$('#supply span').text('Loading...')
 				networkInfo().then(function(data) {
 					var height = data.result.blocks
-					var display_height = $("#blocks-table tbody tr:first-child").attr("data-height")
+					var display_height = $('#blocks-table tbody tr:first-child').attr('data-height')
 
 					// Display circulating supply
 					networkSupply().then(function(data) {
-						if(data["error"] == undefined) {
+						if(data['error'] == undefined) {
 							circulatingSupply = parseInt(amountFormat(data.result.supply))
-							$("#supply span").text(circulatingSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + getApi()["ticker"]);
+							$('#supply span').text(circulatingSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' ' + getApi()['ticker']);
 						} else {
-							showError(errorMessages["circulating-supply-load-error"])
+							showError(errorMessages['circulating-supply-load-error'])
 						}
 					});
 
-					if (height != display_height || $("#blocks-table tbody tr").length > 0) {
+					if (height != display_height || $('#blocks-table tbody tr').length > 0) {
 						getBlocks(height).then(function(blocks) {
-							if (blocks["error"] == undefined) {
-								displayBlocks(blocks["result"], true)
+							if (blocks['error'] == undefined) {
+								displayBlocks(blocks['result'], true)
 
 								var chart_data = {
-									"diffs": [],
-									"blocks": [],
-									"sizes": [],
-									"timestamps": [],
-									"txs": [],
-									"nethash": []
+									'diffs': [],
+									'blocks': [],
+									'sizes': [],
+									'timestamps': [],
+									'txs': [],
+									'nethash': []
 								}
 
-								$.each(blocks["result"].reverse(), function(index, block) {
-									chart_data["diffs"].push(block["difficulty"])
-									chart_data["blocks"].push(block["height"])
-									chart_data["sizes"].push(block["size"])
-									chart_data["timestamps"].push(block["time"])
-									chart_data["txs"].push(block["txcount"])
-									chart_data["nethash"].push(block["nethash"])
+								$.each(blocks['result'].reverse(), function(index, block) {
+									chart_data['diffs'].push(block['difficulty'])
+									chart_data['blocks'].push(block['height'])
+									chart_data['sizes'].push(block['size'])
+									chart_data['timestamps'].push(block['time'])
+									chart_data['txs'].push(block['txcount'])
+									chart_data['nethash'].push(block['nethash'])
 								})
 
 								showCharts(chart_data)
 							} else {
-								showError(errorMessages["blocks-load-error"])
+								showError(errorMessages['blocks-load-error'])
 							}
 						})
 					}
@@ -1270,16 +1317,16 @@
 				if (days) {
 					var date = new Date();
 					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					expires = "; expires=" + date.toGMTString();
+					expires = '; expires=' + date.toGMTString();
 				} else {
-					expires = "";
+					expires = '';
 				}
-				document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+				document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value) + expires + '; path=/';
 			}
 
 			// Read cookie
 			function readCookie(name) {
-				var nameEQ = encodeURIComponent(name) + "=";
+				var nameEQ = encodeURIComponent(name) + '=';
 				var ca = document.cookie.split(';');
 				for (var i = 0; i < ca.length; i++) {
 					var c = ca[i];
@@ -1296,36 +1343,36 @@
 
 			// Convert satoshis to readable amount
 			function amountFormat(amount) {
-				var decimals = getApi()["decimals"]
+				var decimals = getApi()['decimals']
 				return (amount / Math.pow(10, decimals)).toFixed(decimals);
 			}
 
 			// Convert timestamp to readable date
 			function timeFormat(timestamp) {	 
-				var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+				var months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 				var date = new Date(timestamp * 1000)
 				var year = date.getFullYear()
 				var month = months_arr[date.getMonth()]
 				var day = date.getDate()
 				var hours = date.getHours()
-				var minutes = "0" + date.getMinutes()
-				var seconds = "0" + date.getSeconds()
-				var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
+				var minutes = '0' + date.getMinutes()
+				var seconds = '0' + date.getSeconds()
+				var convdataTime = month + '-' + day + '-' + year + ' ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
 
 				return convdataTime
 			}
 
 			// Show big error message at the top of the page :D 
 			function showError(message) {
-				$("#error-message").text(message)
-				$("#error-message").removeClass("d-none")
+				$('#error-message').text(message)
+				$('#error-message').removeClass('d-none')
 				setTimeout(function() {
-					$("#error-message").addClass("d-none")
+					$('#error-message').addClass('d-none')
 				}, 3400);
 			}
 
 			// Decode base58 encoded string to byte array
-			function bs58Decode(string) {
+			function base58Data(string) {
 				bs58Alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 				var bs58AlphabetMap = {}
 				var base = bs58Alphabet.length
@@ -1363,7 +1410,98 @@
 				}
 
 				return bytes.reverse()
-			};
+			}
+
+			function bech32Decode(bechString) {
+				var charset = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
+
+				var p;
+				var has_lower = false;
+				var has_upper = false;
+
+				for (p = 0; p < bechString.length; ++p) {
+					if (bechString.charCodeAt(p) < 33 || bechString.charCodeAt(p) > 126) {
+						return null;
+					}
+					if (bechString.charCodeAt(p) >= 97 && bechString.charCodeAt(p) <= 122) {
+						has_lower = true;
+					}
+					if (bechString.charCodeAt(p) >= 65 && bechString.charCodeAt(p) <= 90) {
+						has_upper = true;
+					}
+				}
+
+				if (has_lower && has_upper) {
+					return null;
+				}
+
+				bechString = bechString.toLowerCase();
+				var pos = bechString.lastIndexOf('1');
+				if (pos < 1 || pos + 7 > bechString.length || bechString.length > 90) {
+					return null;
+				}
+
+				var hrp = bechString.substring(0, pos);
+				var data = [];
+				for (p = pos + 1; p < bechString.length; ++p) {
+					var d = charset.indexOf(bechString.charAt(p));
+					if (d === -1) {
+						return null;
+					}
+					data.push(d);
+				}
+
+				return {
+					'hrp': hrp,
+					'data': data.slice(0, data.length - 6)
+				};
+			}
+
+			function convertBits(data, frombits, tobits, pad) {
+				var acc = 0;
+				var bits = 0;
+				var ret = [];
+				var maxv = (1 << tobits) - 1;
+				for (var p = 0; p < data.length; ++p) {
+					var value = data[p];
+					if (value < 0 || (value >> frombits) !== 0) {
+						return null;
+					}
+					acc = (acc << frombits) | value;
+					bits += frombits;
+					while (bits >= tobits) {
+						bits -= tobits;
+						ret.push((acc >> bits) & maxv);
+					}
+				}
+				if (pad) {
+					if (bits > 0) {
+						ret.push((acc << (tobits - bits)) & maxv);
+					}
+				} else if (bits >= frombits || ((acc << (tobits - bits)) & maxv)) {
+					return null;
+				}
+				return ret;
+			}
+
+			function bech32Data(addr) {
+				var hrp = getApi()['hrp']
+				var dec = bech32Decode(addr)
+				if (dec === null || dec.hrp !== hrp || dec.data.length < 1 || dec.data[0] > 16) {
+					return null
+				}
+
+				var res = convertBits(dec.data.slice(1), 5, 8, false)
+				if (res === null || res.length < 2 || res.length > 40) {
+					return null
+				}
+
+				if (dec.data[0] === 0 && res.length !== 20 && res.length !== 32) {
+					return null
+				}
+
+				return {'version': dec.data[0], 'program': res}
+			}
 
 			// Convert byte array to hex sting
 			function hexString(byteArray) {
@@ -1372,10 +1510,14 @@
 				}).join('')
 			}
 
-			// Convert base58 to hash160
-			function base58ToHash160(string) {
-				var result = hexString(bs58Decode(string)) 
-				return result.substring(2, result.length - 8)
+			function hash160(string) {
+				try {
+					var result = hexString(base58Data(string)) 
+					return result.substring(2, result.length - 8)
+				} catch {
+					var result = hexString(bech32Data(string).program) 
+					return result
+				}
 			}
 
 			function initRouter() {
@@ -1395,75 +1537,75 @@
 				initRouter()
 				displayNetworks()
 
-				$("#supply").click(function() {
+				$('#supply').click(function() {
 					displayHome()
 				})
 
-				$("#more").click(function() {
-					var height = Number($("tr[data-height]").last().attr("data-height"))
+				$('#more').click(function() {
+					var height = Number($('tr[data-height]').last().attr('data-height'))
 					getBlocks(height).then(function(blocks) {
-						if (blocks["error"] == undefined) {
+						if (blocks['error'] == undefined) {
 							displayBlocks(blocks['result'])
 						}
 					})
 				})
 
-				$("#more-block-transactions").click(function() {
-					var data_block_hash = $("#block-info-hash").text()
-					var offset = Number($("#block-transactions [data-transaction-index]").last().attr("data-transaction-index")) + 1
+				$('#more-block-transactions').click(function() {
+					var data_block_hash = $('#block-info-hash').text()
+					var offset = Number($('#block-transactions [data-transaction-index]').last().attr('data-transaction-index')) + 1
 					blockInfo(data_block_hash, offset).then(function(data) {
 						if (data.error == undefined) {
 							if (data.result.txcount > 10 && data.result.tx.length >= 10) {
-								$(this).removeClass("d-none")
+								$(this).removeClass('d-none')
 							} else {
-								$(this).addClass("d-none")
+								$(this).addClass('d-none')
 							}
 
-							displayTransactions($("#block-transactions"), data.result.tx, offset)
+							displayTransactions($('#block-transactions'), data.result.tx, offset)
 						}
 					})
 				})
 
-				$("#more-address-transactions").click(function() {
-					var data_address_link = $("#data-address").attr("data-address")
-					var offset = Number($("#address-transactions [data-transaction-index]").last().attr("data-transaction-index")) + 1
+				$('#more-address-transactions').click(function() {
+					var data_address_link = $('#data-address').attr('data-address')
+					var offset = Number($('#address-transactions [data-transaction-index]').last().attr('data-transaction-index')) + 1
 					addressHistory(data_address_link, offset).then(function(data) {
 						if (data.error == undefined) {
 							if (data.result.txcount > 10 && data.result.tx.length >= 10) {
-								$(this).removeClass("d-none")
+								$(this).removeClass('d-none')
 							} else {
-								$(this).addClass("d-none")
+								$(this).addClass('d-none')
 							}
 
-							displayTransactions($("#address-transactions"), data.result.tx, offset)
+							displayTransactions($('#address-transactions'), data.result.tx, offset)
 						}
 					})
 				})
 
-				$("#search-form").submit(function(e) {
-					var search = $("#search-form input").val().trim()
+				$('#search-form').submit(function(e) {
+					var search = $('#search-form input').val().trim()
 
-					if (search != "") {
+					if (search != '') {
 						if (isNumeric(search)) {
-							switchPage("height", [search])
+							switchPage('height', [search])
 						} else {
 							if (search.length == 64) {
 								blockInfo(search).then(function(data) {
 									if (data.error == undefined) {
-										switchPage("block", [search])
+										switchPage('block', [search])
 									} else {
-										switchPage("transaction", [search])
+										switchPage('transaction', [search])
 									}
 								})
-							} else if (search.length == 34) {
-								switchPage("address", [search])
+							} else if (search.length == 34 || search.substring(0, 3) == getApi()['hrp']) {
+								switchPage('address', [search])
 							} else {
-								showMessage(errorMessages["search-error"])
+								showMessage(errorMessages['search-error'])
 							}
 						}
 					}
 
-					$("#search-form input").val("")
+					$('#search-form input').val('')
 					e.preventDefault()
 				})
 
