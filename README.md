@@ -6,4 +6,4 @@ Feel free to modify/use it in your projects :D
 ## TO DO
 - Network stats
 
-P.s. Working example [http://explorer.volbil.com](http://explorer.volbil.com/)
+P.s. Working example [https://microbitcoinorg.github.io/explorer/](https://microbitcoinorg.github.io/explorer/)
