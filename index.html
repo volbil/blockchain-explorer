@@ -61,6 +61,12 @@
 			.modal-dialog {
 				max-width: 530px;
 			}
+			.text-monospace {
+				font-size: 14px;
+			}
+			small .text-monospace {
+				font-size: 12px;
+			}
 		</style>
 		<title>Blockchain Explorer</title>
 		<meta name="description" content="MicroBitcoin Blockchain Explorer">
@@ -89,9 +95,7 @@
 						</li>
 						<li class="nav-item dropdown" id="network-list">
 							<a class="nav-item nav-link dropdown-toggle" href="#" id="network-versions" data-toggle="dropdown">NETWORK</a>
-						  	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" >
-								
-						  	</div>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="network-versions" ></div>
 						</li>
 					</ul>
 				</div>
@@ -295,11 +299,21 @@
 			}
 
 			function showCharts(data) {
+				var step = 2
+				if ($(document).width() < 576) {
+					step = 9
+				} else if ($(document).width() < 1200) {
+					step = 4
+				}
+
 				$('#charts').removeClass('d-none')
 				Highcharts.chart('network-chart', {
 					'chart': {
 						'type': 'spline',
-						'height': 240
+						'height': 240,
+						'marginLeft': 40, // Keep all charts left aligned
+						'spacingTop': 20,
+						'spacingBottom': 20
 					},
 					'title': {
 						'text': ''
@@ -309,7 +323,7 @@
 						'crosshair': true,
 						'labels': {
 							'enabled': true,
-							'step': 1
+							'step': step
 						}
 					}],
 					'yAxis': [{
@@ -368,6 +382,7 @@
 					},
 					'plotOptions': {
 						'series': {
+							'animation': false,
 							'label': {
 								'connectorAllowed': true
 							},
@@ -490,7 +505,7 @@
 			function routePage() {
 				var urlParams = readParams()
 				if (window.location.hash == '') {
-					window.location.hash = '#/'
+					window.location.replace(window.location.href.split('#')[0] + '#/')
 				}
 
 				if (urlParams[0] == '#') {
@@ -801,7 +816,7 @@
 									<tr>
 										<td>Previous Block</td>
 										<td>
-											<a class="${'previousblockhash' in data ? '' : ''}" href="#/block/${data.previousblockhash}">${data.previousblockhash}</a>
+											<a class="${'previousblockhash' in data ? '' : 'd-none'}" href="#/block/${data.previousblockhash}">${data.previousblockhash}</a>
 											<span class=${'previousblockhash' in data ? 'd-none' : ''}>
 												<b>Genesis Block</b>
 											</span>
@@ -899,7 +914,9 @@
 									</tr>
 									<tr>
 										<td>Amount Transferred</td>
-										<td>${amountFormat(data.amount)} <b>${getApi()['ticker']}</b></td>
+										<td>
+											<span class="text-monospace">${amountFormat(data.amount)}</span> <b>${getApi()['ticker']}</b>
+										</td>
 									</tr>
 									<tr>
 										<td>Size</td>
@@ -924,7 +941,19 @@
 				$('#tx-vout-list').empty()
 				$('#tx-vin-list').empty()
 
-				displayTxVout(data.vout)
+				var vin_amount = 0
+				data.vin.forEach(function(vin) {
+					vin_amount += vin.value
+				})
+
+				var vout_amount = 0
+				data.vout.forEach(function(vout) {
+					vout_amount += vout.value
+				})
+
+				var fee = vin_amount - vout_amount
+
+				displayTxVout(data.vout, fee)
 				displayTxVin(data.vin)
 
 				$('#tx-info-vout-total').removeClass('d-none')
@@ -959,15 +988,21 @@
 									</tr>
 									<tr>
 										<td>Received</td>
-										<td>${amountFormat(data.received)} <b>${getApi()['ticker']}</b></td>
+										<td>
+											<span class="text-monospace">${amountFormat(data.received)}</span> <b>${getApi()['ticker']}</b>
+										</td>
 									</tr>
 									<tr>
 										<td>Balance</td>
-										<td>${amountFormat(data.balance)} <b>${getApi()['ticker']}</b></td>
+										<td>
+											<span class="text-monospace">${amountFormat(data.balance)}</span> <b>${getApi()['ticker']}</b>
+										</td>
 									</tr>
 									<tr>
 										<td>Locked Balance</td>
-										<td>${amountFormat(data.locked)} <b>${getApi()['ticker']}</b></td>
+										<td>
+											<span class="text-monospace">${amountFormat(data.locked)}</span> <b>${getApi()['ticker']}</b>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -1034,7 +1069,9 @@
 						<a class="list-group-item list-group-item-action" href="#/address/${address}">
 							<span class="entypo up text-danger"></span>
 							<span class="text-primary">${address}</span>
-							<small class="float-right text-muted">${transfer_amount}</small>
+							<small class="float-right text-muted">
+								<span class="text-monospace">${transfer_amount}</span>
+							</small>
 						</a>`
 
 					status.from += content
@@ -1063,7 +1100,9 @@
 						<a class="list-group-item list-group-item-action" href="#/address/${address}">
 							<span class="entypo down text-success"></span>
 							<span class="text-primary">${address}</span>
-							<small class="float-right text-muted">${transfer_amount}</small>
+							<small class="float-right text-muted">
+								<span class="text-monospace">${transfer_amount}</span>
+							</small>
 						</a>`
 
 					status.to += content
@@ -1075,7 +1114,7 @@
 						<li class="list-group-item">
 							<b>Total fee:</b>
 							<small class="float-right text-muted">
-								${amountFormat(status.fee)} <b>${getApi()['ticker']}</b>
+								<span class="text-monospace">${amountFormat(status.fee)}</span> <b>${getApi()['ticker']}</b>
 							</small>
 						</li>`
 
@@ -1168,7 +1207,7 @@
 				loadTransactions(holder)
 			}
 
-			function displayTxVout(vout_list) {
+			function displayTxVout(vout_list, fee = 0) {
 				vout_list.forEach(function(vout, index) {
 					if ($('#tx-vout-list').find(`[data-tx-vout-index="${index}"]`).length == 0) {
 						if (vout.scriptPubKey.type != 'nulldata') {
@@ -1183,7 +1222,7 @@
 										</div>
 										<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
 											<small class="text-muted">
-												${amountFormat(vout.value)} <b>${getApi()['ticker']}</b>
+												<span class="text-monospace">${amountFormat(vout.value)}</span> <b>${getApi()['ticker']}</b>
 											</small>
 										</div>
 									</div>
@@ -1201,6 +1240,17 @@
 						}
 					}
 				})
+
+				if (fee > 0) {
+					$('#tx-vout-list').append(`
+						<li class="list-group-item">
+							<b>Total fee:</b>
+							<small class="float-right text-muted">
+								<span class="text-monospace">${amountFormat(fee)}</span> <b>${getApi()['ticker']}</b>
+							</small>
+						</li>
+					`)
+				}
 			}
 
 			function displayTxVin(vin_list) {
@@ -1224,7 +1274,7 @@
 									</div>
 									<div class="col-md-3 col-sm-12 col-xs-12 text-md-right">
 										<small class="text-muted">
-											${amountFormat(vin.value)} <b>${getApi()['ticker']}</b>
+											<span class="text-monospace">${amountFormat(vin.value)}</span> <b>${getApi()['ticker']}</b>
 										</small>
 									</div>
 								</div>
@@ -1266,7 +1316,7 @@
 				$('#supply span').text('Loading...')
 				networkInfo().then(function(data) {
 					var height = data.result.blocks
-					var display_height = $('#blocks-table tbody tr:first-child').attr('data-height')
+					var display_height = Number($('#blocks-table tbody tr:first-child').attr('data-height'))
 
 					// Display circulating supply
 					networkSupply().then(function(data) {
@@ -1344,7 +1394,7 @@
 			// Convert satoshis to readable amount
 			function amountFormat(amount) {
 				var decimals = getApi()['decimals']
-				return (amount / Math.pow(10, decimals)).toFixed(decimals);
+				return parseFloat((amount / Math.pow(10, decimals)).toFixed(decimals))
 			}
 
 			// Convert timestamp to readable date
@@ -1600,7 +1650,7 @@
 							} else if (search.length == 34 || search.substring(0, 3) == getApi()['hrp']) {
 								switchPage('address', [search])
 							} else {
-								showMessage(errorMessages['search-error'])
+								showError(errorMessages['search-error'])
 							}
 						}
 					}
